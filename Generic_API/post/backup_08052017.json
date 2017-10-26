@@ -1,0 +1,2550 @@
+[
+    {
+        "id": "ed7375e0.d65788",
+        "type": "tab",
+        "label": "Generic Save"
+    },
+    {
+        "id": "b601694f.9c35b8",
+        "type": "http in",
+        "z": "ed7375e0.d65788",
+        "name": "API HANDLER",
+        "url": "/master_api_handler",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 219,
+        "y": 291,
+        "wires": [
+            [
+                "a7cda715.0b2778",
+                "3c3ab5f7.c5b22a"
+            ]
+        ]
+    },
+    {
+        "id": "a7cda715.0b2778",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Handler",
+        "func": "var req = msg.payload;\nif(isEmpty(req)){\n    msg.api_response = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"req body must be specified.\", data: null};\n}else{\n    msg.api_response = \"API_SUCCESS\";\n    msg.req_body = msg.payload;\n}\n\nreturn msg;\n\nfunction isEmpty(obj){\n    if(typeof obj === \"object\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 411,
+        "y": 291,
+        "wires": [
+            [
+                "5a2220ef.96fb9"
+            ]
+        ]
+    },
+    {
+        "id": "5a2220ef.96fb9",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 574,
+        "y": 291,
+        "wires": [
+            [
+                "1dc76b1a.e5bc65"
+            ],
+            [
+                "34cfd307.165fcc"
+            ]
+        ]
+    },
+    {
+        "id": "1dc76b1a.e5bc65",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 716,
+        "y": 253,
+        "wires": []
+    },
+    {
+        "id": "34cfd307.165fcc",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "validate body",
+        "func": "var body = msg.payload;\nnode.warn(body);\nif(isEmpty(body.table)){\n    msg.api_response = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`table` parameter must be set to save record\", data: null};\n}else if(isEmpty(body.table_data)){\n    msg.api_response = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`table_data` parameter must be set to save record\", data: null};    \n}else{\n    msg.api_response = \"API_SUCCESS\";\n    msg.payload_table = body.table ;\n    msg.payload_data  = body.table_data ;\n}\n\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 735,
+        "y": 309,
+        "wires": [
+            [
+                "81b06213.81043"
+            ]
+        ]
+    },
+    {
+        "id": "81b06213.81043",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_response",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 908,
+        "y": 309,
+        "wires": [
+            [
+                "fbf18955.7cd068"
+            ],
+            [
+                "411c8f47.fbd3b"
+            ]
+        ]
+    },
+    {
+        "id": "fbf18955.7cd068",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1056,
+        "y": 265,
+        "wires": []
+    },
+    {
+        "id": "411c8f47.fbd3b",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "payload_table",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "users",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "template",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "task_table",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "timeout",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "location",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "details",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "delete_detail",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "update_task",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "update_user",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "update_short_detail",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 11,
+        "x": 1069,
+        "y": 566,
+        "wires": [
+            [
+                "9e3f04e8.fb4808"
+            ],
+            [
+                "8d5f0962.f05e08"
+            ],
+            [
+                "12edb1e8.252dbe"
+            ],
+            [
+                "294f345d.abeb6c"
+            ],
+            [
+                "b70f4949.fcfda8"
+            ],
+            [
+                "36478db.de18072"
+            ],
+            [
+                "4ff506b2.169578"
+            ],
+            [
+                "44c2518e.ef865"
+            ],
+            [
+                "5df254a7.85e2cc"
+            ],
+            [
+                "e4a95d10.a73ea"
+            ],
+            [
+                "2f4d9fc7.859d7"
+            ]
+        ]
+    },
+    {
+        "id": "9e3f04e8.fb4808",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "User Table",
+        "func": "var body = msg.req_body ;\nmsg.payload = {\n    table               : body.table,\n    long_url            : null,\n    access_token        : access_token(),\n    security_level      : body.security_level || 0,\n    virtual_phone       : body.phone,\n    email               : body.email,\n    converstation_id    : null,\n    firstname           : body.firstname,\n    lastname            : body.firstname,\n    code                : 1234,\n    password            : body.password,\n    image               : body.image || \"https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png\"\n};\nmsg.response = {status: 200, error: false, msg: \"Record created successfully\", data: msg.payload};\nreturn msg;\n\nfunction rand() {\n    return Math.random().toString(36).substr(2); // remove `0.`\n}\n\nfunction time() {\n    //return new Date().getTime().toString(36);\n    return new Date().getTime();\n}\n\nfunction access_token() {\n    return time()+'.'+rand(); // to make it longer\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1298,
+        "y": 84,
+        "wires": [
+            [
+                "8ab5b587.e855e8",
+                "23a83251.96a8ce"
+            ]
+        ]
+    },
+    {
+        "id": "8d5f0962.f05e08",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Template Table",
+        "func": "var body = msg.req_body ;\nmsg.payload = {\n    _id         : body.table_data._id,\n    table       : body.table,\n    name        : body.table_data.name || \"\",\n    html        : body.table_data.html || \"\",\n    js          : body.table_data.js   || \"\"\n};\nmsg.response = {status: 200, error: false, msg: \"Record created successfully\", data: msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1307,
+        "y": 167,
+        "wires": [
+            [
+                "23a83251.96a8ce",
+                "8ab5b587.e855e8"
+            ]
+        ]
+    },
+    {
+        "id": "12edb1e8.252dbe",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Task Table",
+        "func": "var body        = msg.req_body.table_data,\n    table_name  = msg.req_body.table,\n    page_id     = generate_page_id();\n\nmsg.payload = {\n    _id                     : body._id,\n    table                   : table_name, \n    task_name               : body.name || \"\", \n    page_id                 : page_id, \n    from_page_id            : page_id,\n    parent_id               : page_id, \n    user_id                 : body.user_id || \"\",\n    header_template_id      : body.header_template_id || \"\",\n    detail_template_id      : body.details_template_id || \"\",\n    footer_template_id      : body.footer_template_id || \"\",\n    timeout_id              : body.timeout_id || \"\",\n    location_id             : body.location_id || \"\",\n    child_default_task_id   : body.child_default_task_id || \"\",\n    child_default_task_name : body.child_default_task_name || \"\",\n    date_created            : body.date_created || new Date().toJSON(),\n    status                  : body.status || 0,\n    category                : body.category || \"\",\n    additional_data_fn      : body.additional_data_fn || \"\",\n    optional_data           : body.optional_data || {},\n    required_data           : body.required_data || {},\n    offline_expiration_time : body.offline_expiration_time || 0,\n    display_if_empty        : body.display_if_empty || 1 ,\n    type                    : {\n        public              : body.type  || \"public\"\n    },\n    image                   : body.image || \"https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png\",\n    count_status\t: {\n\t   active       : 1,\n\t   unread       : 0,\n\t},\n\tcount\t\t\t: {\n\t    active      : 1,\n\t    unread      : 0,\n\t},\n\tcount_if\t\t: {\n\t    active      : 1,\n\t    unread      : 0\n\t},\n    defaults                : {\n        parent              : null,\n        next_child          : null,\n        all_children        : null,\n        user                : body.user_id\n    }\n    \n};\nmsg.response = {status: 200, error: false, msg: \"Record created successfully\", data: msg.payload};\nreturn msg;\n\nfunction generate_page_id() {\n    return new Date().getTime();\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1299,
+        "y": 254,
+        "wires": [
+            [
+                "8ab5b587.e855e8",
+                "23a83251.96a8ce"
+            ]
+        ]
+    },
+    {
+        "id": "294f345d.abeb6c",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Timeout Table",
+        "func": "var body        = msg.req_body ,\n    table_name  = msg.req_body.table;\nmsg.payload = {\n    table: table_name,\n    name: msg.timeout_data.name || \"\",\n    timeout_list: create_delivery_obj(body) \n};\nmsg.response = {status: 200, error: false, msg: \"Record created successfully\", data: msg.payload};\nreturn msg;\n\nfunction create_delivery_obj(body){\n    var obj = {};\n    var user_id = body.delivery_user_ids ? body.delivery_user_ids.split(',') : \"\";\n    \n    for(var i=0; i < body.delivery_count; i++){\n        obj[i] = {\n            delivery_count      : i , \n            delivery_status     :   body.delivery_status || 0, \n            delivery_due        :   body.delivery_due || new Date.toJSON(),\n            delivery_user_ids   :   user_id[i] ? user_id[i] : body.delivery_user_ids,\n            delivery_via        :   body.delivery_via || \"\",\n            delivery_task_id    :   body.delivery_task_id || \"\",\n            delivery_task_name  :   body.delivery_task_name || \"\", \n            message_id          :   body.message_id || \"\",\n            from_user_id        :   body.from_user_id || \"\"\n        };\n    }\n    return obj ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1312,
+        "y": 343,
+        "wires": [
+            [
+                "8ab5b587.e855e8",
+                "23a83251.96a8ce"
+            ]
+        ]
+    },
+    {
+        "id": "b70f4949.fcfda8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Location Table",
+        "func": "var body = msg.req_body ;\nmsg.payload = {\n    table         : body.table,\n    location_name : body.name,\n    location_type : body.type,\n    location_data : {\n        lat : body.lat ? Number(body.lat) : 0,\n        lon : body.lon ? Number(body.lon) : 0,\n        dist: body.dist ? Number(body.dist) : 0,\n        web: body.web || \"\"\n    }\n};\nmsg.response = {status: 200, error: false, msg: \"Record created successfully\", data: msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1311,
+        "y": 443,
+        "wires": [
+            [
+                "8ab5b587.e855e8",
+                "23a83251.96a8ce"
+            ]
+        ]
+    },
+    {
+        "id": "36478db.de18072",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Details Table",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1298,
+        "y": 545,
+        "wires": [
+            [
+                "57bec002.50ae8"
+            ]
+        ]
+    },
+    {
+        "id": "2f4d9fc7.859d7",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "UnExpacted Case",
+        "func": "msg.payload = {status: 400, error: true, msg: \"`table` field value is unexpacted.\", data: null};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1317,
+        "y": 1092,
+        "wires": [
+            [
+                "d7abc0d3.b641c"
+            ]
+        ]
+    },
+    {
+        "id": "d7abc0d3.b641c",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1508,
+        "y": 1092,
+        "wires": []
+    },
+    {
+        "id": "8ab5b587.e855e8",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Master Table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1567,
+        "y": 269,
+        "wires": []
+    },
+    {
+        "id": "3c3ab5f7.c5b22a",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 420,
+        "y": 219,
+        "wires": []
+    },
+    {
+        "id": "8621ee44.0309",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1939,
+        "y": 270,
+        "wires": []
+    },
+    {
+        "id": "23a83251.96a8ce",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "API_RESPONSE",
+        "rules": [
+            {
+                "t": "move",
+                "p": "response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1780,
+        "y": 269,
+        "wires": [
+            [
+                "8621ee44.0309"
+            ]
+        ]
+    },
+    {
+        "id": "ca9bd935.3bb1e8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "detail_calculation",
+        "func": "var big_record_tables   = {} , \n    detail              = {},\n    templates_arr       = msg.templates_arr ,\n    child_task          = msg.child_task ? msg.child_task[0] : null,\n    timeout             = msg.timeout ? msg.timeout[0] : null ,\n    location            = msg.location ? msg.location[0] : null,\n    user                = msg.user_obj ? msg.user_obj[0] : null ,\n    task                = msg.task_obj ? msg.task_obj[0] : null,\n    user_arr            = msg.user_arr ,\n    form_data           = msg.form_data ;\n    \nbig_record_tables.user  = user ;\nbig_record_tables.task  = task ;\n\n//setting up some obj from big_record_tables\n//big_record_tables.task.child_default = big_record_tables.task.child_default_task_id ? get_obj_from_array(big_record_tables.task.child_default_task_id, msg.task_obj) : null;\n\nbig_record_tables.task.details = {\n    timeout : create_timeout_list_obj(timeout, templates_arr, user_arr, \"timeout\") ,\n    user_calculated: create_timeout_list_obj(timeout, templates_arr, user_arr, \"user_calculated\"),\n    location : get_location_obj(location) \n} ;\n\n//create detail obj to save into master_table;\ndetail.table                            = \"details\";\ndetail.task_id                          = task._id || null;\ndetail.child_task_id                    = task.child_default_task_id || null;\ndetail.user_id                          = user._id || null;\ndetail.from_user_id                     = form_data.from_user_id || null ;\n\ndetail.page_id                          = check_number(form_data.page_id) || generate_page_id();\ndetail.from_page_id                     = check_number(task.from_page_id) || generate_page_id();\ndetail.to_page_id                       = check_number(task.to_page_id)   || generate_page_id() ;\n\ndetail.synchronized                     = 0 ;\ndetail.processed                        = 0 ;\ndetail.status                           = 0 ;\ndetail.read                             = 0 ;\ndetail.display_if_empty                 = task.display_if_empty || 1;\ndetail.date_created                     = new Date().toJSON() ;\ndetail.due_date                         = big_record_tables.task.details.user_calculated.delivery_due;\ndetail.offline_expiration_seconds       = task.offline_expiration_time ;\ndetail.priority                         = 1;\ndetail.type                             = {\n                                            \"public\" : task.type || \"public\"\n                                        };\ndetail.image                            = task.image ;\ndetail.from_user                        = {\n                                            firstname   : user.firstname || \"\" ,\n                                            lastname    : user.lastname || \"\" ,\n                                            email       : user.email || \"\",\n                                            phone       : user.phone || \"\"\n                                        };\ndetail.user_incoming                    = {\n                                            note    :   form_data.note ,\n                                            message :   form_data.note\n                                        } ;\n\ndetail.watson_incoming                  = {\n                                            message :   \"Watson response to : \" + form_data.note,\n                                            response : {},\n                                            \n                                        } ;\ndetail.template                         = {\n                                            details : get_template(task.detail_template_id, templates_arr)\n                                        };\n\ndetail.timeout                          = big_record_tables.task.details.timeout ;\ndetail.user_calculate                   = big_record_tables.task.details.user_calculated ;\ndetail.location                         = big_record_tables.task.details.location ;\ndetail.default                          = {\n                                            parent : null,\n                                            allchildren: null\n                                        };\ndetail.count_status\t                    = {\n                                            active : 1,\n                                            unread : 0\n                                        };\ndetail.count\t                        = {\n                                            active : 0,\n                                            unread : 0\n                                        };\ndetail.count_if                         = {\n                                            active : 1,\n                                            unread : 0\n                                        };\ndetail.createdAt                        = Number(new Date().getTime()) ;\n\nmsg.template_arr = templates_arr ;\nmsg.payload      = detail ;\nmsg.api_response = {status:200, error: false, msg: \"Record created successfully\", data: detail};\nreturn msg;\n\nfunction create_timeout_list_obj(timeout_obj, templates, users, type){\n    if(timeout_obj === undefined || timeout_obj === null){\n        return {};\n    }\n    \n    switch(type){\n        case \"timeout\" : {\n            if(check_obj(timeout_obj.timeout_list) > 1){\n                var update_obj = JSON.parse(JSON.stringify(timeout_obj)) ;\n                \n                for(var list in timeout_obj.timeout_list){\n                    if(list !== getAttributeByIndex(timeout_obj.timeout_list, 0)){\n                        update_obj.timeout_list[list].delivery_user_ids = get_obj_from_array(timeout_obj.timeout_list[list].delivery_user_ids, users);\n                        update_obj.timeout_list[list].message = timeout_obj.timeout_list[list].message_id ? get_template(timeout_obj.timeout_list[list].message_id, templates) : null;\n                        update_obj.timeout_list[list].from = timeout_obj.timeout_list[list].from_id ? get_template(timeout_obj.timeout_list[list].from_id, templates) : null;\n                    }\n                }\n                delete update_obj.timeout_list[getAttributeByIndex(timeout_obj.timeout_list, 0)];\n                return update_obj ;   \n            }else{\n                return {} ;\n            }\n            break;\n        }\n        \n        case \"user_calculated\" : {\n\n            if(timeout_obj.timeout_list){\n                for(var key in timeout_obj.timeout_list){\n                    if(key == getAttributeByIndex(timeout_obj.timeout_list, 0)){\n                        timeout_obj.timeout_list[key].delivery_user_ids = get_obj_from_array(timeout_obj.timeout_list[key].delivery_user_ids, users);\n                        timeout_obj.timeout_list[key].template = {\n                            message : timeout_obj.timeout_list[key].message_id ? get_template(timeout_obj.timeout_list[key].message_id, templates) : null ,\n                            from    : timeout_obj.timeout_list[key].from_id ? get_template(timeout_obj.timeout_list[key].from_id, templates) : null\n                        };\n                    }\n                }\n\n                return timeout_obj.timeout_list[getAttributeByIndex(timeout_obj.timeout_list, 0)] ; \n            }else{\n                return {} ; \n            }\n            break;\n        }\n        \n        default: {\n            return {};\n        }\n    }\n}\n\nfunction check_obj(obj){\n    if(typeof obj === \"object\"){\n        return Object.keys(obj).length;\n    }else{\n        return 0 ;\n    }\n}\n\nfunction get_location_obj(locations){\n    if(locations === undefined || locations === null){\n        return {};\n    }\n    var obj = {};\n\n    if(locations !== null && locations !== undefined && locations.length){\n        for(var i=0; i< locations.length; i++){\n            if(locations[i]){\n                obj[locations[i]._id] = locations[i] ;\n            }\n        }\n        return obj ;\n    }else{\n        return obj ;\n    }\n}\n\nfunction get_template(id, template){\n    var obj = {} ;\n    if(template !== null){\n        for(var i=0; i< template.length; i++){\n            if(id === template[i]._id){\n                obj = template[i] ;\n            }\n        }    \n        return obj ;\n    }else{\n        return obj ;\n    }\n}\n\nfunction check_number(n){\n    if(typeof n === \"string\" && n !== \"\"){\n        return parseInt(n);\n    }else{\n        return n ;\n    }\n}\n\nfunction generate_page_id(){\n    return new Date().getTime();\n}\n\nfunction getAttributeByIndex(obj, index){\n  var i = 0;\n  for (var attr in obj){\n    if (index === i){\n      return attr;\n    }\n    i++;\n  }\n  return null;\n}\n\nfunction get_obj_from_array(id, arr){\n\n    if(id instanceof Object){\n        return id ;    \n    }\n    \n    var obj = {} ;\n    if(arr !== null && arr.length){\n        for(var i=0; i< arr.length; i++){\n            if(arr[i]._id === id){\n                obj[arr[i]._id] = arr[i] ;\n            }\n        }\n        return obj ;\n    }else{\n        return obj ;\n    }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2260.03125,
+        "y": 453.046875,
+        "wires": [
+            [
+                "13870ef9.5fbe41",
+                "187b3892.b9f7d7",
+                "bac4821c.f56c7"
+            ]
+        ]
+    },
+    {
+        "id": "9cfb060b.237ad8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "log",
+        "func": "node.warn(\"There isn't any Location for task obj\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2964.03125,
+        "y": 303.046875,
+        "wires": [
+            [
+                "ca9bd935.3bb1e8"
+            ]
+        ]
+    },
+    {
+        "id": "a61e3eac.d55ec",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "location",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "location",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 3378.03125,
+        "y": 362.046875,
+        "wires": [
+            [
+                "ca9bd935.3bb1e8"
+            ]
+        ]
+    },
+    {
+        "id": "13870ef9.5fbe41",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "optional task",
+        "property": "child_task_id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2521.03125,
+        "y": 521.046875,
+        "wires": [
+            [
+                "c404a53d.0210f8"
+            ],
+            [
+                "b429bd3f.1824d"
+            ]
+        ]
+    },
+    {
+        "id": "388b759a.d94a6a",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "location",
+        "property": "location_id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2827.03125,
+        "y": 309.046875,
+        "wires": [
+            [
+                "9cfb060b.237ad8"
+            ],
+            [
+                "1c8d505b.9922"
+            ]
+        ]
+    },
+    {
+        "id": "830362c9.3db01",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 3156.03125,
+        "y": 360.046875,
+        "wires": [
+            [
+                "a61e3eac.d55ec"
+            ]
+        ]
+    },
+    {
+        "id": "c404a53d.0210f8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "log",
+        "func": "node.warn(\"No need to create optional task\");\nmsg.isCreateOptionalTask = false ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2705.03125,
+        "y": 503.046875,
+        "wires": [
+            [
+                "fccd2e2e.9bb7b"
+            ]
+        ]
+    },
+    {
+        "id": "b429bd3f.1824d",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "optional task",
+        "func": "var default_task        = msg.child_task ? msg.child_task[0] : null ,\n    detail              = msg.payload ,\n    optional_task       = {}; \n    \nif(!isEmpty(default_task)){\n    optional_task = {\n        table                   : \"task_table\",\n        task_name               : detail.user_incoming.message, \n        user_id                 : default_task.user_id || null,\n        page_id                 : detail.to_page_id, \n        from_page_id            : detail.page_id,\n        parent_id               : detail.task_id, \n        header_template_id      : default_task.header_template_id || null,\n        detail_template_id      : default_task.detail_template_id || null,\n        footer_template_id      : default_task.footer_template_id || null,\n        timeout_id              : default_task.timeout_id || null,\n        location_id             : default_task.location_id || null,\n        child_default_task_id   : default_task.child_default_task_id || null,\n        child_default_task_name : default_task.child_default_task_name || null,\n        date_created            : new Date().toJSON(),\n        type                    : default_task.type || null,\n        status                  : default_task.status || 0,\n        category                : default_task.category || null,\n        additional_data_fn      : default_task.additional_data_fn || null,\n        optional_data           : default_task.optional_data || {},\n        required_data           : default_task.required_data || {},\n        offline_expiration_time : default_task.offline_expiration_time || 0,\n        display_if_empty        : default_task.display_if_empty || 1 ,\n        count_status : {\n            active : 1,\n            unread : 0,\n        },\n        count : {\n            active : 1,\n            unread : 0,\n        },\n        count_if : {\n            active : 1,\n            unread : 0,\n        }\n    };\n    msg.isCreateOptionalTask = true ;\n    msg.detail = detail ;\n    msg.payload = optional_task ;\n}else{\n    msg.isCreateOptionalTask = false ;\n    msg.detail = detail ;\n    msg.payload = \"No need to create optional task\";\n}\n\nreturn msg;\n\nfunction isEmpty(obj){\n    if(obj instanceof Object){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(obj instanceof Array){\n        if(obj.length){\n            return false ;\n        }else {\n            return true ;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2722.03125,
+        "y": 557.046875,
+        "wires": [
+            [
+                "fccd2e2e.9bb7b"
+            ]
+        ]
+    },
+    {
+        "id": "a0e8242.98bd5d8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "log",
+        "func": "node.warn(\"There isn't any timeout for this task\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2368.03125,
+        "y": 300.046875,
+        "wires": [
+            [
+                "388b759a.d94a6a"
+            ]
+        ]
+    },
+    {
+        "id": "44ef3460.59f8dc",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "timeout",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "timeout",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2735.03125,
+        "y": 356.046875,
+        "wires": [
+            [
+                "388b759a.d94a6a"
+            ]
+        ]
+    },
+    {
+        "id": "1c8d505b.9922",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "location",
+        "func": "msg.payload = {\n    query: \"table:location AND _id:\" + msg.location_id\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2971.03125,
+        "y": 362.046875,
+        "wires": [
+            [
+                "830362c9.3db01"
+            ]
+        ]
+    },
+    {
+        "id": "fccd2e2e.9bb7b",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "isCreateOptionalTask",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2880.03125,
+        "y": 555.046875,
+        "wires": [
+            [
+                "98d99176.63373",
+                "bb1187b6.23d9d8"
+            ],
+            [
+                "d9c4862f.8053d8",
+                "98d99176.63373"
+            ]
+        ]
+    },
+    {
+        "id": "38b87748.c0c0a8",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "timeout",
+        "property": "timeout_id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2224.03125,
+        "y": 307.046875,
+        "wires": [
+            [
+                "a0e8242.98bd5d8"
+            ],
+            [
+                "e753aa93.5fbf18"
+            ]
+        ]
+    },
+    {
+        "id": "fe726396.01143",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 2562.03125,
+        "y": 357.046875,
+        "wires": [
+            [
+                "44ef3460.59f8dc"
+            ]
+        ]
+    },
+    {
+        "id": "98d99176.63373",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "init loop",
+        "func": "var detail_obj = msg.detail ;\n\nif(detail_obj.timeout !== undefined || detail_obj.timeout !== null){\n    msg.timeoutLength = check_obj(detail_obj.timeout.timeout_list) ;    \n}else{\n    msg.timeoutLength = 0;\n}\nmsg.count = 0;\nnode.warn(\"msg.timeoutLength\");\nnode.warn(msg.timeoutLength);\nreturn msg;\n\n\nfunction check_obj(obj){\n    if(obj !== undefined && obj !== null && obj !== \"\"){\n        return Object.keys(obj).length ;\n    }else{\n        return 0;\n    }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3272.03125,
+        "y": 541.046875,
+        "wires": [
+            [
+                "d104fb73.6fe968"
+            ]
+        ]
+    },
+    {
+        "id": "d9c4862f.8053d8",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "Optional task log",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 3073.03125,
+        "y": 582.046875,
+        "wires": []
+    },
+    {
+        "id": "e2a27bcd.4580c8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "log",
+        "func": "node.warn(\"there isn't any child default_task\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3272.03125,
+        "y": 203.046875,
+        "wires": [
+            [
+                "38b87748.c0c0a8"
+            ]
+        ]
+    },
+    {
+        "id": "596f0b62.9292c4",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "child_task",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "child_task",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 3669.03125,
+        "y": 258.046875,
+        "wires": [
+            [
+                "38b87748.c0c0a8"
+            ]
+        ]
+    },
+    {
+        "id": "e753aa93.5fbf18",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "timeout",
+        "func": "msg.payload = {\n    query: \"table:timeout AND _id:\" + msg.timeout_id\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2378.03125,
+        "y": 358.046875,
+        "wires": [
+            [
+                "fe726396.01143"
+            ]
+        ]
+    },
+    {
+        "id": "d104fb73.6fe968",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "counter",
+        "property": "count",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "timeoutLength",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 3470.03125,
+        "y": 539.046875,
+        "wires": [
+            [
+                "9aa66a3c.033358"
+            ],
+            [
+                "d79adc8b.3221b"
+            ]
+        ]
+    },
+    {
+        "id": "2888bc9d.d2d6d4",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "child_task",
+        "property": "child_task_id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 3123.03125,
+        "y": 227.046875,
+        "wires": [
+            [
+                "e2a27bcd.4580c8"
+            ],
+            [
+                "4f9da4ac.bb86cc"
+            ]
+        ]
+    },
+    {
+        "id": "cea484bb.83f458",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "master_table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 3467.03125,
+        "y": 259.046875,
+        "wires": [
+            [
+                "596f0b62.9292c4"
+            ]
+        ]
+    },
+    {
+        "id": "84714b41.e34418",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "count++",
+        "func": "msg.count++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3626.03125,
+        "y": 479.046875,
+        "wires": [
+            [
+                "d104fb73.6fe968"
+            ]
+        ]
+    },
+    {
+        "id": "9aa66a3c.033358",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Timeout Processor",
+        "func": "var detail_obj      = msg.payload ,\n    template_arr    = msg.templates,\n    users_arr       = msg.user_arr;\n\nif(compare_dates(detail_obj.due_date)){\n    msg.payload = create_detail_by_timeout_processor();\n}else{\n  msg.apiStatus = {status: 400, msg: \"Due date already passout so cann't be processed details\"};\n}\n\nreturn msg;\n\nfunction compare_dates(due_date){\n    var current_unix_date   = new Date().getTime(),\n        due_unix_date       = new Date(due_date).getTime();\n        \n    if(due_unix_date > current_unix_date){\n        return true ;\n    }else{\n        return false ;\n    }\n}\n\nfunction create_detail_by_timeout_processor(){\n    var detail = JSON.parse(JSON.stringify(detail_obj));  \n    \n    if(detail.timeout !== null){\n        if(check_obj(detail.timeout.timeout_list) > 0){\n            var clone_obj = {\n                table                       : \"details\",\n                task_id                     : detail_obj.task_id ,\n                child_task_id               : detail_obj.child_task_id,\n                user_id                     : detail_obj.user_id,\n                page_id                     : detail_obj.page_id,\n                synchronized                : detail_obj.synchronized,\n                processed                   : detail_obj.processed,\n                status                      : detail_obj.status,\n                read                        : detail_obj.read,\n                display_if_empty            : detail_obj.display_if_empty,\n                date_created                : detail_obj.date_created,\n                due_date                    : detail_obj.due_date,\n                offline_expiration_seconds  : detail_obj.offline_expiration_seconds,\n                priority                    : detail_obj.priority,\n                user_incoming               : detail_obj.user_incoming ,\n                watson_incoming             : detail_obj.watson_incoming,\n                template                    : detail_obj.template,\n                timeout                     : create_timeout_list_obj(detail.timeout, template_arr, users_arr, \"timeout\") ,\n                user_calculated             : create_timeout_list_obj(detail_obj.timeout, template_arr, users_arr, \"user_calculated\"),\n                location                    : detail_obj.location,\n                default                     : detail_obj.default,\n                createdAt                   : detail_obj.createdAt,\n                count                       : detail_obj.count\n            };\n   \n            return clone_obj ;\n        }else{\n            return {} ;\n        }   \n    }else{\n        return {};\n    }\n}\n\nfunction create_timeout_list_obj(timeout_obj, templates, users, type){\n    switch(type){\n        case \"timeout\" : {\n            if(check_obj(timeout_obj.timeout_list) > 1){\n                \n                for(var list in timeout_obj.timeout_list){\n                    if(parseInt(list) !== getAttributeByIndex(timeout_obj.timeout_list, 0)){\n                        timeout_obj.timeout_list[list].delivery_user_ids = get_obj_from_array(timeout_obj.timeout_list[list].delivery_user_ids, users);\n                        timeout_obj.timeout_list[list].message = timeout_obj.timeout_list[list].message_id ? get_template(timeout_obj.timeout_list[list].message_id, templates) : null;\n                        timeout_obj.timeout_list[list].from = timeout_obj.timeout_list[list].from_id ? get_template(timeout_obj.timeout_list[list].from_id, templates) : null;\n                    }\n                }\n                \n                delete timeout_obj.timeout_list[getAttributeByIndex(timeout_obj.timeout_list, 0)];\n                return timeout_obj ;   \n            }else{\n                return {} ;\n            }\n            break;\n        }\n        \n        case \"user_calculated\" : {\n            if(timeout_obj.timeout_list){\n                for(var key in timeout_obj.timeout_list){\n                    if(parseInt(key) == getAttributeByIndex(timeout_obj.timeout_list, 0)){\n                        timeout_obj.timeout_list[key].delivery_user_ids = get_obj_from_array(timeout_obj.timeout_list[key].delivery_user_ids, users);\n                        timeout_obj.timeout_list[key].template = {\n                            message : timeout_obj.timeout_list[key].message_id ? get_template(timeout_obj.timeout_list[key].message_id, templates) : null ,\n                            from    : timeout_obj.timeout_list[key].from_id ? get_template(timeout_obj.timeout_list[key].from_id, templates) : null\n                        };\n                    }\n                }\n\n                return timeout_obj.timeout_list[getAttributeByIndex(timeout_obj.timeout_list, 0)] ; \n            }else{\n                return {} ; \n            }\n            break;\n        }\n        \n        default: {\n            return {};\n        }\n    }\n}\n\nfunction check_obj(obj){\n    return Object.keys(obj).length ;\n}\n\nfunction get_template(id, template){\n    var obj = {} ;\n    if(template !== null){\n        for(var i=0; i< template.length; i++){\n            if(id === template[i]._id){\n                obj = template[i] ;\n            }\n        }    \n        return obj ;\n    }else{\n        return obj ;\n    }\n}\n\nfunction get_obj_from_array(id, arr){\n\n    if(id instanceof Object){\n        return id ;    \n    }\n    \n    var obj = {} ;\n    if(arr !== null && arr.length){\n        for(var i=0; i< arr.length; i++){\n            if(arr[i]._id === id){\n                obj[arr[i]._id] = arr[i] ;\n            }\n        }\n        return obj ;\n    }else{\n        return obj ;\n    }\n}\n\nfunction getAttributeByIndex(obj, index){\n  var i = 0;\n  for (var attr in obj){\n    if (index === i){\n      return parseInt(attr);\n    }\n    i++;\n  }\n  return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3690.03125,
+        "y": 533.046875,
+        "wires": [
+            [
+                "84714b41.e34418",
+                "96b20269.d836f"
+            ]
+        ]
+    },
+    {
+        "id": "d79adc8b.3221b",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "indicator",
+        "func": "msg.payload = \"Timeout processor executes sucessfully\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3664.03125,
+        "y": 585.046875,
+        "wires": [
+            [
+                "4e2e30c.bbb54d",
+                "3bf5ab50.5f6c94"
+            ]
+        ]
+    },
+    {
+        "id": "7b8ede79.ee466",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2953.03125,
+        "y": 169.046875,
+        "wires": [
+            [
+                "6fa94d00.794ca4"
+            ],
+            [
+                "2888bc9d.d2d6d4"
+            ]
+        ]
+    },
+    {
+        "id": "4f9da4ac.bb86cc",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "child task",
+        "func": "msg.payload = {\n    query : \"table:task_table AND _id:\" + msg.child_task_id \n};\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3280.03125,
+        "y": 260.046875,
+        "wires": [
+            [
+                "cea484bb.83f458"
+            ]
+        ]
+    },
+    {
+        "id": "4e2e30c.bbb54d",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "Timeout processor",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 3901.03125,
+        "y": 565.046875,
+        "wires": []
+    },
+    {
+        "id": "f30f4099.a5917",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "validate",
+        "func": "var task = msg.task_obj , user = msg.user_obj, detail = msg.details_obj;\n\nif(isEmpty(task)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"Unable to find `task obj` with `task_id`\", data: null};\n}else if(isEmpty(user)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"Unable to find `user obj` with `access_token`\", data: null};\n}else{\n    msg.api_status      = \"API_SUCCESS\";\n    msg.child_task_id   = msg.task_obj[0].child_default_task_id || null;\n    msg.timeout_id      = msg.task_obj[0].timeout_id || null;\n    msg.location_id     = msg.task_obj[0].location_id || null;\n}\nreturn msg;\n\n    \nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2790.03125,
+        "y": 178.046875,
+        "wires": [
+            [
+                "7b8ede79.ee466"
+            ]
+        ]
+    },
+    {
+        "id": "6fa94d00.794ca4",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 3129.03125,
+        "y": 173.046875,
+        "wires": []
+    },
+    {
+        "id": "3fa3c681.7b937a",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "user arr",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user_arr",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 3413.03125,
+        "y": 114.046875,
+        "wires": [
+            [
+                "d2b55e61.08c28"
+            ]
+        ]
+    },
+    {
+        "id": "7edc9154.bf3f8",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "master_table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 3252.03125,
+        "y": 116.046875,
+        "wires": [
+            [
+                "3fa3c681.7b937a"
+            ]
+        ]
+    },
+    {
+        "id": "9ecf65af.3de7e8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "msg.payload = {\n    query: \"table:users\",\n    sort: \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3099.03125,
+        "y": 117.046875,
+        "wires": [
+            [
+                "7edc9154.bf3f8"
+            ]
+        ]
+    },
+    {
+        "id": "ce8e3ccf.e5702",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "user_obj",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user_obj",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2911.03125,
+        "y": 116.046875,
+        "wires": [
+            [
+                "9ecf65af.3de7e8"
+            ]
+        ]
+    },
+    {
+        "id": "5eadacce.7fa8a4",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 2757.03125,
+        "y": 115.046875,
+        "wires": [
+            [
+                "ce8e3ccf.e5702"
+            ]
+        ]
+    },
+    {
+        "id": "bfcdfc52.7337",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "user_payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2594.03125,
+        "y": 114.046875,
+        "wires": [
+            [
+                "5eadacce.7fa8a4"
+            ]
+        ]
+    },
+    {
+        "id": "d7d5c8e0.48a7a8",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "task_obj",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "task_obj",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2414.03125,
+        "y": 115.046875,
+        "wires": [
+            [
+                "bfcdfc52.7337"
+            ]
+        ]
+    },
+    {
+        "id": "9c1674f8.1d4728",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "master_table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 2239.03125,
+        "y": 114.046875,
+        "wires": [
+            [
+                "d7d5c8e0.48a7a8"
+            ]
+        ]
+    },
+    {
+        "id": "f3355043.b4df1",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "task_payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1949.03125,
+        "y": 413.046875,
+        "wires": [
+            [
+                "9c1674f8.1d4728"
+            ]
+        ]
+    },
+    {
+        "id": "57bec002.50ae8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "validate",
+        "func": "var table_data = msg.payload.table_data ;\n\nif(table_data === null || table_data === undefined){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide valid json object as api request body.\"};\n    return msg;\n}else if(table_data.access_token === null || table_data.access_token === undefined || msg.payload.access_token === \"\"){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide `access_token` in api request body\"};\n    return msg;\n}else if(table_data.note === null || table_data.note === undefined || table_data.note === \"\"){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide `note` in api request body\"};\n    return msg;\n}else if(table_data.page_id === null || table_data.page_id === undefined || table_data.page_id === \"\"){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide `page_id` in api request body\"};\n    return msg;\n}else if(table_data.from_page_id === null || table_data.from_page_id === undefined ){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide `from_page_id` in api request body\"};\n    return msg;\n}else if(table_data.task_id === null || table_data.task_id === undefined ){\n    msg.flow_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, type: \"Validation error\", msg: \"Please provide `task_id` in api request body\"};\n    return msg;\n}else{\n    msg.flow_status = \"API_SUCCESS\";\n    msg.form_data    = table_data ;\n    msg.task_payload = { \n        query: \"table:task_table AND _id:\" + table_data.task_id \n    };\n    msg.user_payload = {\n        query: \"table:users AND access_token:\" + table_data.access_token  \n    };\n    msg.page_payload = {\n        query: \"table:details AND page_id:\" + table_data.page_id  \n    };\n    return msg;\n}\n\n\nfunction check_number(n){\n    if(!isNaN(parseInt(n))){\n        return parseInt(n);\n    }else{\n        return n ;\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1544.03125,
+        "y": 466.046875,
+        "wires": [
+            [
+                "b6af2672.99e958"
+            ]
+        ]
+    },
+    {
+        "id": "d2b55e61.08c28",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "template",
+        "func": "msg.payload = {\n    query: \"table:template\",\n    sort: \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2240.5390625,
+        "y": 168.5703125,
+        "wires": [
+            [
+                "9ddec7b3.c16d78"
+            ]
+        ]
+    },
+    {
+        "id": "9ddec7b3.c16d78",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "Templates",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 2393.5390625,
+        "y": 168.5703125,
+        "wires": [
+            [
+                "b79eeb98.78a8a8"
+            ]
+        ]
+    },
+    {
+        "id": "b79eeb98.78a8a8",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "template arr",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "templates_arr",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2614.2734375,
+        "y": 176.9921875,
+        "wires": [
+            [
+                "f30f4099.a5917"
+            ]
+        ]
+    },
+    {
+        "id": "5de3d290.17c0cc",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "update_create_user_task",
+        "func": "var detail_obj          = msg.detail ,\n    user_task           = msg.payload ? msg.payload[0] : null ;\n\nif(user_task !== null){\n    msg.payload = update_user_task(user_task, detail_obj.user_id, detail_obj.task_id, 0, 1);\n}else{\n    msg.payload = {\n        table           : \"user_task\",\n    \ttask_id \t\t: detail_obj.task_id,\n    \tuser_id\t\t\t: detail_obj.user_id,\n    \tpage_id         : parseInt(detail_obj.page_id),\n    \tupdate_read     : 0,\n    \tupdate_active   : 0, \n    \tsynchronized    : 0,\n        status          : 0, \n    \tdate_updated\t: null,\t\n    \tparent_id\t\t: null,\n    \tcount_status\t: {\n    \t   active       : 1,\n    \t   unread       : 0,\n    \t},\n    \tcount\t\t\t: {\n    \t    active      : 0,\n    \t    unread      : 0,\n    \t},\n    \tcount_if\t\t: {\n    \t    active      : 1,\n    \t    unread      : 0\n    \t},\n    \ttemplates\t\t: {},\n    \ttimeout\t\t\t: {}\n    };\n}\nreturn msg;\n\nfunction update_user_task(user_task, user_id, task_id, status, synchronized){\n\n    user_task.synchronized          = synchronized  ;\n    user_task.date_updated          = new Date().toJSON();\n    user_task.templates             = detail_obj.template ;\n    user_task.timeout               = detail_obj.timeout ;\n    user_task.count_status.unread   = detail_obj.read ;\n    user_task.page_id               = parseInt(detail_obj.to_page_id) ;\n    user_task.status                = detail_obj.status || status;\n\n    if(!user_task.update_read){\n        if( ( user_task.count_status.unread === 1 || user_task.count_status.unread === \"1\") && !user_task.count_if.unread ){\n            user_task.count.unread += 1 ;  \n        }\n    }\n\n    if(!user_task.update_active){\n        if( user_task.count_status.active && user_task.count_if.active){\n            user_task.count.active += 1 ;  \n        }\n    }\n    \n    if(user_task.parent_id) update_user_task(user_id, user_task.parent_id, 0, 1);\n    \n    user_task.update_read   = 1 ;\n    user_task.update_active = 1 ;\n    \n    return user_task;\n}\n\nfunction check_obj(obj){\n    return Object.keys(obj).length ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 4253.03125,
+        "y": 621.046875,
+        "wires": [
+            [
+                "d41f48b0.7f1228"
+            ]
+        ]
+    },
+    {
+        "id": "3bf5ab50.5f6c94",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "var task_id = msg.detail.task_id ,\n    user_id = msg.detail.user_id ;\n    \nmsg.payload = {\n    query: \"table:user_task AND task_id:\" + task_id + \" AND user_id:\" + user_id ,\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3873.03125,
+        "y": 624.046875,
+        "wires": [
+            [
+                "c8e96c2e.712a2"
+            ]
+        ]
+    },
+    {
+        "id": "c8e96c2e.712a2",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "master_table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 4039.03125,
+        "y": 623.046875,
+        "wires": [
+            [
+                "5de3d290.17c0cc"
+            ]
+        ]
+    },
+    {
+        "id": "b6af2672.99e958",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "flow_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1744,
+        "y": 385,
+        "wires": [
+            [
+                "cc9156dd.e6c9d8"
+            ],
+            [
+                "f3355043.b4df1"
+            ]
+        ]
+    },
+    {
+        "id": "cc9156dd.e6c9d8",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1942,
+        "y": 355,
+        "wires": []
+    },
+    {
+        "id": "d41f48b0.7f1228",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "User Task",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 4467,
+        "y": 552,
+        "wires": []
+    },
+    {
+        "id": "96b20269.d836f",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Details",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 3911,
+        "y": 515,
+        "wires": []
+    },
+    {
+        "id": "bb1187b6.23d9d8",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Optional Task",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 3061,
+        "y": 522,
+        "wires": []
+    },
+    {
+        "id": "187b3892.b9f7d7",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Details",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 2501,
+        "y": 481,
+        "wires": []
+    },
+    {
+        "id": "bac4821c.f56c7",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "API_RESPONSE",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2665,
+        "y": 456,
+        "wires": [
+            [
+                "7f94322.34c74cc"
+            ]
+        ]
+    },
+    {
+        "id": "7f94322.34c74cc",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 2848,
+        "y": 455,
+        "wires": []
+    },
+    {
+        "id": "4ff506b2.169578",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "delete_detail",
+        "func": "var body = msg.payload.table_data;\n    \n    if(isEmpty(body)){\n        msg.api_status  = \"API_ERROR\";\n        msg.payload     = {status: 400, error: true, msg: \"Table data should be valid json object.\", data: null};\n    }else if(isEmpty(body.access_token)){\n        msg.api_status  = \"API_ERROR\";\n        msg.payload     = {status: 400, error: true, msg: \"`access_token` must be provided.\", data: null};\n    }else if(isEmpty(body.id)){\n        msg.api_status  = \"API_ERROR\";\n        msg.payload     = {status: 400, error: true, msg: \"`id` must be provided to remove detail.\", data: null};\n    }else{\n        msg.access_token    = body.access_token ;\n        msg.detail_id       = body.id ;\n        msg.api_status      = \"API_SUCCESS\";\n        msg.payload         = {\n                query   : \"table:users AND _id:\" + body.access_token ,\n                sort    : \"_id<string>\"\n        };\n        node.warn(msg.payload);\n    }\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1296.7578125,
+        "y": 634.171875,
+        "wires": [
+            [
+                "aff97560.7d8878"
+            ]
+        ]
+    },
+    {
+        "id": "aff97560.7d8878",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1488.7421875,
+        "y": 637.9765625,
+        "wires": [
+            [
+                "c4ac724d.ac859"
+            ],
+            [
+                "7ae112b9.da4dbc"
+            ]
+        ]
+    },
+    {
+        "id": "c4ac724d.ac859",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1629.7421624213466,
+        "y": 592.4609327614309,
+        "wires": []
+    },
+    {
+        "id": "7ae112b9.da4dbc",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1651.7421875,
+        "y": 664.7734375,
+        "wires": [
+            [
+                "5b60dcfd.46ada4"
+            ]
+        ]
+    },
+    {
+        "id": "5b60dcfd.46ada4",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "validate",
+        "func": "var user = msg.payload ;\n    \n    if(isEmpty(user)){\n        msg.api_status  = \"API_ERROR\"    ;\n        msg.payload     = {status: 400, error: true, msg: \"Unable to find user with `access_token`\", data: null};\n    }else{\n        msg.user_obj    = user[0];\n        msg.payload     = {\n            query   : \"table:details AND _id:\" + msg.detail_id ,\n            sort    : \"_id<string>\"\n        };\n    }\n    \nnode.warn(msg.payload);\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1821.7578125,
+        "y": 691.1640625,
+        "wires": [
+            [
+                "87fa1f95.ef692"
+            ]
+        ]
+    },
+    {
+        "id": "87fa1f95.ef692",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1978.749960705639,
+        "y": 689.9843702614309,
+        "wires": [
+            [
+                "5507605c.5a705"
+            ],
+            [
+                "69913b1d.374e24"
+            ]
+        ]
+    },
+    {
+        "id": "5507605c.5a705",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 2102.7421875,
+        "y": 658.953125,
+        "wires": []
+    },
+    {
+        "id": "69913b1d.374e24",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_tabe",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 2120.7578125,
+        "y": 714.765625,
+        "wires": [
+            [
+                "8a5bd2e0.66aa3"
+            ]
+        ]
+    },
+    {
+        "id": "8a5bd2e0.66aa3",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "validate detail",
+        "func": "var detail = msg.payload ;\n\n    if(isEmpty(detail)){\n        msg.api_status  = \"API_ERROR\";\n        msg.payload     = {status: 400, error: true, msg: \"Unable to find detail with this id\", data: null};\n    }else{\n        msg.api_status  = \"API_SUCCESS\";\n        msg.detail_obj      = detail[0] ;\n    }\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2320.2577610909957,
+        "y": 714.1718678921463,
+        "wires": [
+            [
+                "d51b97c1.e41208"
+            ]
+        ]
+    },
+    {
+        "id": "d51b97c1.e41208",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2484.7421423047795,
+        "y": 758.9843678921463,
+        "wires": [
+            [
+                "7852346d.81e6fc"
+            ],
+            [
+                "a08f1848.dcc968"
+            ]
+        ]
+    },
+    {
+        "id": "7852346d.81e6fc",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 2621.166748046875,
+        "y": 727.6666870117188,
+        "wires": []
+    },
+    {
+        "id": "a08f1848.dcc968",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "isAuthorized",
+        "func": "var detail_obj = msg.detail_obj;\n    user_obj   = msg.user_obj ;\n\nif(detail_obj.user_id === user_obj._id){\n    msg.api_status  = \"VALID_CONTENT\";\n    msg.payload     = {\n        _id                             : detail_obj._id,\n        _rev                            : detail_obj._rev,\n        table                           : \"details\",\n        task_id                         : detail_obj.task_id,\n        child_task_id                   : detail_obj.child_task_id,\n        user_id                         : detail_obj.user_id,\n        from_user_id                    : detail_obj.from_user_id,\n        page_id                         : detail_obj.page_id,\n        from_page_id                    : detail_obj.from_page_id,\n        to_page_id                      : detail_obj.to_page_id,\n        synchronized                    : detail_obj.synchronized,\n        processed                       : detail_obj.processed ,\n        status                          : detail_obj.status ,\n        read                            : detail_obj.read ,\n        display_if_empty                : 0 ,\n        date_created                    : detail_obj.date_created ,\n        offline_expiration_seconds      : detail_obj.offline_expiration_seconds ,\n        priority                        : detail_obj.priority ,\n        type                            : detail_obj.type,\n        image                           : detail_obj.image ,\n        from_user                       : detail_obj.from_user,\n        user_incoming                   : detail_obj.user_incoming,\n        watson_incoming                 : detail_obj.watson_incoming,\n        template                        : detail_obj.template ,\n        user_calculate                  : detail_obj.user_calculate,\n        location                        : detail_obj.location,\n        default                         : detail_obj.default,\n        createdAt                       : detail_obj.createdAt\n    };\n    msg.response    = {status: 200, error: false, msg: \"Record deleted successfully\", data: msg.payload};\n}else{\n    msg.api_status = \"INVALID_CONTENT\";\n    msg.statusCode = 403 ;\n    msg.payload = {status: 403, error: false, msg: \"You are not authorized to remove record\", data: null};    \n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2641.833251953125,
+        "y": 785.3333740234375,
+        "wires": [
+            [
+                "1aee4b78.bb91d5"
+            ]
+        ]
+    },
+    {
+        "id": "1aee4b78.bb91d5",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "INVALID_CONTENT",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2798.833251953125,
+        "y": 785,
+        "wires": [
+            [
+                "ec2fa8e0.84daa8"
+            ],
+            [
+                "670422c7.a356fc",
+                "b2066dec.cab4f",
+                "6179d3c6.5ce81c",
+                "5d47dd54.1cc8a4"
+            ]
+        ]
+    },
+    {
+        "id": "ec2fa8e0.84daa8",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 2942.5,
+        "y": 747.3333740234375,
+        "wires": []
+    },
+    {
+        "id": "670422c7.a356fc",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "save detail to master table",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 3013.5,
+        "y": 809.3333892822266,
+        "wires": []
+    },
+    {
+        "id": "b2066dec.cab4f",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2957.5,
+        "y": 856.3333892822266,
+        "wires": [
+            [
+                "aa098852.5faae8"
+            ]
+        ]
+    },
+    {
+        "id": "aa098852.5faae8",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 3115.500010172526,
+        "y": 853.0000381469727,
+        "wires": []
+    },
+    {
+        "id": "6179d3c6.5ce81c",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "var detail = msg.payload ;\nmsg.payload = {\n    query   : \"table:details AND to_page_id:\" + detail.page_id ,\n    sort    : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2961.5,
+        "y": 914.3333129882812,
+        "wires": [
+            [
+                "f2251761.b07088"
+            ]
+        ]
+    },
+    {
+        "id": "f2251761.b07088",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 3121.166676839193,
+        "y": 915.0000178019205,
+        "wires": [
+            [
+                "92d7a796.dba1a8"
+            ]
+        ]
+    },
+    {
+        "id": "92d7a796.dba1a8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "init",
+        "func": "var filtered_details = msg.payload ;\n\nmsg.filtredArr = filtered_details || [] ;\nmsg.counter = 0;\nmsg.detail_length = filtered_details.length;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3283.500010172526,
+        "y": 914.0000178019205,
+        "wires": [
+            [
+                "a41eab75.8d4778"
+            ]
+        ]
+    },
+    {
+        "id": "a41eab75.8d4778",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "detail_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 3457.666748046875,
+        "y": 851.3334045410156,
+        "wires": [
+            [
+                "761fffae.c03e"
+            ],
+            [
+                "e14260f2.70e37"
+            ]
+        ]
+    },
+    {
+        "id": "14ac37c7.408fb8",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "counter++",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3535.666748046875,
+        "y": 772.3334045410156,
+        "wires": [
+            [
+                "a41eab75.8d4778"
+            ]
+        ]
+    },
+    {
+        "id": "761fffae.c03e",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "msg.payload = msg.filtredArr[msg.counter];\nmsg.payload.display_if_empty = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3617.666748046875,
+        "y": 842.3334350585938,
+        "wires": [
+            [
+                "14ac37c7.408fb8",
+                "b96954a9.56ea68"
+            ]
+        ]
+    },
+    {
+        "id": "e14260f2.70e37",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Finish",
+        "func": "msg.payload = \"Update all child details as well.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3607.666748046875,
+        "y": 884.3334350585938,
+        "wires": [
+            [
+                "c5c8572a.97eb68"
+            ]
+        ]
+    },
+    {
+        "id": "c5c8572a.97eb68",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 3784.666748046875,
+        "y": 888.3334350585938,
+        "wires": []
+    },
+    {
+        "id": "b96954a9.56ea68",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Update Detail",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 3812.666748046875,
+        "y": 810.3334045410156,
+        "wires": []
+    },
+    {
+        "id": "5d47dd54.1cc8a4",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "var detail = msg.payload ;\nmsg.payload = {\n    query   : \"table:user_task AND page_id:\" + detail.to_page_id + \"user_id:\" + detail.user_id ,\n    sort    : \"_id<string>\"\n};\n\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2961.5,
+        "y": 981.6667785644531,
+        "wires": [
+            [
+                "cfb2d119.650ef"
+            ]
+        ]
+    },
+    {
+        "id": "cfb2d119.650ef",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "msater_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 3119.5,
+        "y": 979.3333435058594,
+        "wires": [
+            [
+                "d21cc327.892e3"
+            ]
+        ]
+    },
+    {
+        "id": "d21cc327.892e3",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "init",
+        "func": "var user_tasks = msg.payload ;\n\nmsg.calculated_task = user_tasks || [];\nmsg.user_task_length = msg.calculated_task.length ;\nmsg.counter = 0 ;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3282.5,
+        "y": 979.0000305175781,
+        "wires": [
+            [
+                "4f69a5e6.d7c3fc"
+            ]
+        ]
+    },
+    {
+        "id": "4f69a5e6.d7c3fc",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "user_task_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 3422.33349609375,
+        "y": 977.3334045410156,
+        "wires": [
+            [
+                "8d032ebd.ecdb3"
+            ],
+            [
+                "df98db23.3ac248"
+            ]
+        ]
+    },
+    {
+        "id": "3d0e140b.8e644c",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "counter++",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3483.33349609375,
+        "y": 925.3334045410156,
+        "wires": [
+            [
+                "4f69a5e6.d7c3fc"
+            ]
+        ]
+    },
+    {
+        "id": "8d032ebd.ecdb3",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "var user_task_obj = msg.calculated_task[msg.counter] ;\n\nuser_task_obj.status = 0   ;\nif(user_task_obj.count){\n    if(user_task_obj.count)    user_task_obj.count.active = 0 ;\n    if(user_task_obj.count)    user_task_obj.count.unread = 0 ;\n}\n\nmsg.payload = user_task_obj;\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3569.33349609375,
+        "y": 969.3334350585938,
+        "wires": [
+            [
+                "3d0e140b.8e644c",
+                "5a82b46c.ba9e9c"
+            ]
+        ]
+    },
+    {
+        "id": "df98db23.3ac248",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "Finish",
+        "func": "msg.payload = \"User tasks updated successfully\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3563.33349609375,
+        "y": 1014.3334045410156,
+        "wires": [
+            [
+                "74b47e08.11124"
+            ]
+        ]
+    },
+    {
+        "id": "5a82b46c.ba9e9c",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "user_task",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 3753.33349609375,
+        "y": 968.3334045410156,
+        "wires": []
+    },
+    {
+        "id": "74b47e08.11124",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 3762.33349609375,
+        "y": 1012.3334045410156,
+        "wires": []
+    },
+    {
+        "id": "2e30714a.35189e",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1633.015625,
+        "y": 769,
+        "wires": []
+    },
+    {
+        "id": "44c2518e.ef865",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "update_task",
+        "func": "var task_obj = msg.payload_data;\n\nmsg.payload = {\n        _id                         : task_obj._id,\n        _rev                        : task_obj._rev,\n        table                       : task_obj.table, \n        task_name                   : task_obj.task_name,\n        user_id                     : task_obj.user_id,\n        page_id                     : task_obj.page_id,\n        from_page_id                : task_obj.from_page_id,\n        parent_id                   : task_obj.parent_id,\n        header_template_id          : task_obj.header_template_id,\n        detail_template_id          : task_obj.detail_template_id,\n        footer_template_id          : task_obj.footer_template_id,\n        timeout_id                  : task_obj.timeout_id,\n        child_default_task_id       : task_obj.child_default_task_id,\n        child_default_task_name     : task_obj.child_default_task_name,\n        date_created                : task_obj.date_created,\n        type                        : task_obj.type,\n        status                      : task_obj.status,\n        category                    : task_obj.category,\n        additional_data_fn          : task_obj.additional_data_fn,\n        optional_data               : task_obj.optional_data,\n        required_data               : task_obj.required_data,\n        offline_expiration_time     : task_obj.offline_expiration_time,\n        display_if_empty            : task_obj.display_if_empty,\n        image                       : task_obj.image\n    };\n    \nmsg.api_result = {status: 200, error: false, msg: \"Record udpated successfully\", data: msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1298.015625,
+        "y": 749,
+        "wires": [
+            [
+                "ed4a8c2e.d5c25",
+                "b44dde1d.d45bb"
+            ]
+        ]
+    },
+    {
+        "id": "ed4a8c2e.d5c25",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "Update record",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1512.015625,
+        "y": 718,
+        "wires": []
+    },
+    {
+        "id": "b44dde1d.d45bb",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "api result",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_result",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1489.015625,
+        "y": 771,
+        "wires": [
+            [
+                "2e30714a.35189e"
+            ]
+        ]
+    },
+    {
+        "id": "5df254a7.85e2cc",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "update_user",
+        "func": "var req_body = msg.payload_data;\n\nif(isEmpty(req_body.user_id)){\n    msg.api_status = \"API_ERROR\" ;\n    msg.payload = {status: 400, error: true, msg: \"`user_id` is missing\", data: []};\n    return msg;\n    \n}else{\n    msg.api_status = \"API_SUCESS\" ;\n    msg.payload = {\n        query : \"table:users AND _id:\"+ req_body._id ,\n        sort  : \"_id<string>\"\n    };\n    msg.req_body = req_body;\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1295.265625,
+        "y": 866.25,
+        "wires": [
+            [
+                "4c52b214.e0522c"
+            ]
+        ]
+    },
+    {
+        "id": "4c52b214.e0522c",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "split",
+        "property": "API_STATUS",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "SUCESS",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1439.265625,
+        "y": 867.25,
+        "wires": [
+            [
+                "8f8bd939.95d398"
+            ],
+            [
+                "6a0c38b.163e1c8"
+            ]
+        ]
+    },
+    {
+        "id": "e4a95d10.a73ea",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "update_short_detail",
+        "func": "var body = msg.payload_data ;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1314.140625,
+        "y": 1006.5,
+        "wires": [
+            [
+                "c0cc1fef.9db3c",
+                "82034664.245a08"
+            ]
+        ]
+    },
+    {
+        "id": "6a0c38b.163e1c8",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "User",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1596.765625,
+        "y": 888.25,
+        "wires": [
+            [
+                "f094fd4b.bd424"
+            ]
+        ]
+    },
+    {
+        "id": "f094fd4b.bd424",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "payload",
+        "func": "var req_body = msg.req_body;\n    user_obj = msg.payload[0] ;\n\nuser_obj.long_url       = req_body.long_url || user_obj.long_url ;\nuser_obj.access_token   = req_body.access_token || user_obj.access_token ;\nuser_obj.security_level = req_body.security_level || user_obj.security_level ;\nuser_obj.phone          = req_body.phone || user_obj.phone ;\nuser_obj.email          = req_body.email || user_obj.email ;\nuser_obj.firstname      = req_body.firstname || user_obj.first_name;\nuser_obj.lastname       = req_body.lastname || user_obj.last_name ;\nuser_obj.image          = req_body.image || user_obj.image ;\n\nmsg.payload = user_obj ;\nmsg.api_result = {status: 200, error: false, msg: \"Record udpated successfully\", data: msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1739.765625,
+        "y": 887.25,
+        "wires": [
+            [
+                "3e3b424c.40376e",
+                "7169c502.95e06c"
+            ]
+        ]
+    },
+    {
+        "id": "7169c502.95e06c",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1918.765625,
+        "y": 869.25,
+        "wires": []
+    },
+    {
+        "id": "3e3b424c.40376e",
+        "type": "change",
+        "z": "ed7375e0.d65788",
+        "name": "api result",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_result",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1910.765625,
+        "y": 905.25,
+        "wires": [
+            [
+                "da4a7827.5e25d8"
+            ]
+        ]
+    },
+    {
+        "id": "da4a7827.5e25d8",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 2053.765625,
+        "y": 905.25,
+        "wires": []
+    },
+    {
+        "id": "8f8bd939.95d398",
+        "type": "http response",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "x": 1595.6288880705836,
+        "y": 841.4101503267885,
+        "wires": []
+    },
+    {
+        "id": "c0cc1fef.9db3c",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "detail_payload",
+        "func": "msg.payload = {\n    query : \"table:details AND _id:\" + msg.req_body.detail.detail_id ,\n    sort  : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1547.0078125,
+        "y": 982.5234375,
+        "wires": [
+            [
+                "784ec0b0.60cb8"
+            ]
+        ]
+    },
+    {
+        "id": "82034664.245a08",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "task_payload",
+        "func": "\nmsg.payload = {\n    query : \"table:task_table AND _id:\" + msg.req_body.task.task_id ,\n    sort  : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1539.0078125,
+        "y": 1034.5234375,
+        "wires": [
+            [
+                "26a0e362.527dfc"
+            ]
+        ]
+    },
+    {
+        "id": "784ec0b0.60cb8",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "Details",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1705.0078125,
+        "y": 982.5234375,
+        "wires": [
+            [
+                "715dff7a.ca948"
+            ]
+        ]
+    },
+    {
+        "id": "26a0e362.527dfc",
+        "type": "cloudant in",
+        "z": "ed7375e0.d65788",
+        "name": "Tasks",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1698.0078125,
+        "y": 1036.5234375,
+        "wires": [
+            [
+                "6e54a256.4d945c"
+            ]
+        ]
+    },
+    {
+        "id": "715dff7a.ca948",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "populate",
+        "func": "var detail_obj = msg.payload ;\n    req_body   = msg.req_body;\n    \n    if(isEmpty(detail_obj)){\n        msg.isSaved = \"need_to_save\" ;\n        detail_obj[0].user_incoming = {\n            note: req_body.detail.message,\n            message: req_body.detail.message  \n        };\n        detail_obj[0].watson_incoming = {\n            note: req_body.detail.message,\n            message: req_body.detail.message  \n        };\n        msg.payload = detail_obj ;\n        msg.apiResult = {status: 200, error: false, msg: \"Record udpated successfully\", data: msg.payload};\n    }else{\n        msg.isSaved = \"need_to_log\";\n        msg.apiResult = {status: 400, error: true, msg: \"Unable to update data\", data: []};\n    }\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1840.0078125,
+        "y": 982.5234375,
+        "wires": [
+            [
+                "da124926.883c68"
+            ]
+        ]
+    },
+    {
+        "id": "da124926.883c68",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "isSaved",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "need_to_save",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2011.0078125,
+        "y": 986.5234375,
+        "wires": [
+            [
+                "eef1b904.97d1d8"
+            ],
+            [
+                "cbecfd3e.c0ce8"
+            ]
+        ]
+    },
+    {
+        "id": "eef1b904.97d1d8",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "details",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 2224.0078125,
+        "y": 954.5234375,
+        "wires": []
+    },
+    {
+        "id": "cbecfd3e.c0ce8",
+        "type": "debug",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2239.0078125,
+        "y": 1008.5234375,
+        "wires": []
+    },
+    {
+        "id": "6e54a256.4d945c",
+        "type": "function",
+        "z": "ed7375e0.d65788",
+        "name": "populate",
+        "func": "var task_obj = msg.payload ;\n    req_body   = msg.req_body;\n    \n    if(check_obj(task_obj)){\n        msg.isSaved = \"need_to_save\" ;\n        task_obj[0].task_name  = req_body.task.task_name ;\n        msg.payload = task_obj ;\n        msg.apiResult = {status: 200, error: false, msg: \"Record udpated successfully\", data: msg.payload};\n    }else{\n        msg.isSaved = \"need_to_log\";\n        msg.apiResult = {status: 400, error: true, msg: \"Unable to update task obj\", data: []};\n    }\nreturn msg;\n\nfunction check_obj(obj){\n    return Object.keys(obj).length;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1845.0078125,
+        "y": 1038.5234375,
+        "wires": [
+            [
+                "5707c68b.9e4208"
+            ]
+        ]
+    },
+    {
+        "id": "5707c68b.9e4208",
+        "type": "switch",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "property": "isSaved",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "need_to_save",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2012.0078125,
+        "y": 1056.5234375,
+        "wires": [
+            [
+                "5ad6492a.735d48"
+            ],
+            [
+                "cbecfd3e.c0ce8"
+            ]
+        ]
+    },
+    {
+        "id": "5ad6492a.735d48",
+        "type": "cloudant out",
+        "z": "ed7375e0.d65788",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "task_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 2221.0078125,
+        "y": 1084.5234375,
+        "wires": []
+    },
+    {
+        "id": "5281de41.649f",
+        "type": "cloudant",
+        "z": "",
+        "host": "http://127.0.0.1",
+        "name": "timeout-api-cloudantNoSQLDB"
+    }
+]

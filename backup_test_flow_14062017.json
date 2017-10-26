@@ -1,0 +1,302 @@
+[
+    {
+        "id": "a1c7b9eb.d6a108",
+        "type": "tab",
+        "label": "Test"
+    },
+    {
+        "id": "562501d2.7b936",
+        "type": "http in",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "url": "/master_table",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 152.8333282470703,
+        "y": 206.33334350585938,
+        "wires": [
+            [
+                "b234141a.5646b8"
+            ]
+        ]
+    },
+    {
+        "id": "3c5f5031.60468",
+        "type": "http response",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "x": 548.8333435058594,
+        "y": 209.33334350585938,
+        "wires": []
+    },
+    {
+        "id": "b234141a.5646b8",
+        "type": "cloudant in",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 362.8333435058594,
+        "y": 210.33333587646484,
+        "wires": [
+            [
+                "3c5f5031.60468"
+            ]
+        ]
+    },
+    {
+        "id": "68767448.15c44c",
+        "type": "ibmpush",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "ApplicationID": "12312259665 ",
+        "identifiers": "",
+        "notification": "deviceid",
+        "mode": "SANDBOX",
+        "x": 515.8333435058594,
+        "y": 361.99999237060547,
+        "wires": []
+    },
+    {
+        "id": "b5103d8d.3294a",
+        "type": "inject",
+        "z": "a1c7b9eb.d6a108",
+        "name": "start",
+        "topic": "start",
+        "payload": "Start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 136.8333282470703,
+        "y": 360.6666488647461,
+        "wires": [
+            [
+                "40372744.b003c8"
+            ]
+        ]
+    },
+    {
+        "id": "40372744.b003c8",
+        "type": "function",
+        "z": "a1c7b9eb.d6a108",
+        "name": "payload",
+        "func": "    msg.payload = {\n        \"message\": {\n            \"alert\": \"Hello World from an SMS message using node-red platoform.\"\n        }\n    };\n    msg.notificationType = 3 ;\n    msg.identifiers= \"89a5847f-3d15-301c-924f-c0b0cf0ac493\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 328.8333435058594,
+        "y": 360.6666488647461,
+        "wires": [
+            [
+                "68767448.15c44c",
+                "ea96e535.663288"
+            ]
+        ]
+    },
+    {
+        "id": "ea96e535.663288",
+        "type": "debug",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 501.8333435058594,
+        "y": 408.33333587646484,
+        "wires": []
+    },
+    {
+        "id": "f9c87804.07c708",
+        "type": "inject",
+        "z": "a1c7b9eb.d6a108",
+        "name": "start",
+        "topic": "start",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 131.8333282470703,
+        "y": 513.6666488647461,
+        "wires": [
+            [
+                "7fddc6b3.aae708"
+            ]
+        ]
+    },
+    {
+        "id": "7fddc6b3.aae708",
+        "type": "function",
+        "z": "a1c7b9eb.d6a108",
+        "name": "payload",
+        "func": "// url, if set, is used as the url of the request. Must start with http: or https:\n// method, if set, is used as the HTTP method of the request. Must be one of GET, PUT, POST, PATCH or DELETE (default: GET)\n// headers, if set, should be an object containing field/value pairs to be added as request headers\n// payload is sent as the body of the request\n\n\nmsg.url = \"https://mobile.ng.bluemix.net/imfpush/v1/apps/3d321d52-0b21-485a-8669-7e19684b070b/messages\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"appSecret\": \"26328303-fc96-4379-a53c-7b2dbad74b00\"\n};\nmsg.payload = {\n    message: {\n        alert: \"Hello World from an SMS message using node-red rest api client.\"\n    },\n    notificationType: 3,\n    target: {\n        deviceIds: [\"89a5847f-3d15-301c-924f-c0b0cf0ac493\", \"93ab767a-dc15-3089-9cd0-372ff3403c66\"]\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320.8333435058594,
+        "y": 512.0000381469727,
+        "wires": [
+            [
+                "6cf4c046.f7d38",
+                "19da16d6.8443d9"
+            ]
+        ]
+    },
+    {
+        "id": "6cf4c046.f7d38",
+        "type": "http request",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 494.8333435058594,
+        "y": 511.33336639404297,
+        "wires": [
+            [
+                "9a9c4dd8.debaf"
+            ]
+        ]
+    },
+    {
+        "id": "9a9c4dd8.debaf",
+        "type": "debug",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 673.8333435058594,
+        "y": 511.00003814697266,
+        "wires": []
+    },
+    {
+        "id": "19da16d6.8443d9",
+        "type": "debug",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 488.8333435058594,
+        "y": 564.0000839233398,
+        "wires": []
+    },
+    {
+        "id": "1f86343.b07bdcc",
+        "type": "comment",
+        "z": "a1c7b9eb.d6a108",
+        "name": "Not Working:- Below flow is not-working with IBM push node. So used Rest Api to send push notification to particular device.",
+        "info": "Below flow is notworking with IBM push so used Rest Api to send push notification to particular device.",
+        "x": 470.8333435058594,
+        "y": 306.6666488647461,
+        "wires": []
+    },
+    {
+        "id": "2a43b06.fd3695",
+        "type": "comment",
+        "z": "a1c7b9eb.d6a108",
+        "name": "Working:- Following Flow is working with the rest endpoint and is working well to send push notification to particular device.",
+        "info": "Below flow is notworking with IBM push so used Rest Api to send push notification to particular device.",
+        "x": 464.6666564941406,
+        "y": 461.6666564941406,
+        "wires": []
+    },
+    {
+        "id": "80ea7841.d191b8",
+        "type": "inject",
+        "z": "a1c7b9eb.d6a108",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 131.625,
+        "y": 699.86328125,
+        "wires": [
+            [
+                "61f9abe8.246f44"
+            ]
+        ]
+    },
+    {
+        "id": "61f9abe8.246f44",
+        "type": "function",
+        "z": "a1c7b9eb.d6a108",
+        "name": "query",
+        "func": "msg.payload = {\n    //query   : \"table:users\",\n    selector: {\n        virtual_phone: {\n            \"$regex\": 7696016749\n        }\n    },\n    sort: \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 282.640625,
+        "y": 749.0234375,
+        "wires": [
+            [
+                "d1f6368b.872498"
+            ]
+        ]
+    },
+    {
+        "id": "d1f6368b.872498",
+        "type": "cloudant in",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "cloudant": "5281de41.649f",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 458.640625,
+        "y": 747.0703174360096,
+        "wires": [
+            [
+                "fd2f1781.e91fe8"
+            ]
+        ]
+    },
+    {
+        "id": "fd2f1781.e91fe8",
+        "type": "debug",
+        "z": "a1c7b9eb.d6a108",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 633.63671875,
+        "y": 752.20703125,
+        "wires": []
+    },
+    {
+        "id": "ea2bfb04.c0fa08",
+        "type": "comment",
+        "z": "a1c7b9eb.d6a108",
+        "name": "Working:- This endpoint is used to get all records which is in master_table. We need this record while testing the various functionality like, counts and so on,",
+        "info": "",
+        "x": 570.62890625,
+        "y": 128.2265625,
+        "wires": []
+    },
+    {
+        "id": "11ecb8ba.24a847",
+        "type": "comment",
+        "z": "a1c7b9eb.d6a108",
+        "name": "Working: This test flows is used to test the search functionality by keyword as google does (Seach by keyword like 12 and so on).",
+        "info": "",
+        "x": 472.640625,
+        "y": 638.2265575639904,
+        "wires": []
+    },
+    {
+        "id": "5281de41.649f",
+        "type": "cloudant",
+        "z": "",
+        "host": "http://127.0.0.1",
+        "name": "timeout-api-cloudantNoSQLDB"
+    }
+]

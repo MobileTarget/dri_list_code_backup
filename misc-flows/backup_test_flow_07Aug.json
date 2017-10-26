@@ -1,0 +1,2613 @@
+[
+    {
+        "id": "a35e95d3.4f79f8",
+        "type": "tab",
+        "label": "Test"
+    },
+    {
+        "id": "e44c9b58.0a1a98",
+        "type": "http in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "url": "/master_table",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 152.8333282470703,
+        "y": 206.33334350585938,
+        "wires": [
+            [
+                "1f200840.541168"
+            ]
+        ]
+    },
+    {
+        "id": "e9dd080d.c61978",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 578.8333740234375,
+        "y": 208.33334350585938,
+        "wires": []
+    },
+    {
+        "id": "1f200840.541168",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 362.8333435058594,
+        "y": 210.33333587646484,
+        "wires": [
+            [
+                "e9dd080d.c61978"
+            ]
+        ]
+    },
+    {
+        "id": "84a08fd8.07adc",
+        "type": "ibmpush",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "ApplicationID": "12312259665 ",
+        "identifiers": "",
+        "notification": "deviceid",
+        "mode": "PRODUCTION",
+        "x": 515.8333435058594,
+        "y": 361.99999237060547,
+        "wires": []
+    },
+    {
+        "id": "6b0b4ee5.9c82a",
+        "type": "inject",
+        "z": "a35e95d3.4f79f8",
+        "name": "start",
+        "topic": "start",
+        "payload": "Start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 136.8333282470703,
+        "y": 360.6666488647461,
+        "wires": [
+            [
+                "7145a6de.9551d8"
+            ]
+        ]
+    },
+    {
+        "id": "7145a6de.9551d8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "    msg.payload = {\n        \"message\": {\n            \"alert\": \"This is a demo pushnotificaiton. Please Ignore Thanks.\"\n        }\n    };\n    msg.notificationType = 3 ;\n    msg.identifiers= \"6D79C6CB-FCEB-49EA-9934-DFB8FD67E690\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 328.8333435058594,
+        "y": 360.6666488647461,
+        "wires": [
+            [
+                "84a08fd8.07adc",
+                "d62af99d.3e01e8"
+            ]
+        ]
+    },
+    {
+        "id": "d62af99d.3e01e8",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 501.8333435058594,
+        "y": 408.33333587646484,
+        "wires": []
+    },
+    {
+        "id": "dc4d3aa5.486358",
+        "type": "inject",
+        "z": "a35e95d3.4f79f8",
+        "name": "start",
+        "topic": "start",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 131.8333282470703,
+        "y": 513.6666488647461,
+        "wires": [
+            [
+                "c1967280.e7e2f"
+            ]
+        ]
+    },
+    {
+        "id": "c1967280.e7e2f",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "// url, if set, is used as the url of the request. Must start with http: or https:\n// method, if set, is used as the HTTP method of the request. Must be one of GET, PUT, POST, PATCH or DELETE (default: GET)\n// headers, if set, should be an object containing field/value pairs to be added as request headers\n// payload is sent as the body of the request\n\n\nmsg.url = \"https://mobile.ng.bluemix.net/imfpush/v1/apps/3d321d52-0b21-485a-8669-7e19684b070b/messages\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"appSecret\": \"26328303-fc96-4379-a53c-7b2dbad74b00\"\n};\nmsg.payload = {\n    message: {\n        alert: \"Hello World from an SMS message using node-red rest api client.\"\n    },\n    notificationType: 3,\n    target: {\n        deviceIds: [\"89a5847f-3d15-301c-924f-c0b0cf0ac493\", \"93ab767a-dc15-3089-9cd0-372ff3403c66\"]\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320.8333435058594,
+        "y": 512.0000381469727,
+        "wires": [
+            [
+                "87ead1cb.2c652",
+                "bcfdb917.35d468"
+            ]
+        ]
+    },
+    {
+        "id": "87ead1cb.2c652",
+        "type": "http request",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 494.8333435058594,
+        "y": 511.33336639404297,
+        "wires": [
+            [
+                "8426d48b.796de8"
+            ]
+        ]
+    },
+    {
+        "id": "8426d48b.796de8",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 673.8333435058594,
+        "y": 511.00003814697266,
+        "wires": []
+    },
+    {
+        "id": "bcfdb917.35d468",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 488.8333435058594,
+        "y": 564.0000839233398,
+        "wires": []
+    },
+    {
+        "id": "c4de788b.6c71e8",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Not Working:- Below flow is not-working with IBM push node. So used Rest Api to send push notification to particular device.",
+        "info": "Below flow is notworking with IBM push so used Rest Api to send push notification to particular device.",
+        "x": 470.8333435058594,
+        "y": 306.6666488647461,
+        "wires": []
+    },
+    {
+        "id": "943900a.56612",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Working:- Following Flow is working with the rest endpoint and is working well to send push notification to particular device.",
+        "info": "Below flow is notworking with IBM push so used Rest Api to send push notification to particular device.",
+        "x": 464.6666564941406,
+        "y": 461.6666564941406,
+        "wires": []
+    },
+    {
+        "id": "b640bb8a.0d1a78",
+        "type": "inject",
+        "z": "a35e95d3.4f79f8",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 131.625,
+        "y": 699.86328125,
+        "wires": [
+            [
+                "f14031a7.d2127"
+            ]
+        ]
+    },
+    {
+        "id": "f14031a7.d2127",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "query",
+        "func": "msg.payload = {\n    //query   : \"table:users\",\n    selector: {\n        virtual_phone: {\n            \"$regex\": 7696016749\n        }\n    },\n    sort: \"_id<string>\"\n};\n\n\nnode.log(\"Log\");\nnode.warn(\"Warning\");\nnode.error(\"Error\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 282.640625,
+        "y": 749.0234375,
+        "wires": [
+            [
+                "27a7ea4.0427116"
+            ]
+        ]
+    },
+    {
+        "id": "27a7ea4.0427116",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 458.640625,
+        "y": 747.0703174360096,
+        "wires": [
+            [
+                "c051cc99.0d468"
+            ]
+        ]
+    },
+    {
+        "id": "c051cc99.0d468",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "payload",
+        "x": 643.63671875,
+        "y": 752.20703125,
+        "wires": []
+    },
+    {
+        "id": "e64d7a99.c0ee48",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Working:- This endpoint is used to get all records which is in master_table. We need this record while testing the various functionality like, counts and so on,",
+        "info": "",
+        "x": 570.62890625,
+        "y": 128.2265625,
+        "wires": []
+    },
+    {
+        "id": "a6006a6b.5e62c8",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Working: This test flows is used to test the search functionality by keyword as google does (Seach by keyword like 12 and so on).",
+        "info": "",
+        "x": 472.640625,
+        "y": 638.2265575639904,
+        "wires": []
+    },
+    {
+        "id": "945454dc.62c3c8",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 107.5078125,
+        "y": 1222.5234375,
+        "wires": [
+            [
+                "5d46a223.4bf9ec"
+            ],
+            [
+                "ec526330.9060b"
+            ]
+        ]
+    },
+    {
+        "id": "5d46a223.4bf9ec",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 248.50778742134662,
+        "y": 1177.0078077614307,
+        "wires": []
+    },
+    {
+        "id": "ec526330.9060b",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 270.5078125,
+        "y": 1249.3203125,
+        "wires": [
+            [
+                "108ef0ea.5be14f"
+            ]
+        ]
+    },
+    {
+        "id": "108ef0ea.5be14f",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate",
+        "func": "var user = msg.payload ;\n    \n    if(isEmpty(user)){\n        msg.api_status  = \"API_ERROR\"    ;\n        msg.payload     = {status: 400, error: true, msg: \"Unable to find user with `access_token`\", data: null};\n    }else{\n        msg.user_obj    = user[0];\n        msg.payload     = {\n            query   : \"table:details AND _id:\" + msg.detail_id.toString() ,\n            sort    : \"_id<string>\"\n        };\n    }\n    \nnode.warn(msg.payload);\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440.5234375,
+        "y": 1275.7109375,
+        "wires": [
+            [
+                "c626eec2.d2c67"
+            ]
+        ]
+    },
+    {
+        "id": "c626eec2.d2c67",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 597.5155857056391,
+        "y": 1274.5312452614307,
+        "wires": [
+            [
+                "afde8207.43e19"
+            ],
+            [
+                "b4b55fa3.d298b"
+            ]
+        ]
+    },
+    {
+        "id": "afde8207.43e19",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 721.5078125,
+        "y": 1243.5,
+        "wires": []
+    },
+    {
+        "id": "b4b55fa3.d298b",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 739.5234375,
+        "y": 1299.3125,
+        "wires": [
+            [
+                "c7cd7581.62b9d8"
+            ]
+        ]
+    },
+    {
+        "id": "c7cd7581.62b9d8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate detail",
+        "func": "var detail = msg.payload ;\n\n    if(isEmpty(detail)){\n        msg.api_status  = \"API_ERROR\";\n        msg.payload     = {status: 400, error: true, msg: \"Unable to find detail with this id\", data: null};\n    }else{\n        msg.api_status  = \"API_SUCCESS\";\n        msg.detail_obj      = detail[0] ;\n    }\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 939.0233860909957,
+        "y": 1298.7187428921463,
+        "wires": [
+            [
+                "ed597d2e.ed605"
+            ]
+        ]
+    },
+    {
+        "id": "ed597d2e.ed605",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1103.5077673047795,
+        "y": 1343.5312428921463,
+        "wires": [
+            [
+                "c832864c.844d58"
+            ],
+            [
+                "80aa258b.6bb758"
+            ]
+        ]
+    },
+    {
+        "id": "c832864c.844d58",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1239.932373046875,
+        "y": 1312.2135620117188,
+        "wires": []
+    },
+    {
+        "id": "80aa258b.6bb758",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "isAuthorized",
+        "func": "var detail_obj = msg.detail_obj;\n    user_obj   = msg.user_obj ;\n\nif(detail_obj.user_id === user_obj._id){\n    msg.api_status  = \"VALID_CONTENT\";\n    msg.payload     = {\n        _id                             : detail_obj._id,\n        _rev                            : detail_obj._rev,\n        table                           : \"details\",\n        task_id                         : detail_obj.task_id,\n        child_task_id                   : detail_obj.child_task_id,\n        user_id                         : detail_obj.user_id,\n        from_user_id                    : detail_obj.from_user_id,\n        page_id                         : detail_obj.page_id,\n        from_page_id                    : detail_obj.from_page_id,\n        to_page_id                      : detail_obj.to_page_id,\n        synchronized                    : detail_obj.synchronized,\n        processed                       : detail_obj.processed ,\n        status                          : detail_obj.status ,\n        read                            : detail_obj.read ,\n        display_if_empty                : 0 ,\n        date_created                    : detail_obj.date_created ,\n        offline_expiration_seconds      : detail_obj.offline_expiration_seconds ,\n        priority                        : detail_obj.priority ,\n        type                            : detail_obj.type,\n        image                           : detail_obj.image ,\n        from_user                       : detail_obj.from_user,\n        user_incoming                   : detail_obj.user_incoming,\n        watson_incoming                 : detail_obj.watson_incoming,\n        template                        : detail_obj.template ,\n        user_calculate                  : detail_obj.user_calculate,\n        location                        : detail_obj.location,\n        default                         : detail_obj.default,\n        createdAt                       : detail_obj.createdAt\n    };\n    msg.response    = {status: 200, error: false, msg: \"Record deleted successfully\", data: msg.payload};\n}else{\n    msg.api_status = \"INVALID_CONTENT\";\n    msg.statusCode = 403 ;\n    msg.payload = {status: 403, error: false, msg: \"You are not authorized to remove record\", data: null};    \n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1260.598876953125,
+        "y": 1369.8802490234375,
+        "wires": [
+            [
+                "7ff59a77.7e46c4"
+            ]
+        ]
+    },
+    {
+        "id": "7ff59a77.7e46c4",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "INVALID_CONTENT",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1417.598876953125,
+        "y": 1369.546875,
+        "wires": [
+            [
+                "10b82be8.af3a14"
+            ],
+            [
+                "585a302e.f8fe2",
+                "eeeb889.e793a78",
+                "6a2fcf5f.b8779",
+                "d91862fc.186ac"
+            ]
+        ]
+    },
+    {
+        "id": "10b82be8.af3a14",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1603.2655741373696,
+        "y": 1322.880231221517,
+        "wires": []
+    },
+    {
+        "id": "585a302e.f8fe2",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "save detail to master table",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1664.2655741373696,
+        "y": 1384.8802464803061,
+        "wires": []
+    },
+    {
+        "id": "eeeb889.e793a78",
+        "type": "change",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1618.2655741373696,
+        "y": 1431.8802464803061,
+        "wires": [
+            [
+                "123ac489.3e240b"
+            ]
+        ]
+    },
+    {
+        "id": "6a2fcf5f.b8779",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "var detail = msg.payload ;\nmsg.payload = {\n    query   : \"table:details AND to_page_id:\" + detail.page_id ,\n    sort    : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1622.2655741373696,
+        "y": 1489.8801701863608,
+        "wires": [
+            [
+                "4a3dad50.0cfca4"
+            ]
+        ]
+    },
+    {
+        "id": "d91862fc.186ac",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "var detail = msg.payload ;\nmsg.payload = {\n    query   : \"table:user_task AND page_id:\" + detail.to_page_id + \"user_id:\" + detail.user_id ,\n    sort    : \"_id<string>\"\n};\n\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1622.2655741373696,
+        "y": 1557.2136357625327,
+        "wires": [
+            [
+                "76572607.960a18"
+            ]
+        ]
+    },
+    {
+        "id": "76572607.960a18",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "msater_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1780.2655741373696,
+        "y": 1554.880200703939,
+        "wires": [
+            [
+                "9b15458d.7f0d98"
+            ]
+        ]
+    },
+    {
+        "id": "4a3dad50.0cfca4",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1781.9322509765625,
+        "y": 1490.546875,
+        "wires": [
+            [
+                "645e6746.f59ca8"
+            ]
+        ]
+    },
+    {
+        "id": "123ac489.3e240b",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1776.2655843098955,
+        "y": 1428.5468953450522,
+        "wires": []
+    },
+    {
+        "id": "645e6746.f59ca8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "init",
+        "func": "var filtered_details = msg.payload ;\n\nmsg.filtredArr = filtered_details || [] ;\nmsg.counter = 0;\nmsg.detail_length = filtered_details.length;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1944.2655843098955,
+        "y": 1489.546875,
+        "wires": [
+            [
+                "8a77c6aa.3bc948"
+            ]
+        ]
+    },
+    {
+        "id": "9b15458d.7f0d98",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "init",
+        "func": "var user_tasks = msg.payload ;\n\nmsg.calculated_task = user_tasks || [];\nmsg.user_task_length = msg.calculated_task.length ;\nmsg.counter = 0 ;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1943.2655741373696,
+        "y": 1554.5468877156577,
+        "wires": [
+            [
+                "916a3af6.52d878"
+            ]
+        ]
+    },
+    {
+        "id": "7e6032e9.a5fd8c",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "counter++",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2196.4323221842446,
+        "y": 1347.8802617390952,
+        "wires": [
+            [
+                "8a77c6aa.3bc948"
+            ]
+        ]
+    },
+    {
+        "id": "8a77c6aa.3bc948",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "detail_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2118.4323221842446,
+        "y": 1426.8802617390952,
+        "wires": [
+            [
+                "cb980983.a4a188"
+            ],
+            [
+                "4e8cb128.4756c"
+            ]
+        ]
+    },
+    {
+        "id": "cb980983.a4a188",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "msg.payload = msg.filtredArr[msg.counter];\nmsg.payload.display_if_empty = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2278.4323221842446,
+        "y": 1417.8802922566733,
+        "wires": [
+            [
+                "7e6032e9.a5fd8c",
+                "f1a67446.f82a78"
+            ]
+        ]
+    },
+    {
+        "id": "4e8cb128.4756c",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "Finish",
+        "func": "msg.payload = \"Update all child details as well.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2268.4323221842446,
+        "y": 1459.8802922566733,
+        "wires": [
+            [
+                "4cdfbc8e.00ca14"
+            ]
+        ]
+    },
+    {
+        "id": "66441bc4.713884",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "counter++",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2144.0990702311196,
+        "y": 1500.8802617390952,
+        "wires": [
+            [
+                "916a3af6.52d878"
+            ]
+        ]
+    },
+    {
+        "id": "916a3af6.52d878",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "user_task_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2083.0990702311196,
+        "y": 1552.8802617390952,
+        "wires": [
+            [
+                "28b99801.59c338"
+            ],
+            [
+                "d1dbaf6e.b1993"
+            ]
+        ]
+    },
+    {
+        "id": "28b99801.59c338",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "var user_task_obj = msg.calculated_task[msg.counter] ;\n\nuser_task_obj.status = 0   ;\nif(user_task_obj.count){\n    if(user_task_obj.count)    user_task_obj.count.active = 0 ;\n    if(user_task_obj.count)    user_task_obj.count.unread = 0 ;\n}\n\nmsg.payload = user_task_obj;\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2230.0990702311196,
+        "y": 1544.8802922566733,
+        "wires": [
+            [
+                "66441bc4.713884",
+                "d1123192.f8bc9"
+            ]
+        ]
+    },
+    {
+        "id": "d1dbaf6e.b1993",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "Finish",
+        "func": "msg.payload = \"User tasks updated successfully\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2224.0990702311196,
+        "y": 1589.8802617390952,
+        "wires": [
+            [
+                "da68b9e4.e66ba8"
+            ]
+        ]
+    },
+    {
+        "id": "da68b9e4.e66ba8",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2423.0990702311196,
+        "y": 1587.8802617390952,
+        "wires": []
+    },
+    {
+        "id": "d1123192.f8bc9",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "user_task",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 2414.0990702311196,
+        "y": 1543.8802617390952,
+        "wires": []
+    },
+    {
+        "id": "4cdfbc8e.00ca14",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2445.4323221842446,
+        "y": 1463.8802922566733,
+        "wires": []
+    },
+    {
+        "id": "f1a67446.f82a78",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "Update Detail",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 2463.4323221842446,
+        "y": 1385.8802617390952,
+        "wires": []
+    },
+    {
+        "id": "4a384ee1.48bc5",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Delete Records old flow  this is for only reference purpose... check latter",
+        "info": "",
+        "x": 321.2578125,
+        "y": 1072.0390482842927,
+        "wires": []
+    },
+    {
+        "id": "27582250.728d9e",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 149,
+        "y": 1799,
+        "wires": [
+            [
+                "24e6c2ab.1046ae"
+            ]
+        ]
+    },
+    {
+        "id": "24e6c2ab.1046ae",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate user",
+        "func": "if(isEmpty(msg.payload)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true , msg: \"Unable to find user with access_token\", data: null};\n}else{\n    msg.api_status      = \"API_SUCCESS\";\n    msg.filter_obj      = msg.payload_content.filter ;\n    msg.user_task_list  = msg.payload_content.user_task_list ;\n    msg.user            = msg.payload[0];\n}\nreturn msg;\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 338.015625,
+        "y": 1802.3828125,
+        "wires": [
+            [
+                "c21a6975.582b48"
+            ]
+        ]
+    },
+    {
+        "id": "c21a6975.582b48",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 498.015625,
+        "y": 1802.703125,
+        "wires": [
+            [
+                "2dd4d4e3.b8dbdc"
+            ],
+            [
+                "b7c124b.484a0d8"
+            ]
+        ]
+    },
+    {
+        "id": "2dd4d4e3.b8dbdc",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 624.515625,
+        "y": 1782.1875,
+        "wires": []
+    },
+    {
+        "id": "b7c124b.484a0d8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "var filter          = msg.filter_obj ,\n    user_task_list  = msg.user_task_list ;\n    user            = msg.user ;\n    \n    msg.payload = {\n        selector    : create_selector(filter),\n        query       : create_filtred_query(user._id, filter)\n    };    \n    node.warn(msg.payload);\nreturn msg;\n\nfunction create_selector(filter){\n    var obj = {};\n    if(\"synchronized\" in filter){\n        if(parseInt(filter.synchronized) === 0){\n            obj.synchronized = {\n               \"$ne\" : 1\n            };\n            delete filter.synchronized ;\n        }\n    }\n    \n    if(\"status\" in filter){\n        if(parseInt(filter.status) === 0){\n            obj.status = {\n               \"$ne\" : 1\n            };\n            delete filter.status ;\n        }\n    }\n    return obj ;\n}\n\nfunction create_filtred_query(user_id, filter_obj){\n    var filter_string = \"\";\n    if(obj_length(filter_obj) > 0){\n\n        if(!(\"user_id\" in filter_obj)){\n            filter_string = create_query(filter_obj) + \" user_id:\" + user_id;\n        }\n\n        if((\"user_id\" in filter_obj)){\n            filter_string = create_query(filter_obj);\n        }\n\n    }else{\n        filter_string = \"user_id:\" + user_id  ;\n    }\n    return filter_string;\n}\n\nfunction check_obj_count(obj){\n    var length = Object.keys(obj).length ;\n    \n    if( (\"user_id\" in obj) ){\n        length = length - 1 ;\n    }\n    \n    return length;\n}\n\nfunction create_query(obj){\n    var length = check_obj_count(obj),\n        counter = 0,\n        string = \"\";\n\n    for(var key in obj){\n        if(counter < length){\n            string += key + \":\" + obj[key] + \" AND \";    \n        }else{\n            string += key + \":\" + obj[key] ;\n        }\n        counter++ ;\n    }\n    return string;    \n}\n\nfunction obj_length(obj){\n    return Object.keys(obj).length ;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 631.5000448822962,
+        "y": 1840.8906368464227,
+        "wires": [
+            [
+                "e63f5c36.1b918",
+                "eaad3e71.213df"
+            ]
+        ]
+    },
+    {
+        "id": "e63f5c36.1b918",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 824.5000448822962,
+        "y": 1806.7890743464227,
+        "wires": []
+    },
+    {
+        "id": "eaad3e71.213df",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 825.5,
+        "y": 1877.4921875,
+        "wires": [
+            [
+                "713f5100.31481",
+                "69cf1450.119e7c"
+            ]
+        ]
+    },
+    {
+        "id": "713f5100.31481",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "msg.filtred_user_task_list = msg.payload ;\nmsg.payload = {\n    query : \"table:user_task\",\n    sort  : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 995.0000099688764,
+        "y": 1875.8984446078537,
+        "wires": [
+            [
+                "8402ad22.266e7"
+            ]
+        ]
+    },
+    {
+        "id": "69cf1450.119e7c",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1006.0156698822962,
+        "y": 1930.7812618464227,
+        "wires": []
+    },
+    {
+        "id": "8402ad22.266e7",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1185.0000448822962,
+        "y": 1889.0000118464227,
+        "wires": [
+            [
+                "200ed7d6.de5db8"
+            ]
+        ]
+    },
+    {
+        "id": "200ed7d6.de5db8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "populate",
+        "func": "\nmsg.updated_content = return_user_task_filtred_arr(msg.user_task_list, msg.payload) ;\nmsg.updated_content_length = msg.updated_content.length;\nmsg.res_user_task = [];\nmsg.counter = 0 ;\nmsg.api_response = {status : 200, error: false, msg: \"Record updated successfully\", data: msg.res_user_task, filtred: msg.filtred_user_task_list};\nreturn msg;\n\n\nfunction return_user_task_filtred_arr(req_user_task_list, user_tasks_list){\n    var selected_arr = [];\n    if(\n        user_tasks_list !== undefined && \n        user_tasks_list !== null &&\n        req_user_task_list !== undefined &&\n        req_user_task_list !== null \n    ){\n        for(var i=0; i< req_user_task_list.length; i++){\n            for(j =0; j<user_tasks_list.length; j++){\n                if(\n                    req_user_task_list[i].user_id == user_tasks_list[j].user_id &&\n                    req_user_task_list[i].task_id == user_tasks_list[j].task_id &&\n                    req_user_task_list[i].page_id == user_tasks_list[j].page_id \n                ){\n                  \n                  \n                    user_tasks_list[j].synchronized = req_user_task_list[i].synchronized ;\n                    user_tasks_list[j].status = req_user_task_list[i].status;\n                    user_tasks_list[j].date_updated = req_user_task_list[i].date_updated;\n                    user_tasks_list[j].count = req_user_task_list[i].count;\n                    selected_arr.push(user_tasks_list[j]);\n                }\n            }\n        }    \n        \n        return selected_arr;\n    }else{\n        return selected_arr ;\n    }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1343.0000448822962,
+        "y": 1890.3984493464227,
+        "wires": [
+            [
+                "176eb4.c8a4b14c"
+            ]
+        ]
+    },
+    {
+        "id": "176eb4.c8a4b14c",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "updated_content_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1512.7656698822962,
+        "y": 1875.7500118464227,
+        "wires": [
+            [
+                "381525b1.e82e9a"
+            ],
+            [
+                "863308b0.32b6f8"
+            ]
+        ]
+    },
+    {
+        "id": "177d3f8a.b2fa4",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "counter",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1613.7656698822962,
+        "y": 1817.7500118464227,
+        "wires": [
+            [
+                "176eb4.c8a4b14c"
+            ]
+        ]
+    },
+    {
+        "id": "381525b1.e82e9a",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "func": "    var counter = msg.counter ;\n    msg.payload = msg.updated_content[counter];\n    msg.res_user_task.push(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1702.7656698822962,
+        "y": 1864.7500118464227,
+        "wires": [
+            [
+                "bc638e37.2cc24",
+                "177d3f8a.b2fa4"
+            ]
+        ]
+    },
+    {
+        "id": "bc638e37.2cc24",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1894.7734823822962,
+        "y": 1897.2734493464227,
+        "wires": []
+    },
+    {
+        "id": "5ea52549.22d8dc",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1874.7734823822962,
+        "y": 1952.2734493464227,
+        "wires": []
+    },
+    {
+        "id": "863308b0.32b6f8",
+        "type": "change",
+        "z": "a35e95d3.4f79f8",
+        "name": "api_res",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1693.7734823822962,
+        "y": 1954.2734493464227,
+        "wires": [
+            [
+                "5ea52549.22d8dc"
+            ]
+        ]
+    },
+    {
+        "id": "3f7c61b4.51a60e",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "update_get_user_tasks",
+        "func": "node.warn(msg.payload_content);\nmsg.payload = {\n    query : \"table:users AND access_token:\" + msg.payload_content.access_token ,\n    sort  : \"_id<string>\"\n};\n\nnode.warn(msg.payload);\nreturn msg ;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 176.33334350585938,
+        "y": 1741,
+        "wires": [
+            [
+                "27582250.728d9e"
+            ]
+        ]
+    },
+    {
+        "id": "abbb9024.4ca85",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Workign examples for updated_get_user_tasks",
+        "info": "",
+        "x": 253.1666717529297,
+        "y": 1675.333371480306,
+        "wires": []
+    },
+    {
+        "id": "d4d803af.d9c42",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_task",
+        "func": "var params = msg.payload_content ;\n\nif(isEmpty(params.access_token)){\n    msg.api_status  = \"API_ERROR\";\n    msg.payload     = {status:400, error: true,  msg: \"`access_token` is required\", data: null};\n}else if(isEmpty(params.task_id)){\n    msg.api_status  = \"API_ERROR\";\n    msg.payload     = {status:400, error: true,  msg: \"`task_id` is required\", data: null};\n}else{\n    msg.api_status  = \"API_SUCCESS\";\n    msg.payload      = {\n        query : \"table:task_table AND _id:\"+ params.task_id,\n        sort  : \"_id<string>\"\n    };\n    msg.user_payload = {\n        query : \"table:users AND access_token:\"+ params.access_token,\n        sort  : \"_id<string>\"\n    };\n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 144.66665649414062,
+        "y": 2144.33349609375,
+        "wires": [
+            [
+                "d281dffd.2baed"
+            ]
+        ]
+    },
+    {
+        "id": "d281dffd.2baed",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 335.1666564941406,
+        "y": 2137.52099609375,
+        "wires": [
+            [
+                "768a3b12.83bf24"
+            ],
+            [
+                "f59f79a0.eba5b8"
+            ]
+        ]
+    },
+    {
+        "id": "768a3b12.83bf24",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 512.1549232900145,
+        "y": 2056.7514426745474,
+        "wires": []
+    },
+    {
+        "id": "bab8b5f3.d705f8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate task",
+        "func": "var task_obj = msg.payload ;\n\nif(isEmpty(task_obj)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"Unable to find task with `task_id`\", data: null};\n}else{\n    msg.api_status = \"API_SUCCESS\";\n    msg.task_obj   = task_obj[0];\n    msg.payload    = msg.user_payload ;\n}\n\nreturn msg;\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 701.1666564941406,
+        "y": 2196.591293334961,
+        "wires": [
+            [
+                "ebb674e1.618798"
+            ]
+        ]
+    },
+    {
+        "id": "f59f79a0.eba5b8",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 536.6588439941406,
+        "y": 2142.399887084961,
+        "wires": [
+            [
+                "bab8b5f3.d705f8"
+            ]
+        ]
+    },
+    {
+        "id": "ebb674e1.618798",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 864.9088233001532,
+        "y": 2195.2670676745474,
+        "wires": [
+            [
+                "5daf80cb.3c64e"
+            ],
+            [
+                "3469ff7b.30bdd"
+            ]
+        ]
+    },
+    {
+        "id": "5daf80cb.3c64e",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1004.9088439941406,
+        "y": 2154.251449584961,
+        "wires": []
+    },
+    {
+        "id": "3469ff7b.30bdd",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 1024.5260314941406,
+        "y": 2222.345199584961,
+        "wires": [
+            [
+                "60120015.1ac7d"
+            ]
+        ]
+    },
+    {
+        "id": "d514f1cb.f49c",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "formatted_user",
+        "func": "msg.payload = {\n    query: \"table:users\",\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 195.52603149414062,
+        "y": 2254.6785736083984,
+        "wires": [
+            [
+                "a2de0fbf.4dce"
+            ]
+        ]
+    },
+    {
+        "id": "bd0f0c10.47bf4",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "formatted_timeout",
+        "func": "msg.payload = {\n    query: \"table:timeout\",\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 202.52603149414062,
+        "y": 2309.6785736083984,
+        "wires": [
+            [
+                "b0c3a762.714008"
+            ]
+        ]
+    },
+    {
+        "id": "164ea165.fa154f",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "formatted_location",
+        "func": "msg.payload = {\n    query: \"table:location\",\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 202.52603149414062,
+        "y": 2362.6785736083984,
+        "wires": [
+            [
+                "32f369b9.0462d6"
+            ]
+        ]
+    },
+    {
+        "id": "9a1d4f7f.cf1a8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "formatted_task",
+        "func": "msg.payload = {\n    query: \"table:task_table\",\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 191.52603149414062,
+        "y": 2412.6785736083984,
+        "wires": [
+            [
+                "2e8dad28.6edec2"
+            ]
+        ]
+    },
+    {
+        "id": "2e8dad28.6edec2",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 408.5260314941406,
+        "y": 2409.6785736083984,
+        "wires": [
+            [
+                "3bc0b2fe.375bfe"
+            ]
+        ]
+    },
+    {
+        "id": "32f369b9.0462d6",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 408.5260314941406,
+        "y": 2361.6785736083984,
+        "wires": [
+            [
+                "e2013cde.02abd"
+            ]
+        ]
+    },
+    {
+        "id": "b0c3a762.714008",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 406.5260314941406,
+        "y": 2315.6785736083984,
+        "wires": [
+            [
+                "23220fd3.dee81"
+            ]
+        ]
+    },
+    {
+        "id": "a2de0fbf.4dce",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 403.5260314941406,
+        "y": 2260.6785736083984,
+        "wires": [
+            [
+                "d2a5b1bf.3bcf7"
+            ]
+        ]
+    },
+    {
+        "id": "d2a5b1bf.3bcf7",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "response",
+        "func": "var users   = msg.payload , updated_user = [];\n\nif(users === null || users === undefined){\n    msg.payload = {status: 400, error: true, msg: \"Validation error\", data: []};\n}else if(!users.length){\n    msg.payload = {status: 200, error: false, msg: \"No record found\", data: users};\n}else{\n    for(var i=0; i< users.length; i++){\n        updated_user.push({id : users[i]._id, name: generate_name(users[i]) || 'N/A'});\n    }\n    msg.payload = {status: 200, error: false, msg: \"Record fetched successfully\", data: updated_user};\n}\n\nreturn msg;\n\nfunction generate_name(obj){\n    return (obj.firstname + \" \" + obj.lastname).trim();\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 602.5260314941406,
+        "y": 2259.6785736083984,
+        "wires": [
+            [
+                "d52254c9.2072a8"
+            ]
+        ]
+    },
+    {
+        "id": "23220fd3.dee81",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "response",
+        "func": "var timeout   = msg.payload , updated_timeout = [];\n\nif(timeout === null || timeout === undefined){\n    msg.payload = {status: 400, error: true, msg: \"Validation error\", data: []};\n}else if(!timeout.length){\n    msg.payload = {status: 200, error: false, msg: \"No record found\", data: timeout};\n}else{\n    for(var i=0; i< timeout.length; i++){\n        updated_timeout.push({id : timeout[i]._id, name: timeout[i].name || 'N/A'});\n    }\n    msg.payload = {status: 200, error: false, msg: \"Record fetched successfully\", data: updated_timeout};\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 602.5260314941406,
+        "y": 2312.6785736083984,
+        "wires": [
+            [
+                "e3c68472.575f88"
+            ]
+        ]
+    },
+    {
+        "id": "e2013cde.02abd",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "response",
+        "func": "var location   = msg.payload , updated_location = [];\n\nif(location === null || location === undefined){\n    msg.payload = {status: 400, error: true, msg: \"Validation error\", data: []};\n}else if(!location.length){\n    msg.payload = {status: 200, error: false, msg: \"No record found\", data: location};\n}else{\n    for(var i=0; i< location.length; i++){\n        updated_location.push({id : location[i]._id, name: location[i].location_name || 'N/A'});\n    }\n    msg.payload = {status: 200, error: false, msg: \"Record fetched successfully\", data: updated_location};\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 599.5260314941406,
+        "y": 2359.6785736083984,
+        "wires": [
+            [
+                "b0e471fd.0234"
+            ]
+        ]
+    },
+    {
+        "id": "3bc0b2fe.375bfe",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "response",
+        "func": "var tasks_arr = msg.payload , obj = {} ;\n\nif(tasks_arr === null || tasks_arr === undefined){\n    obj.status = 400 ;\n    obj.error  = true ;\n    obj.msg    = \"Unable to get the tasks\";\n    msg.paylod = obj ;\n}else{\n    if(tasks_arr.length){\n        var tasks = [];\n        for(var i=0; i < tasks_arr.length; i++){\n            tasks.push({\n                id           : tasks_arr[i]._id,\n                task_name    : tasks_arr[i].task_name || \"N/A\"     \n            });\n        }\n        obj.status = 200 ;\n        obj.error  = false ;\n        obj.msg    = \"Record fecthed successfully\";\n        obj.data   = tasks ;\n        msg.payload = obj ;\n    }else{\n        obj.status = 200 ;\n        obj.error  = false ;\n        obj.msg    = \"There is not task present\";\n        msg.paylod = obj ;\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 604.5260314941406,
+        "y": 2409.6785736083984,
+        "wires": [
+            [
+                "f1a493cb.58877"
+            ]
+        ]
+    },
+    {
+        "id": "f1a493cb.58877",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 786.5260314941406,
+        "y": 2407.6785736083984,
+        "wires": []
+    },
+    {
+        "id": "b0e471fd.0234",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 782.5260314941406,
+        "y": 2360.6785736083984,
+        "wires": []
+    },
+    {
+        "id": "e3c68472.575f88",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 782.5260314941406,
+        "y": 2310.6785736083984,
+        "wires": []
+    },
+    {
+        "id": "d52254c9.2072a8",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 783.5260314941406,
+        "y": 2257.6785736083984,
+        "wires": []
+    },
+    {
+        "id": "771df157.950d7",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 591.6927795410156,
+        "y": 2505.011947631836,
+        "wires": []
+    },
+    {
+        "id": "11c42f25.e3acd1",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_all_templates",
+        "func": "msg.payload = {\n    query: \"table:template\",\n    sort : \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 193.69270833333348,
+        "y": 2509.3452377319336,
+        "wires": [
+            [
+                "8c020fec.32453"
+            ]
+        ]
+    },
+    {
+        "id": "8c020fec.32453",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 414.6926574707031,
+        "y": 2507.3453216552734,
+        "wires": [
+            [
+                "771df157.950d7"
+            ]
+        ]
+    },
+    {
+        "id": "60120015.1ac7d",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate user",
+        "func": "var user_obj = msg.payload ;\n\nif(isEmpty(user_obj)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"Unable to find user with `access_token`\", data: null};\n}else{\n    msg.api_status = \"API_SUCCESS\";\n    msg.payload = {status: 200, error: false, msg: \"Record fetched successfully\", data: msg.task_obj};\n}\n\n\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1197.9010314941406,
+        "y": 2253.837387084961,
+        "wires": [
+            [
+                "6f7cad47.422774"
+            ]
+        ]
+    },
+    {
+        "id": "6f7cad47.422774",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1355.9010314941406,
+        "y": 2259.759262084961,
+        "wires": [
+            [
+                "c79894c3.f330f8"
+            ],
+            [
+                "c79894c3.f330f8"
+            ]
+        ]
+    },
+    {
+        "id": "c79894c3.f330f8",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1547.9127502441406,
+        "y": 2257.25146484375,
+        "wires": []
+    },
+    {
+        "id": "ca803de8.82ae6",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Reapted Api endpoint to update particular task_table info",
+        "info": "",
+        "x": 286.8333435058594,
+        "y": 1992.0000178019206,
+        "wires": []
+    },
+    {
+        "id": "d9dd2b5.cb3f5d8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "update_get_pages",
+        "func": "var params = msg.payload_content ;\n\nif(isEmpty(params.access_token)){\n    msg.api_status    = \"API_ERROR\";\n    msg.payload       = {status: 400, error: true, msg: \"`access_token` is required to get_page.\", data: null};\n}else{\n    msg.api_status    = \"API_SUCCESS\";\n    msg.payload       = {\n        query   : \"table:users AND access_token:\" + params.access_token ,\n        sort    : \"_id<string>\"\n    };\n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 127.66665649414062,
+        "y": 2767.33349609375,
+        "wires": [
+            [
+                "92b38fc2.3708"
+            ]
+        ]
+    },
+    {
+        "id": "92b38fc2.3708",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 318.0000305175781,
+        "y": 2718.0002059936523,
+        "wires": [
+            [
+                "73eda7b1.f82868"
+            ],
+            [
+                "374c6459.763c0c"
+            ]
+        ]
+    },
+    {
+        "id": "374c6459.763c0c",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 485.3331604003906,
+        "y": 2752.3334579467773,
+        "wires": [
+            [
+                "5744ef65.7ed2a"
+            ]
+        ]
+    },
+    {
+        "id": "5744ef65.7ed2a",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "validate user",
+        "func": "if(isEmpty(msg.payload)){\n    msg.api_status  = \"API_ERROR\";\n    msg.payload     = {status: 400, error: true, msg: \"Unable to fetch user with this `access_token`\", data:null};\n}else{\n    msg.api_status  = \"API_SUCCESS\";\n    msg.user_obj    = msg.payload[0] ;\n    msg.payload     = {\n        selector    : {\n            synchronized : {\n                $eq : 0\n            }\n        },\n        query       : \"table:user_task AND user_id:\" + msg.user_obj._id ,\n        sort        : \"_id<string>\" \n    };\n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 673.3331604003906,
+        "y": 2752.000198364258,
+        "wires": [
+            [
+                "6df6df9c.41a06"
+            ]
+        ]
+    },
+    {
+        "id": "6df6df9c.41a06",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 827.6665344238281,
+        "y": 2752.0001373291016,
+        "wires": [
+            [
+                "dceac883.3e6748"
+            ],
+            [
+                "28dd4f85.72d67"
+            ]
+        ]
+    },
+    {
+        "id": "dceac883.3e6748",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 948.6666564941406,
+        "y": 2716.333511352539,
+        "wires": []
+    },
+    {
+        "id": "28dd4f85.72d67",
+        "type": "cloudant in",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 971.3331604003906,
+        "y": 2784.333511352539,
+        "wires": [
+            [
+                "89cd6387.39ee7"
+            ]
+        ]
+    },
+    {
+        "id": "89cd6387.39ee7",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "user_task",
+        "func": "var users_task = msg.payload ,\n    req_body   = msg.payload_content ;\n\nvar filtred_user_task = get_filter_user_task(users_task);\nmsg.filtred_user_task_length = filtred_user_task.length;\nmsg.counter = 0 ;\nmsg.page_list = [];\nmsg.filtred_payload = filtred_user_task ;\nmsg.payload = {status: 200, data:null};\nreturn msg;\n\nfunction get_req_user_task(user_task){\n    try{\n        return JSON.parse(user_task);\n    }catch(e){\n        return {} ;\n    }\n}\n\nfunction check_obj(obj){\n    return Object.keys(obj).length ;\n}\n\nfunction get_filter_user_task(user_task){\n    var result = [];\n    if(!isEmpty(user_task)){\n        for(var itr = 0; itr < user_task.length; itr++){\n            if(user_task[itr].synchronized === 0){\n                result.push(user_task[itr]);\n            }   \n        }\n    }\n    return result ;\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1135.9998779296875,
+        "y": 2784.000129699707,
+        "wires": [
+            [
+                "3697c09f.d9bd3"
+            ]
+        ]
+    },
+    {
+        "id": "3697c09f.d9bd3",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "filtred_user_task_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1314.1665344238281,
+        "y": 2785.0001220703125,
+        "wires": [
+            [
+                "920491d3.eb46f"
+            ],
+            [
+                "76a6a51c.1da2dc"
+            ]
+        ]
+    },
+    {
+        "id": "920491d3.eb46f",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "create_url",
+        "func": "msg.url = msg.req.headers.host + '/master_api_handler?type=get_page&content={\"access_token\":\"' + msg.payload_content.access_token + '\", \"page_id\":' + msg.filtred_payload[msg.counter].page_id + '}';\nmsg.method  = \"GET\";\nnode.warn(msg.url);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1470.6743469238281,
+        "y": 2781.5235595703125,
+        "wires": [
+            [
+                "d6ac9b76.903ad8"
+            ]
+        ]
+    },
+    {
+        "id": "1eafd07d.b0dec",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "counter++",
+        "func": "msg.counter++ ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1543.1665344238281,
+        "y": 2708.0001220703125,
+        "wires": [
+            [
+                "3697c09f.d9bd3"
+            ]
+        ]
+    },
+    {
+        "id": "d6ac9b76.903ad8",
+        "type": "http request",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 1642.6743469238281,
+        "y": 2785.5235595703125,
+        "wires": [
+            [
+                "737c4f71.55406"
+            ]
+        ]
+    },
+    {
+        "id": "737c4f71.55406",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "api_res",
+        "func": "msg.page_list.push(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1806.1665344238281,
+        "y": 2790.0001220703125,
+        "wires": [
+            [
+                "1eafd07d.b0dec"
+            ]
+        ]
+    },
+    {
+        "id": "7a18fc40.dc34d4",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1598.4087219238281,
+        "y": 2846.9610595703125,
+        "wires": []
+    },
+    {
+        "id": "76a6a51c.1da2dc",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "res",
+        "func": "if(msg.page_list.length){\n    msg.payload = {\n        status : 200,\n        error  : false ,\n        msg    : \"Record fecthed successfully\" ,\n        data   : msg.page_list \n    };\n    return msg;    \n}else{\n    msg.payload = {\n        status : 204,\n        error  : false ,\n        msg    : \"No record with current request\" ,\n        data   : null\n    };\n    return msg;    \n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1457.9087219238281,
+        "y": 2850.1641845703125,
+        "wires": [
+            [
+                "7a18fc40.dc34d4"
+            ]
+        ]
+    },
+    {
+        "id": "73eda7b1.f82868",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 467.6666564941406,
+        "y": 2686,
+        "wires": []
+    },
+    {
+        "id": "771c1033.a7ba8",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "Updated_get_pages api endpoint",
+        "info": "",
+        "x": 165.8333282470703,
+        "y": 2662.666748046875,
+        "wires": []
+    },
+    {
+        "id": "1233f5ae.b7f3fa",
+        "type": "inject",
+        "z": "a35e95d3.4f79f8",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 103.83332824707031,
+        "y": 908.3333409627279,
+        "wires": [
+            [
+                "97a8d9aa.b30298"
+            ]
+        ]
+    },
+    {
+        "id": "97a8d9aa.b30298",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "func": "node.log(\"This node is used to log info\", \"john macathy\");\nnode.warn(\"This is used for Warning messages\");\nnode.error(\"This is used to show error messages\");\nmsg.payload = \"Final output.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 264.8333435058594,
+        "y": 907.6666844685873,
+        "wires": [
+            [
+                "12376bc4.d80914"
+            ]
+        ]
+    },
+    {
+        "id": "12376bc4.d80914",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "payload",
+        "x": 434.8333435058594,
+        "y": 908.6666844685873,
+        "wires": []
+    },
+    {
+        "id": "41f6d315.284eac",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page",
+        "func": "var params = msg.payload_content ;\nif(isEmpty(params.access_token)){\n    msg.api_status    = \"API_ERROR\";\n    msg.payload       = {status: 400, error: true, msg: \"`access_token` is required to get_page.\", data: null};\n}else if(isEmpty(params.page_id)){\n    msg.api_status    = \"API_ERROR\";\n    msg.payload       = {status: 400, error: true, msg: \"`page_id` is required to get_page.\", data: null};\n}else{\n    msg.api_status    = \"API_SUCCESS\";\n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 82.66667175292969,
+        "y": 2991.3334312438965,
+        "wires": [
+            [
+                "8df59faa.2db1d"
+            ]
+        ]
+    },
+    {
+        "id": "e3c921b6.2d7ae",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page endpoint (working endpoint plz do not delete)",
+        "info": "",
+        "x": 218.83335876464844,
+        "y": 2930.826946258545,
+        "wires": []
+    },
+    {
+        "id": "8df59faa.2db1d",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 252.66282653808594,
+        "y": 2990.2629404067993,
+        "wires": [
+            [
+                "1208319.200eece"
+            ],
+            [
+                "f3b8c901.7aa0e8"
+            ]
+        ]
+    },
+    {
+        "id": "1208319.200eece",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 394.6744842529297,
+        "y": 2960.493416786194,
+        "wires": []
+    },
+    {
+        "id": "f3b8c901.7aa0e8",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "url",
+        "func": "var access_token = msg.payload_content.access_token ,\n    page_id      = msg.payload_content.page_id ;\n\nif(isEmpty(page_id)){\n    msg.API_STATUS = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`page_id` is missing.\", data: null};\n}else if(isEmpty(access_token)){\n    msg.API_STATUS = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`access_token` is missing.\", data: null};\n}else{\n    msg.method = \"GET\";\n    msg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_page?include_docs=true\";\n    msg.API_STATUS = \"API_SUCCESS\";\n    msg.req_data = msg.payload;    \n}\n\n\nreturn msg;\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 391.2838592529297,
+        "y": 3025.344979286194,
+        "wires": [
+            [
+                "aa7190ec.ef92e"
+            ]
+        ]
+    },
+    {
+        "id": "aa7190ec.ef92e",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "API_STATUS",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "API_SUCCESS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 527.4505462646484,
+        "y": 3025.344994544983,
+        "wires": [
+            [
+                "4d3a8f6b.41c2e"
+            ],
+            [
+                "406ebbbb.20da84"
+            ]
+        ]
+    },
+    {
+        "id": "4d3a8f6b.41c2e",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 654.2837677001953,
+        "y": 3018.344979286194,
+        "wires": []
+    },
+    {
+        "id": "406ebbbb.20da84",
+        "type": "http request",
+        "z": "a35e95d3.4f79f8",
+        "name": "Get_page_view",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 685.2837371826172,
+        "y": 3077.290291786194,
+        "wires": [
+            [
+                "849d12d9.9e1da"
+            ]
+        ]
+    },
+    {
+        "id": "849d12d9.9e1da",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "format",
+        "func": "var db_records   = msg.payload ;\n    access_token = msg.payload_content.access_token ;\n    page_id      = msg.payload_content.page_id ;\n    \nif(isEmpty(db_records)){\n    msg.payload = {status: 400, error: false, msg: \"No Record found.\", data: null};\n}else{\n    if(isEmpty(db_records.rows)){\n        msg.payload = {status: 400, error: false, msg: \"No Record found.\", data: null};   \n    }else{\n        var db_obj          =  format_db_records(db_records.rows),\n            user_obj        =  populate_user(access_token, db_obj.users);\n            \n            if(isEmpty(user_obj)){\n                page_id = 1 ;\n            }else{\n                if(!user_obj.security_level){\n                    page_id = 11 ;\n                }\n            }\n            \n            var task_obj    =  populate_taskobj(page_id, db_obj.tasks),\n            details         =  populate_details(task_obj._id, db_obj.details),\n            prepare_task    =  formulate_task(task_obj, db_obj),\n            prepare_details =  formulate_details(details);  \n        \n        msg.updated_user_task = null ;\n        msg.payload = {\n            page_id :  page_id,\n            user    :  user_obj || {},\n            task    :  prepare_task,\n            detail  :  getpage(prepare_details)\n    \t};\n    } \n}\n\nreturn msg;\n\nfunction getpage(details){\n    var result = get_page_array(details) ,\n        detail = result.detail_array ;\n \n    if(detail.length){\n        return detail ;\n    }else{\n        return [] ;\n    }\n}\n\nfunction get_page_array(detail_array){\n    \n    for(var itr = 0 ; itr < detail_array.length; itr++){\n        var count = {} , current_count_active = 0, current_count_unread = 0, active = 0, unread = 0;\n        \n        if(detail_array[itr].to_page_id){\n            count = get_sub_child_count(detail_array[itr].to_page_id);\n            \n            if(check_obj(count) > 0){\n                current_count_active = count.active ;\n                current_count_unread = count.unread ;\n                \n                if(!isEmpty(user_obj)){\n                    update_user_task_record({user_id: user_obj.user_id, task_id: task_obj._id, synch : 0, count: count}, false);    \n                } \n            }\n        }else{\n            current_count_active = detail_array[itr].count.active ;\n            current_count_unread = detail_array[itr].count.unread ;\n        }\n        active = active + current_count_active ;\n        unread = unread + current_count_unread ;\n        \n        if(detail_array[itr].count){\n            detail_array[itr].count.active = active ;\n            detail_array[itr].count.unread = unread ;\n        }\n    }\n\n    return {\n        detail_array :   detail_array,\n    };\n}\n\nfunction update_user_task_record(obj, update_parent){\n    var user_task_obj = return_user_task_obj(obj.user_id, obj.task_id),\n        create_user_task_flag = true, ancestors_array= [];\n    \n    if (check_obj(user_task_obj) > 0){\n    \tif (user_task_obj.user_id == obj.user_id){\n    \t    create_user_task_flag = false ;// if one already exists then don’t create again    \n    \t} \n    \t\n    \tuser_task_obj.synchronized          = obj.synch ;\n        user_task_obj.date_updated          = new Date().toJSON();\n\n        if(!user_task_obj.update_read){\n            if( user_task_obj.count_status.unread  && !user_task_obj.count_if.unread ){\n                user_task_obj.count.unread += 1 ;  \n            }\n        }\n    \n        if(!user_task_obj.update_active){\n            if( user_task_obj.count_status.active && user_task_obj.count_if.active){\n                user_task_obj.count.active += 1 ;  \n            }\n        }\n    \n        if(user_task_obj.parent_id && update_parent) update_user_task_record({user_id: user_task_obj.user_id, task_id: user_task_obj.parent_id, synch:0, count: {active:0, unread:0}}, false );\n        \n        user_task_obj.update_read   = 1 ;\n        user_task_obj.update_active = 1 ;\n        \n        \n    }\n\n    if ( create_user_task_flag ) {\n        \n        if(task_obj.parent_id){\n            var if_user_task = return_user_task_obj(obj.user_id, task_obj.parent_id);\n           \n            if(check_obj(if_user_task) > 0){\n                ancestors_array = if_user_task.ancestors ;    \n\n                if( !if_exists_in_arr(task_obj.parent_id, ancestors_array) ) {\n                    ancestors_array.push(task_obj.parent_id);\n                }\n            }else{\n                \n                if( !if_exists_in_arr(task_obj.parent_id, ancestors_array) ) ancestors_array.push(task_obj.parent_id);\n            }\n        }\n        \n        msg.updated_user_task = {\n            table           : \"user_task\",\n        \ttask_id \t\t: obj.task_id,\n        \tuser_id\t\t\t: obj.user_id,\n        \tpage_id         : parseInt(page_id),\n        \tupdate_read     : 0,\n        \tupdate_active   : 0, \n        \tsynchronized    : 1,\n            status          : 0, \n        \tdate_updated\t: null,\t\n        \tparent_id\t\t: obj.task_id,\n        \tancestors       : ancestors_array, \n        \tcount_status\t: {\n        \t   active       : 1,\n        \t   unread       : 1,\n        \t},\n        \tcount\t\t\t: {\n        \t    active      : 1,\n        \t    unread      : 1,\n        \t},\n        \tcount_if\t\t: {\n        \t    active      : 1,\n        \t    unread      : 1\n        \t},\n        \ttemplates\t\t: {},\n        \ttimeout\t\t\t: {},\n        \tcreatedAt       : new Date().getTime()\n        };\n    }else{\n        msg.updated_user_task = user_task_obj ;\n    }\n}\n\nfunction return_user_task_obj(user_id, task_id){\n    var obj = {}, user_task_arr = db_obj.user_tasks ;\n    if(user_task_arr !== null && user_task_arr !== undefined){\n        for(var i=0; i< user_task_arr.length; i++){\n            if(\n                user_task_arr[i].user_id        == user_id &&\n                user_task_arr[i].task_id        == task_id \n            ){\n                    obj = user_task_arr[i];\n            }\n        }\n    }\n    return obj ;\n}\n\n\nfunction get_sub_child_count(to_page_id){\n    var count = {active:0, unread: 0}, details = db_obj.details;\n    \n    for(var itr = 0; itr < details.length; itr++){\n        if(to_page_id == details[itr].page_id){\n            if(details[itr].count_status){\n                count.active += details[itr].count_status.active ;\n                count.unread += details[itr].count_status.unread ;\n            }\n        }\n    }\n    return count;\n}\n\nfunction formulate_details(detail_data){\n    var detailRecord = {\n        \"_id\": \t\"\",\n        \"image\":\t\t\"\",\n        \"to_page_id\": \t\"\",\n        \"user_id\": \t\t\"\",\n        \"task_id\":      \"\",\n        \"page_id\":      \"\",\n        \"from_user_id\": \"\",\n        \"display_if_empty\": \"\",\n    \t\"user_incoming\":{},\n        \"watson_incoming\":{},\n        \"type\":         {},\n        \"date_created\": \"\",\n        \"from_user\":    {},\n        \"count\":{\"active\":0, \"unread\":0}\n    }, detailObj= [] ;\n  \n    if(detail_data.length){\n        if(!isEmpty(user_obj)){\n            for(var d=0; d<detail_data.length; d++){\n                \n                if(user_obj.user_id === detail_data[d].user_id){\n                    //when user owns detail record\n                    detailObj.push( get_obj_data(detailRecord, detail_data[d]) );\n                }else{\n                    //when user doesn't own record\n                    if(check_isDisplay(detail_data[d].display_if_empty)){\n                        detailObj.push( get_obj_data(detailRecord, detail_data[d]) );\n                    }else{\n                        detail_data.splice(d, 0);\n                    }\n                }\n            }\n           \n            detailObj = removeEmptyArrayElements(detailObj);         \n        }else{\n            //when we don't have any user info while using access_token\n            for(var k=0; k<detail_data.length; k++){\n                if(check_isDisplay(detail_data[k].display_if_empty)){\n                    detailObj.push( get_obj_data(detailRecord, detail_data[k]) );\n                }else{\n                    var find_any_child = populate_child_detail(db_obj.details, detail_data[k].to_page_id);\n                    if(find_any_child.length){\n                        detailObj.push( get_obj_data(detailRecord, detail_data[k]) );\n                    }else{\n                        detail_data.splice(k, 0);\n                    }\n                }\n            }\n            detailObj = removeEmptyArrayElements(detailObj);         \n        }\n    }\n    \n    return detailObj;\n}\n\nfunction populate_child_detail(details, to_page_id){\n    var arr = [];\n    for(var i=0; i<details.length; i++){\n        if( details[i].page_id === to_page_id ){\n            arr.push(details[i]);\n        }\n    }\n    return arr;\n}\n\nfunction formulate_task(task_obj, db_data){\n    var template_data       = db_data.templates ,\n    task_data               = task_obj,\n    templateObj             = {},\n    header_template_id      = task_data.header_template_id,\n    detail_template_id      = task_data.detail_template_id,\n    footer_template_id      = task_data.footer_template_id;\n    \n    for(var ind=0; ind<template_data.length; ind++){\n        if(header_template_id == template_data[ind]._id){\n            templateObj.header = template_data[ind];\n        }\n        if(detail_template_id == template_data[ind]._id){\n            templateObj.detail = template_data[ind];\n        }\n        if(footer_template_id == template_data[ind]._id){\n            templateObj.footer = template_data[ind];\n        }\n    }\n\n    var taskObj = {\n        \"task_id\":\t\t    task_data._id,\n        \"task_name\":\t\ttask_data.task_name,\n        \"parent_id\":        task_data.parent_id,\n        \"template\": \t\ttemplateObj,\n        \"from_page_id\":\t\ttask_data.from_page_id,\n        \"child_task_id\":    task_data.child_default_task_id,\n        \"date_created\":     task_data.date_created\n    };\n    \n    return taskObj;\n}\n\nfunction populate_details(id, arr){\n    var result = [];\n    \n    if(isEmpty(id)) return result;\n    \n    if(isEmpty(arr)){\n        return result;\n    }else{\n        for(var i=0; i<arr.length; i++){\n            if(arr[i].task_id == id){\n                result.push(arr[i]);\n            }\n        }\n    }    \n    return result;\n}\n\nfunction populate_taskobj(id, arr){\n    if(isEmpty(id)) return {};\n    \n    if(isEmpty(arr)){\n        return {};\n    }else{\n        for(var i=0; i<arr.length; i++){\n            if(parseInt(arr[i].page_id) === parseInt(id)){\n                return arr[i];\n            }\n        }\n    }\n}\n\nfunction populate_user(access_token, db_record){\n    var user = {};\n    \n    if(isEmpty(access_token)) return user ;\n    \n    if(isEmpty(db_record)){\n        return user;\n    }else{\n        for(var i=0; i < db_record.length; i++){\n            if(access_token == db_record[i].access_token){\n                user.user_id       = db_record[i]._id ;\n                user.firstname     = db_record[i].firstname ? db_record[i].firstname : \"\" ;\n                user.lastname      = db_record[i].lastname ? db_record[i].lastname : \"\"; \n                user.email         = db_record[i].email ? db_record[i].email : \"\";\n                user.phone         = db_record[i].phone || \"\" ; \n                user.virtual_phone = db_record[i].virtual_phone ? db_record[i].virtual_phone: \"\";\n                user.type          = db_record[i].type || {} ;\n                user.security_level= db_record[i].security_level ;\n                user.access_token  = db_record[i].access_token;\n            }\n        }\n    }\n    \n    return user ;\n}\n\nfunction format_db_records(list){\n    var users = [], templates = [], details=[], task_table = [], user_task = [], sorted_detail = [];\n    for(var i=0; i<list.length; i++){\n        if(list[i].doc.table == \"template\"){\n            templates.push(list[i].doc);\n        }\n        if(list[i].doc.table == \"details\"){\n            details.push(list[i].doc);\n        }\n        \n        if(list[i].doc.table == \"task_table\"){\n            task_table.push(list[i].doc);\n        }\n\n        if(list[i].doc.table == \"users\"){\n            users.push(list[i].doc);\n        }\n        \n        if(list[i].doc.table == \"user_task\"){\n            user_task.push(list[i].doc);\n        }\n    }\n    \n    if(!isEmpty(details)){\n        sorted_detail =  details.sort(function(a,b){\n            sorted_detail = sorted_detail.sort(function(a,b){\n            \tif(typeof a.page_id === 'number'){\n            \t\treturn (a.page_id - b.page_id);\t\n            \t}else{\n            \t\treturn (a.createdAt - b.createdAt);\t\n            \t}\n            });\n        });\n    }else{\n        sorted_detail = details ;\n    }\n    \n    return {users: users, templates: templates, details: sorted_detail, tasks: task_table, user_tasks: user_task} ;\n}\n\nfunction check_isDisplay(d){\n    \n    if(d === \"1\"){\n        return true;\n    }else if(d === 1){\n        return true;\n    }else if(d === \"true\"){\n        return true;\n    }else if(d === true){\n        return true;\n    }else{\n        return false ;\n    }\n}\n\nfunction removeEmptyArrayElements(arr) { \n   if (!isArray(arr)) {\n      return arr;\n   } else {\n       return arr.filter( function(elem) { \n          return elem !== null ;\n       } ).map(removeEmptyArrayElements);\n   }\n}\n\nfunction isArray(obj) {\n    return Object.prototype.toString.call(obj) === '[object Array]';\n}\n\nfunction get_obj_data(obj1, obj2){\n\tvar obj = {};\n\tfor (var key in obj1) {\n\t\tif(obj2.hasOwnProperty(key))\n\t\t\tobj[key] = obj2[key];\n\t\telse\n\t\t    obj[key] = obj1[key];\n\t}\n\treturn obj;\n}\n\nfunction check_obj(obj){\n    return Object.keys(obj).length ;\n}\n\nfunction if_exists_in_arr(key, array){\n    return array.indexOf(key) > -1;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 879.4505157470703,
+        "y": 3077.344979286194,
+        "wires": [
+            [
+                "f8042c51.d3228"
+            ]
+        ]
+    },
+    {
+        "id": "f8042c51.d3228",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "updated_user_task",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1009.5494842529297,
+        "y": 3077.419198036194,
+        "wires": [
+            [
+                "9fc4ab8b.fbafd8",
+                "62fb6e1b.6c97b"
+            ],
+            [
+                "9fc4ab8b.fbafd8"
+            ]
+        ]
+    },
+    {
+        "id": "62fb6e1b.6c97b",
+        "type": "change",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "updated_user_task",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1161.5416717529297,
+        "y": 3035.657479286194,
+        "wires": [
+            [
+                "cd711d60.19ff3"
+            ]
+        ]
+    },
+    {
+        "id": "9fc4ab8b.fbafd8",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1150.2838592529297,
+        "y": 3078.001229286194,
+        "wires": []
+    },
+    {
+        "id": "cd711d60.19ff3",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "update_user_task",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1346.5494842529297,
+        "y": 3035.317635536194,
+        "wires": []
+    },
+    {
+        "id": "6823a1ed.2beed",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page",
+        "func": "var params = msg.payload_content ;\nif(isEmpty(params.access_token)){\n    msg.api_status    = \"API_ERROR\";\n    msg.statusCode    = 400 ;\n    msg.payload       = {status: 400, error: true, msg: \"`access_token` is required to get_page.\", data: null};\n}else if(isEmpty(params.page_id)){\n    msg.api_status    = \"API_ERROR\";\n    msg.statusCode    = 400 ;\n    msg.payload       = {status: 400, error: true, msg: \"`page_id` is required to get_page.\", data: null};\n}else{\n    msg.api_status    = \"API_SUCCESS\";\n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 90.66666412353516,
+        "y": 3154.000196456909,
+        "wires": [
+            [
+                "6d834958.2ab618"
+            ]
+        ]
+    },
+    {
+        "id": "6d834958.2ab618",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 362.6628189086914,
+        "y": 3156.9296951293945,
+        "wires": [
+            [
+                "5fcf5e8b.16a77"
+            ],
+            [
+                "2a2db810.f39038"
+            ]
+        ]
+    },
+    {
+        "id": "5fcf5e8b.16a77",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 504.67447662353516,
+        "y": 3127.160171508789,
+        "wires": []
+    },
+    {
+        "id": "2a2db810.f39038",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "url",
+        "func": "var access_token = msg.payload_content.access_token ,\n    page_id      = msg.payload_content.page_id ;\n\nif(isEmpty(page_id)){\n    msg.API_STATUS = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`page_id` is missing.\", data: null};\n}else if(isEmpty(access_token)){\n    msg.API_STATUS = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`access_token` is missing.\", data: null};\n}else{\n    msg.method = \"GET\";\n    msg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_page?include_docs=true\";\n    msg.API_STATUS = \"API_SUCCESS\";\n    msg.req_data = msg.payload;    \n}\n\n\nreturn msg;\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 501.28385162353516,
+        "y": 3192.011734008789,
+        "wires": [
+            [
+                "1ed36759.7ca5d9"
+            ]
+        ]
+    },
+    {
+        "id": "1ed36759.7ca5d9",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "API_STATUS",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "API_SUCCESS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 637.4505386352539,
+        "y": 3192.011749267578,
+        "wires": [
+            [
+                "a5c8c451.8dd208"
+            ],
+            [
+                "56100971.4884d8"
+            ]
+        ]
+    },
+    {
+        "id": "a5c8c451.8dd208",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 764.2837600708008,
+        "y": 3185.011734008789,
+        "wires": []
+    },
+    {
+        "id": "56100971.4884d8",
+        "type": "http request",
+        "z": "a35e95d3.4f79f8",
+        "name": "Get_page_view",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 795.2837295532227,
+        "y": 3243.957046508789,
+        "wires": [
+            [
+                "97b08421.6d4cb8"
+            ]
+        ]
+    },
+    {
+        "id": "114bda8.f52b426",
+        "type": "comment",
+        "z": "a35e95d3.4f79f8",
+        "name": "get_page endpoint (working backup)",
+        "info": "",
+        "x": 168.8333511352539,
+        "y": 3102.493681907654,
+        "wires": []
+    },
+    {
+        "id": "c3c3e7d0.a83368",
+        "type": "http request",
+        "z": "a35e95d3.4f79f8",
+        "name": "Count view",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/page_counts?reduce=false",
+        "tls": "",
+        "x": 1152.0002479553223,
+        "y": 3243.826837539673,
+        "wires": [
+            [
+                "d01bac02.b8db9"
+            ]
+        ]
+    },
+    {
+        "id": "97b08421.6d4cb8",
+        "type": "change",
+        "z": "a35e95d3.4f79f8",
+        "name": "db_records",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_records",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980.0002822875977,
+        "y": 3242.826838493347,
+        "wires": [
+            [
+                "c3c3e7d0.a83368"
+            ]
+        ]
+    },
+    {
+        "id": "d01bac02.b8db9",
+        "type": "function",
+        "z": "a35e95d3.4f79f8",
+        "name": "format",
+        "func": "var db_records   = msg.db_records ,\n    counts       = msg.payload ,\n    access_token = msg.payload_content.access_token ,\n    page_id      = msg.payload_content.page_id ;\n    \nif(isEmpty(db_records)){\n    msg.payload = {status: 400, error: false, msg: \"No Record found.\", data: null};\n}else{\n    if(isEmpty(db_records.rows)){\n        msg.payload = {status: 400, error: false, msg: \"No Record found.\", data: null};   \n    }else{\n        var db_obj          =  format_db_records(db_records.rows),\n            user_obj        =  populate_user(access_token, db_obj.users);\n            \n            if(isEmpty(user_obj)){\n                page_id = 1 ;\n            }else{\n                if(!user_obj.security_level){\n                    page_id = 11 ;\n                }\n            }\n            \n            var task_obj    =  populate_taskobj(page_id, db_obj.tasks),\n            details         =  populate_details(task_obj._id, db_obj.details),\n            prepare_task    =  formulate_task(task_obj, db_obj),\n            prepare_details =  formulate_details(details);  \n        \n        msg.isUpdateUserTask = false; \n        msg.payload = {\n            page_id :  page_id,\n            user    :  user_obj || {},\n            task    :  prepare_task,\n            detail  :  getpage(prepare_details)\n    \t};\n    } \n}\n\nreturn msg;\n\nfunction getpage(details){\n    var result = get_page_array(details) ,     //previous code to calculate active and unread count manually;\n        detail = result.detail_array ;\n    \n    // var result = populate_active_unread_count(details),\n    //     detail = result.detail_array;\n \n    if(detail.length){\n        return detail ;\n    }else{\n        return [] ;\n    }\n}\n\nfunction get_page_array(detail_array){\n    \n    for(var itr = 0 ; itr < detail_array.length; itr++){\n        var count = {} , current_count_active = 0, current_count_unread = 0, active = 0, unread = 0;\n        \n        if(detail_array[itr].to_page_id){\n            count = get_sub_child_count(detail_array[itr].to_page_id);\n            \n            if(check_obj(count) > 0){\n                current_count_active = count.active ;\n                current_count_unread = count.unread ;\n                \n                if(!isEmpty(user_obj)){\n                    update_user_task_record({user_id: user_obj.user_id, task_id: task_obj._id, synch : 0, count: count}, false);    \n                } \n            }\n        }else{\n            current_count_active = detail_array[itr].count.active ;\n            current_count_unread = detail_array[itr].count.unread ;\n        }\n        active = active + current_count_active ;\n        unread = unread + current_count_unread ;\n        \n        if(detail_array[itr].count){\n            detail_array[itr].count.active = active ;\n            detail_array[itr].count.unread = unread ;\n        }\n    }\n\n    return {\n        detail_array :   detail_array,\n    };\n}\n\nfunction update_user_task_record(obj, update_parent){\n\n    var user_task_obj = return_user_task_obj(obj.user_id, obj.task_id),\n        create_user_task_flag = true, ancestors_array= [];\n    \n    if (check_obj(user_task_obj) > 0){\n    \t\n    \tif (user_task_obj.user_id == obj.user_id){\n    \t    create_user_task_flag = false ;// if one already exists then don’t create again    \n    \t} \n    \t\n    \tuser_task_obj.synchronized          = obj.synch ;\n        user_task_obj.date_updated          = new Date().toJSON();\n\n        if(!user_task_obj.update_read){\n            if( user_task_obj.count_status.unread  && !user_task_obj.count_if.unread ){\n                user_task_obj.count.unread += 1 ;  \n            }\n        }\n    \n        if(!user_task_obj.update_active){\n            if( user_task_obj.count_status.active && user_task_obj.count_if.active){\n                user_task_obj.count.active += 1 ;  \n            }\n        }\n    \n        if(user_task_obj.parent_id && update_parent) update_user_task_record({user_id: user_task_obj.user_id, task_id: user_task_obj.parent_id, synch:0, count: {active:0, unread:0}}, false );\n\n    }\n    \n    if ( create_user_task_flag ) {\n        \n        if(task_obj.parent_id){\n            var if_user_task = return_user_task_obj(obj.user_id, task_obj.parent_id);\n           \n            if(check_obj(if_user_task) > 0){\n                ancestors_array = if_user_task.ancestors ;    \n\n                if( !if_exists_in_arr(task_obj.parent_id, ancestors_array) ) {\n                    ancestors_array.push(task_obj.parent_id);\n                }\n            }else{\n                \n                if( !if_exists_in_arr(task_obj.parent_id, ancestors_array) ) ancestors_array.push(task_obj.parent_id);\n            }\n        }\n        \n        msg.updated_user_task = {\n            table           : \"user_task\",\n        \ttask_id \t\t: obj.task_id,\n        \tuser_id\t\t\t: obj.user_id,\n        \tpage_id         : parseInt(page_id),\n        \tupdate_read     : 0,\n        \tupdate_active   : 0, \n        \tsynchronized    : 1,\n            status          : 0, \n        \tdate_updated\t: null,\t\n        \tparent_id\t\t: obj.task_id,\n        \tancestors       : ancestors_array, \n        \tcount_status\t: {\n        \t   active       : 1,\n        \t   unread       : 0,\n        \t},\n        \tcount\t\t\t: {\n        \t    active      : 1,\n        \t    unread      : 0,\n        \t},\n        \tcount_if\t\t: {\n        \t    active      : 1,\n        \t    unread      : 0\n        \t},\n        \ttemplates\t\t: {},\n        \ttimeout\t\t\t: {},\n        \tcreatedAt       : new Date().getTime()\n        };\n    }else{\n        msg.updated_user_task = user_task_obj ;\n    }\n    \n    msg.isUpdateUserTask = true ;\n}\n\nfunction return_user_task_obj(user_id, task_id){\n    var obj = {}, user_task_arr = db_obj.user_tasks ;\n    if(user_task_arr !== null && user_task_arr !== undefined){\n        for(var i=0; i< user_task_arr.length; i++){\n            if(\n                user_task_arr[i].user_id        == user_id &&\n                user_task_arr[i].task_id        == task_id \n            ){\n                    obj = user_task_arr[i];\n            }\n        }\n    }\n    return obj ;\n}\n\n\nfunction get_sub_child_count(to_page_id){\n    var count = {active:0, unread: 0}, details = db_obj.details;\n    \n    for(var itr = 0; itr < details.length; itr++){\n        if(to_page_id == details[itr].page_id){\n            if(details[itr].count_status){\n                count.active += details[itr].count_status.active ;\n                count.unread += details[itr].count_status.unread ;\n            }\n        }\n    }\n    return count;\n}\n\nfunction formulate_details(detail_data){\n    var detailRecord = {\n        \"_id\": \t\"\",\n        \"image\":\t\t\"\",\n        \"to_page_id\": \t\"\",\n        \"user_id\": \t\t\"\",\n        \"task_id\":      \"\",\n        \"page_id\":      \"\",\n        \"from_user_id\": \"\",\n        \"display_if_empty\": \"\",\n    \t\"user_incoming\":{},\n        \"watson_incoming\":{},\n        \"type\":         {},\n        \"date_created\": \"\",\n        \"from_user\":    {},\n        \"count\":{\"active\":0, \"unread\":0}\n    }, detailObj= [] ;\n  \n    if(detail_data.length){\n        if(!isEmpty(user_obj)){\n            for(var d=0; d<detail_data.length; d++){\n                \n                if(user_obj.user_id === detail_data[d].user_id){\n                    //when user owns detail record\n                    detailObj.push( get_obj_data(detailRecord, detail_data[d]) );\n                }else if(\n                    (\"dri_main\" in detail_data[d].type) && (\"dri_main\" in user_obj.type) \n                ){\n                    //when user owns detail record\n                    detailObj.push( get_obj_data(detailRecord, detail_data[d]) );\n                }else{\n                    //when user doesn't own record\n\n                    if( check_isDisplay(detail_data[d].display_if_empty) && \n                        (\"public\" in detail_data[d].type) \n                    ){\n                        detailObj.push( get_obj_data(detailRecord, detail_data[d]) );\n                    }else{\n                        detail_data.splice(d, 0);\n                    }\n                }\n            }\n           \n            detailObj = removeEmptyArrayElements(detailObj);         \n        }else{\n            //when we don't have any user info while using access_token\n            for(var k=0; k<detail_data.length; k++){\n                if(check_isDisplay(detail_data[k].display_if_empty)){\n                    detailObj.push( get_obj_data(detailRecord, detail_data[k]) );\n                }else{\n                    var find_any_child = populate_child_detail(db_obj.details, detail_data[k].to_page_id);\n                    if(find_any_child.length){\n                        detailObj.push( get_obj_data(detailRecord, detail_data[k]) );\n                    }else{\n                        detail_data.splice(k, 0);\n                    }\n                }\n            }\n            detailObj = removeEmptyArrayElements(detailObj);         \n        }\n    }\n    \n    return detailObj;\n}\n\nfunction populate_child_detail(details, to_page_id){\n    var arr = [];\n    for(var i=0; i<details.length; i++){\n        if( details[i].page_id === to_page_id ){\n            arr.push(details[i]);\n        }\n    }\n    return arr;\n}\n\nfunction formulate_task(task_obj, db_data){\n    var template_data       = db_data.templates ,\n    task_data               = task_obj,\n    templateObj             = {},\n    header_template_id      = task_data.header_template_id,\n    detail_template_id      = task_data.detail_template_id,\n    footer_template_id      = task_data.footer_template_id;\n    \n    for(var ind=0; ind<template_data.length; ind++){\n        if(header_template_id == template_data[ind]._id){\n            templateObj.header = template_data[ind];\n        }\n        if(detail_template_id == template_data[ind]._id){\n            templateObj.detail = template_data[ind];\n        }\n        if(footer_template_id == template_data[ind]._id){\n            templateObj.footer = template_data[ind];\n        }\n    }\n\n    var taskObj = {\n        \"task_id\":\t\t    task_data._id,\n        \"task_name\":\t\ttask_data.task_name,\n        \"parent_id\":        task_data.parent_id,\n        \"template\": \t\ttemplateObj,\n        \"from_page_id\":\t\ttask_data.from_page_id,\n        \"child_task_id\":    task_data.child_default_task_id,\n        \"date_created\":     task_data.date_created\n    };\n    \n    return taskObj;\n}\n\nfunction populate_details(id, arr){\n    var result = [];\n    \n    if(isEmpty(id)) return result;\n    \n    if(isEmpty(arr)){\n        return result;\n    }else{\n        for(var i=0; i<arr.length; i++){\n            if(if_exists_in_arr(id, arr[i].task_id)){\n                result.push(arr[i]);\n            }\n        }\n    }    \n\n    return result;\n}\n\nfunction populate_taskobj(id, arr){\n    if(isEmpty(id)) return {};\n    \n    if(isEmpty(arr)){\n        return {};\n    }else{\n        for(var i=0; i<arr.length; i++){\n            if(parseInt(arr[i].page_id) === parseInt(id)){\n                return arr[i];\n            }\n        }\n    }\n}\n\nfunction populate_user(access_token, db_record){\n    var user = {};\n    \n    if(isEmpty(access_token)) return user ;\n    \n    if(isEmpty(db_record)){\n        return user;\n    }else{\n        for(var i=0; i < db_record.length; i++){\n            if(access_token == db_record[i].access_token){\n                user.user_id       = db_record[i]._id ;\n                user.firstname     = db_record[i].firstname ? db_record[i].firstname : \"\" ;\n                user.lastname      = db_record[i].lastname ? db_record[i].lastname : \"\"; \n                user.email         = db_record[i].email ? db_record[i].email : \"\";\n                user.phone         = db_record[i].phone || \"\" ; \n                user.virtual_phone = db_record[i].virtual_phone ? db_record[i].virtual_phone: \"\";\n                user.type          = db_record[i].type || {} ;\n                user.security_level= db_record[i].security_level ;\n                user.access_token  = db_record[i].access_token;\n            }\n        }\n    }\n    \n    return user ;\n}\n\nfunction format_db_records(list){\n    var users = [], templates = [], details=[], task_table = [], user_task = [], sorted_detail = [];\n    for(var i=0; i<list.length; i++){\n        if(list[i].doc.table == \"template\"){\n            templates.push(list[i].doc);\n        }\n        if(list[i].doc.table == \"details\"){\n            details.push(list[i].doc);\n        }\n        \n        if(list[i].doc.table == \"task_table\"){\n            task_table.push(list[i].doc);\n        }\n\n        if(list[i].doc.table == \"users\"){\n            users.push(list[i].doc);\n        }\n        \n        if(list[i].doc.table == \"user_task\"){\n            user_task.push(list[i].doc);\n        }\n    }\n    \n    if(!isEmpty(details)){\n        sorted_detail =  details.sort(function(a,b){\n            sorted_detail = sorted_detail.sort(function(a,b){\n            \tif(typeof a.page_id === 'number'){\n            \t\treturn (a.page_id - b.page_id);\t\n            \t}else{\n            \t\treturn (a.createdAt - b.createdAt);\t\n            \t}\n            });\n        });\n    }else{\n        sorted_detail = details ;\n    }\n    \n    return {users: users, templates: templates, details: sorted_detail, tasks: task_table, user_tasks: user_task} ;\n}\n\nfunction check_isDisplay(d){\n    \n    if(d === \"1\"){\n        return true;\n    }else if(d === 1){\n        return true;\n    }else if(d === \"true\"){\n        return true;\n    }else if(d === true){\n        return true;\n    }else{\n        return false ;\n    }\n}\n\nfunction removeEmptyArrayElements(arr) { \n   if (!isArray(arr)) {\n      return arr;\n   } else {\n       return arr.filter( function(elem) { \n          return elem !== null ;\n       } ).map(removeEmptyArrayElements);\n   }\n}\n\nfunction isArray(obj) {\n    return Object.prototype.toString.call(obj) === '[object Array]';\n}\n\nfunction get_obj_data(obj1, obj2){\n\tvar obj = {};\n\tfor (var key in obj1) {\n\t\tif(obj2.hasOwnProperty(key))\n\t\t\tobj[key] = obj2[key];\n\t\telse\n\t\t    obj[key] = obj1[key];\n\t}\n\treturn obj;\n}\n\nfunction check_obj(obj){\n    return Object.keys(obj).length ;\n}\n\nfunction if_exists_in_arr(key, array){\n    return array.indexOf(key) > -1;\n}\n\nfunction randomString(length) {\n    var result = '',\n        chars  = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n    \n    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];\n    return result;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1308.4506721496582,
+        "y": 3241.0117321014404,
+        "wires": [
+            [
+                "cd54bcc.47f374",
+                "17932363.55781d"
+            ]
+        ]
+    },
+    {
+        "id": "cd54bcc.47f374",
+        "type": "switch",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "property": "isUpdateUserTask",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1438.5496406555176,
+        "y": 3241.0859508514404,
+        "wires": [
+            [
+                "29a2fdae.42e632",
+                "504a6c18.1737d4"
+            ],
+            [
+                "29a2fdae.42e632"
+            ]
+        ]
+    },
+    {
+        "id": "504a6c18.1737d4",
+        "type": "change",
+        "z": "a35e95d3.4f79f8",
+        "name": "payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "updated_user_task",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1566.833381652832,
+        "y": 3178.826835632324,
+        "wires": [
+            [
+                "1f15beca.c55611",
+                "877ee55c.a35e38"
+            ]
+        ]
+    },
+    {
+        "id": "29a2fdae.42e632",
+        "type": "http response",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "x": 1610.2843437194824,
+        "y": 3239.667984008789,
+        "wires": []
+    },
+    {
+        "id": "1f15beca.c55611",
+        "type": "cloudant out",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1780.833501815796,
+        "y": 3175.1601905822754,
+        "wires": []
+    },
+    {
+        "id": "877ee55c.a35e38",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1785.8334999084473,
+        "y": 3214.160186767578,
+        "wires": []
+    },
+    {
+        "id": "17932363.55781d",
+        "type": "debug",
+        "z": "a35e95d3.4f79f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1472.5001525878906,
+        "y": 3329.160213470459,
+        "wires": []
+    }
+]

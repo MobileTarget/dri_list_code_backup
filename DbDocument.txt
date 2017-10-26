@@ -1,0 +1,21 @@
+UserCollection:-
+{"firstname": "test", "lastname": "bot", "email": "test@bot.com", "phone": null, "virtual_phone": null, "security_level": null, "access_token": null, "long_url": null, "other": null, "conversation_id": null}
+
+LocationCollection:
+{"location_name": "Munich", "location_type": "City", "location_data": {"lat": "48.1550547", "lon": "11.4017511", "distance": null, "web": "https://en.wikipedia.org/wiki/Munich"}}
+
+TemplateCollection:
+{"name": "body_section", "html": "<h1>Hello World!</h2>"}
+
+TimeoutCollection:
+{"name": "location", "timeout_list": {"delivery_status": "deliverd", "delivery_count": "1", "delivery_due": "2017-02-24T10:55:20.297Z", "delivery_users_ids": ["f276a1daf1df15ed512fbfc6b44395b4"], "deliver_via": "twilio", "delivery_task_id": null, "message_id": null, "from_id": "f276a1daf1df15ed512fbfc6b44395b4"}}
+
+TaskCollection:
+{"user_id": "f276a1daf1df15ed512fbfc6b44395b4", "date_created": "2017-02-24T10:55:20.297Z", "type": "", "category": "location", "Status": "progress", "header" : "b6fe0ae5d91469b7af89924d66bb3bc2", "details": "196366867d4c73be4673ad33e5fa3eeb", "footer": "b6fe0ae5d91469b7af89924d66bd6ac7", "additional_data_fn": "", "timeout_id": "e816b906b3014b5f8106b9051306912d", "location_ids": ["d9b00541b13a1cd8462959ed56df6941"], "optional_data": null, "required_data": null, "offline_expiration_time": "2017-02-24T10:55:20.297Z", "display_if_empty": null, "child_defaults_task_id": null }
+
+DetailsCollections:
+{"task_id":"679ae6cc4237181fff0fd62b7de75b84", "child_task_id": "", "synchornized": "", "processed": "", "status": "", "read": "", "display_if_empty": "", "User_id": "", "date_created":"", "page_id":"", "detail": "", "due_date": "", "priority": "", "html_template_id": "", "timeout": "timeout_id", "user_calculated": {
+"delivery_status": "", "delivery_count": "", "delivery_due": "", "delivery_users": "", "deliver_via": "", "message_id": "", "from_id": "", "users": "user_id", "template": { "message": {"template_id": "", "name": "", "html": ""}, "from": {"template_id": "", "name": "", "html": ""} } }, "location":"location_id", "defaults": {"parent": "", "next_child": "", "all_children": ""} }
+
+BigRecordsCollections: 
+{"task": {"user_id": "f276a1daf1df15ed512fbfc6b44395b4", "task_id": "679ae6cc4237181fff0fd62b7de75b84", "date_created":"2017-02-24T10:55:20.297Z", "type": "", "category": "", "status": "", "header-template_id": "", "detail_template_id": "", "footer_template_id": "", "additional_data_fn": "", "timeout_id": "", "location_ids": [], "optional_data": "", "required_data": "", "offline_expiration_time": "", "display_if_empty": "", "child_defaults_task_id": "", "child_defaults_task": "", "template": {"header": {"template_id":"", "name": "", "html": ""}, "detail": {"template_id":"", "name": "", "html": ""}, "footer": {"template_id":"", "name": "", "html": ""}, "details": {"due_seconds": "", "priority":"", "status":"", "processed":"", "timeout": "timeout_id", "location": "location_id", "defaults": {"parent": "", "next_child": "", "all_children":""} } }}}

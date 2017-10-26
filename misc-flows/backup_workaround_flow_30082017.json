@@ -1,0 +1,464 @@
+[
+    {
+        "id": "33a82338.96373c",
+        "type": "tab",
+        "label": "workaround"
+    },
+    {
+        "id": "49ac873d.cc2de8",
+        "type": "inject",
+        "z": "33a82338.96373c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 143.83333587646484,
+        "y": 84.00003051757812,
+        "wires": [
+            [
+                "83cd7147.7005b"
+            ]
+        ]
+    },
+    {
+        "id": "83cd7147.7005b",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "just a function node",
+        "func": "msg.payload = \"Test Node\";\nnode.warn(\"Just to check a logs.\");\n\nvar cloneObj = Object.assign({}, msg);\nmsg.payload = {\n    msgObject : cloneObj\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 334.8333435058594,
+        "y": 83.00003242492676,
+        "wires": [
+            [
+                "8007e56a.746888"
+            ]
+        ]
+    },
+    {
+        "id": "4875e436.7a2cfc",
+        "type": "debug",
+        "z": "33a82338.96373c",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 755.8333339691162,
+        "y": 86.33335304260254,
+        "wires": []
+    },
+    {
+        "id": "8007e56a.746888",
+        "type": "http request",
+        "z": "33a82338.96373c",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://mastersoftwaretechnologies.com/roger_project/log.php",
+        "tls": "",
+        "x": 558.8333549499512,
+        "y": 78.33334922790527,
+        "wires": [
+            [
+                "4875e436.7a2cfc"
+            ]
+        ]
+    },
+    {
+        "id": "1bfda258.f5191e",
+        "type": "inject",
+        "z": "33a82338.96373c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 130.8333282470703,
+        "y": 178.00002002716064,
+        "wires": [
+            [
+                "d3864d01.427d1"
+            ]
+        ]
+    },
+    {
+        "id": "d3864d01.427d1",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "payload",
+        "func": "msg.payload = {\n    isNeedToTriggerRegresh: true,\n    detail_obj : {\n        page_id: 1501432755804,\n        task_id: [\"d1a0625639e39874c4b2a5a4f6339fab\"]\n    },\n    subscribed_users: [{user_id: \"389000afb54e42ac39d83d17c300e020\"}]\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 304.83333587646484,
+        "y": 178.00002002716064,
+        "wires": [
+            [
+                "b711fa6.b1c2d08"
+            ]
+        ]
+    },
+    {
+        "id": "b711fa6.b1c2d08",
+        "type": "http request",
+        "z": "33a82338.96373c",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://mastersoftwaretechnologies.com:6005/accept_request",
+        "tls": "",
+        "x": 506.8333511352539,
+        "y": 184.33334255218506,
+        "wires": [
+            [
+                "63b94bae.a1f904"
+            ]
+        ]
+    },
+    {
+        "id": "63b94bae.a1f904",
+        "type": "debug",
+        "z": "33a82338.96373c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 732.8333435058594,
+        "y": 185.33333587646484,
+        "wires": []
+    },
+    {
+        "id": "e6e290c4.e21d5",
+        "type": "http request",
+        "z": "33a82338.96373c",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_selected_user_task",
+        "tls": "",
+        "x": 442.6666946411133,
+        "y": 295.6666932106018,
+        "wires": [
+            [
+                "cfc4d74c.4675d8"
+            ]
+        ]
+    },
+    {
+        "id": "cfc4d74c.4675d8",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "populate",
+        "func": "var detail_obj = msg.detail_obj,\n    payload    = msg.payload ;\n\nif(isEmpty(payload)){\n    msg.statusCode = 400 ;\n    msg.api_status = \"API_ERROR\";\n    msg.payload = {status: 400, error: true, msg: \"`access_token` is required to update detail\", data: body};\n}else{\n    msg.api_status  = \"API_ERROR\";\n    var user_tasks  = populate_user_task(payload.rows, detail_obj);\n    msg.payload     = {detail_obj: detail_obj, subscribed_users: user_tasks};\n}    \nreturn msg;\n\nfunction populate_user_task(lists, obj){\n    var user_tasks = [];\n    \n    for(var itr in lists){\n        if(\n            ( if_exists_in_arr(lists[itr].value.task_id, obj.task_id) )&&\n            (lists[itr].value.page_id  == obj.page_id)\n        ){\n            lists[itr].value.synchronized = 0;\n            lists[itr].value.status       = 0;\n            user_tasks.push(lists[itr].value);\n        }\n    }\n    return user_tasks;\n}\n\n\nfunction if_exists_in_arr(key, array){\n    return array.indexOf(key) > -1;\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 616.6666564941406,
+        "y": 297.0000686645508,
+        "wires": [
+            [
+                "d949c1d6.d069f"
+            ]
+        ]
+    },
+    {
+        "id": "1f34a219.50d78e",
+        "type": "inject",
+        "z": "33a82338.96373c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 140.8333282470703,
+        "y": 297.3333396911621,
+        "wires": [
+            [
+                "36881c3c.832ef4"
+            ]
+        ]
+    },
+    {
+        "id": "36881c3c.832ef4",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "payload",
+        "func": "msg.detail_obj = {\n  page_id: 1501432755804,\n  task_id: [\"d1a0625639e39874c4b2a5a4f6339fab\"]\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 283.83333587646484,
+        "y": 299.3333396911621,
+        "wires": [
+            [
+                "e6e290c4.e21d5"
+            ]
+        ]
+    },
+    {
+        "id": "d949c1d6.d069f",
+        "type": "debug",
+        "z": "33a82338.96373c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 784.8333435058594,
+        "y": 292.00000762939453,
+        "wires": []
+    },
+    {
+        "id": "e33747b1.110478",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "Step 2 timeout processing",
+        "func": "var payload     = msg.payload ;\n    db_records  = populate_records(payload.rows);\n\nmsg.isDetailProcessed = false;\n\n    if(isEmpty(db_records)){\n        msg.payload = \"Unable to populate records via using cloudant db.\";\n    }else{\n        var details = db_records.details,\n            users   = db_records.users;\n            \n        var processed_details = process_details_with_timeout(details);\n        if(!isEmpty(processed_details)){\n            msg.isDetailProcessed = true;\n            msg.payload = {\n                docs: processed_details\n            } ;\n        }else{\n            msg.payload = \"There is not details to processed.\";\n        }\n    }\nreturn msg;\n\nfunction process_details_with_timeout(details){\n    var updated_details = [];\n    if(isEmpty(details)) return updated_details;\n    \n    for(var itr in details){\n        if( !isEmpty(details[itr].timeout) && (details[itr].processed === 0) ){\n            if(currentDateWithDeliveryDue(details[itr].due_date, details[itr].timeout.delivery_due)){\n                var newDetailObj = JSON.parse(JSON.stringify(details[itr]));\n                \n                if(\"company_bot_detail\" in details[itr].type){\n                    var company_timeout = JSON.parse(JSON.stringify(newDetailObj.timeout)),\n                        temp_obj        = JSON.parse(JSON.stringify(company_timeout));\n                    \n                    for(var loop in company_timeout){\n                        var ctimeoutObj     = company_timeout[loop];\n                        var cgroupUsers     = populate_group_users(ctimeoutObj.delivery_user_types);\n                        \n                        temp_obj[loop].delivery_user_ids        = populate_delivery_ids(cgroupUsers);\n                        temp_obj[loop].delivery_user_special    = cgroupUsers ;\n                        temp_obj[loop].message_id               = details[itr]._id;\n                        temp_obj[loop].from_user_id             = details[itr].user_incoming.note;\n                    }\n                    newDetailObj.processed      = 1;\n                    newDetailObj.status         = 1;\n                    newDetailObj.category       = \"message\";\n                    newDetailObj.user_calculate = temp_obj;\n                    newDetailObj.timeout        = {};\n                    updated_details.push(newDetailObj);\n                }else{\n                \n                    var timeoutObj   = details[itr].timeout,\n                        groupUsers   = populate_group_users(timeoutObj.delivery_user_types);\n                    \n                    newDetailObj.processed                      = 1;\n                    newDetailObj.status                         = 1;\n                    newDetailObj.category                       = \"message\";\n                    newDetailObj.timeout.delivery_user_ids      = populate_delivery_ids(groupUsers) ;\n                    newDetailObj.timeout.delivery_user_special  = groupUsers;\n                    newDetailObj.timeout.message_id             = details[itr]._id;\n                    newDetailObj.timeout.from_user_id           = details[itr].user_incoming.note;\n    \n                    newDetailObj.user_calculate = newDetailObj.timeout;\n                    newDetailObj.timeout        = {};\n                    updated_details.push(newDetailObj);\n                }\n            }\n        }\n    }\n    \n    return updated_details;\n}\n\nfunction populate_group_users(list){\n    var obj = {};\n    if(isEmpty(list)) return obj;\n    \n    for(var itr in list){\n        if(itr !== \"public\"){\n            obj = populate_user(itr);\n        }\n    }\n    return obj;\n}\n\nfunction populate_delivery_ids(groupUsers){\n    var obj ={};\n    for(var itr in groupUsers){\n        obj[itr] = itr;\n    }\n    return obj;\n}\n\nfunction populate_user(group_id){\n    var obj = {};\n    if(isEmpty(users)) return obj;\n    \n    for(var counter in users){\n        if(users[counter].data){\n            if(group_id in users[counter].data.groups){\n                obj[users[counter]._id] = {    \n                    user_id   : users[counter]._id,\n                    firstname : users[counter].firstname ,\n                    lastname  : users[counter].lastname ,\n                    device_id : users[counter].device_id ,\n                    phone     : users[counter].virtual_phone\n                };\n            }\n        }\n    }\n    return obj;\n}\n\nfunction currentDateWithDeliveryDue(due_date, dueInSeconds){\n    //return true;\n    return (due_date > new Date()) ; //120000 is default which is 120 sec or 2 minutes \n}\n\nfunction populate_records(list){\n    var details = [], users = [];\n    if(isEmpty(list)) return {};\n    \n    for(var itr in list){\n        if(list[itr].value.table == \"details\"){\n            details.push(list[itr].value);\n        }\n        \n        if(list[itr].value.table == \"users\"){\n            users.push(list[itr].value);\n        }\n    }\n    \n    return {details: details, users: users};\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 361.6666564941406,
+        "y": 503.6666564941406,
+        "wires": [
+            [
+                "40b744de.04fb0c",
+                "81d6a028.c843e"
+            ]
+        ]
+    },
+    {
+        "id": "b14cd0dc.8cce6",
+        "type": "http request",
+        "z": "33a82338.96373c",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/add_detail_to_task",
+        "tls": "",
+        "x": 142.33266067504883,
+        "y": 505.3333225250244,
+        "wires": [
+            [
+                "e33747b1.110478"
+            ]
+        ]
+    },
+    {
+        "id": "40b744de.04fb0c",
+        "type": "debug",
+        "z": "33a82338.96373c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 563.3325233459473,
+        "y": 542.6666555404663,
+        "wires": []
+    },
+    {
+        "id": "81d6a028.c843e",
+        "type": "switch",
+        "z": "33a82338.96373c",
+        "name": "",
+        "property": "isDetailProcessed",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 564.6658363342285,
+        "y": 483.9999713897705,
+        "wires": [
+            [
+                "7b125b82.7c8474"
+            ]
+        ]
+    },
+    {
+        "id": "7b125b82.7c8474",
+        "type": "http request",
+        "z": "33a82338.96373c",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_bulk_docs",
+        "tls": "",
+        "x": 727.9991989135742,
+        "y": 483.9999885559082,
+        "wires": [
+            [
+                "32c4758e.2cddca"
+            ]
+        ]
+    },
+    {
+        "id": "32c4758e.2cddca",
+        "type": "debug",
+        "z": "33a82338.96373c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 899.999210357666,
+        "y": 483.9999876022339,
+        "wires": []
+    },
+    {
+        "id": "34233fa8.05ec4",
+        "type": "delay",
+        "z": "33a82338.96373c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 125.8333511352539,
+        "y": 419.00001525878906,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de288c55.3c631",
+        "type": "inject",
+        "z": "33a82338.96373c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 169.83332443237305,
+        "y": 676.6666660308838,
+        "wires": [
+            [
+                "b47301b.6003f"
+            ]
+        ]
+    },
+    {
+        "id": "b47301b.6003f",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "push",
+        "func": "msg.payload = \"This notification is testing purpose. Please ignore this.\";\nmsg.identifiers= \"89a5847f-3d15-301c-924f-c0b0cf0ac493,5BEB3CCB-EA92-46D0-A89B-7CE9A609D960\"; //device_id\n    \nnode.warn(msg);\nreturn msg;\n\n\n    \n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 339.8333435058594,
+        "y": 672.3333511352539,
+        "wires": [
+            [
+                "b43e391d.d7ba08"
+            ]
+        ]
+    },
+    {
+        "id": "b43e391d.d7ba08",
+        "type": "ibmpush",
+        "z": "33a82338.96373c",
+        "name": "",
+        "ApplicationID": "roger_colburn",
+        "identifiers": "",
+        "notification": "deviceid",
+        "mode": "PRODUCTION",
+        "x": 506.8333435058594,
+        "y": 670.3333740234375,
+        "wires": []
+    },
+    {
+        "id": "dbddd0fb.6a813",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "payload",
+        "func": "msg.payload = {\n    query: \"table:users AND virtual_phone:12145644732\",\n    sort : \"_id<string>\"\n};\n\n\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310.8333435058594,
+        "y": 849.0000114440918,
+        "wires": [
+            [
+                "87cb232.db5a0e"
+            ]
+        ]
+    },
+    {
+        "id": "66428e5c.a4e4f",
+        "type": "inject",
+        "z": "33a82338.96373c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 149.83332061767578,
+        "y": 850.0000095367432,
+        "wires": [
+            [
+                "dbddd0fb.6a813"
+            ]
+        ]
+    },
+    {
+        "id": "87cb232.db5a0e",
+        "type": "cloudant in",
+        "z": "33a82338.96373c",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 471.8333435058594,
+        "y": 847.3333511352539,
+        "wires": [
+            [
+                "91a2a484.f1aec8"
+            ]
+        ]
+    },
+    {
+        "id": "91a2a484.f1aec8",
+        "type": "function",
+        "z": "33a82338.96373c",
+        "name": "push_notification",
+        "func": "var payload     = msg.payload ,\n    user_obj    = calculate_user(payload); \n\nif(isEmpty(user_obj)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = \"No need to send push notification\";\n}else{\n    if(user_obj.device_id == \"Web View\" && push_accepted === 0){\n        msg.api_status = \"API_ERROR\";\n        msg.payload    = \"No need to send push notification\";\n    }else{\n        msg.payload = \"New message comes under ReminderBot company msg\";\n        msg.identifiers= user_obj.device_id; //device_id\n        node.warn(msg);\n    }\n}\nreturn msg;\n\nfunction calculate_user(list){\n    var obj = {};\n    if(isEmpty(list))return obj;\n    \n    for(var itr in list){\n        if(list[itr].virtual_phone){\n            obj = list[itr];\n        }\n    }\n    return obj;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 665.8333435058594,
+        "y": 847.0000076293945,
+        "wires": [
+            [
+                "636b3e88.71551"
+            ]
+        ]
+    },
+    {
+        "id": "636b3e88.71551",
+        "type": "ibmpush",
+        "z": "33a82338.96373c",
+        "name": "",
+        "ApplicationID": "roger_colburn",
+        "identifiers": "",
+        "notification": "deviceid",
+        "mode": "PRODUCTION",
+        "x": 851.6666259765625,
+        "y": 843.6666259765625,
+        "wires": []
+    }
+]

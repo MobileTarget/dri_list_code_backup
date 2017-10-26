@@ -1,0 +1,751 @@
+[
+    {
+        "id": "505a09c5.621328",
+        "type": "tab",
+        "label": "Login API "
+    },
+    {
+        "id": "7186c287.a7506c",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "phone",
+        "func": "msg.payload = {\n    query: \"table:users AND virtual_phone:\" + msg.user_data.phone\n};\n\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 180,
+        "wires": [
+            [
+                "d86876c3.a368d8"
+            ]
+        ]
+    },
+    {
+        "id": "7803a4ba.36e64c",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "Going to save user if not found in db",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 489,
+        "y": 287,
+        "wires": []
+    },
+    {
+        "id": "d58df840.89ee38",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, user_data = msg.user_data, payload = {};\n\nmsg.verification_code = rand();\nmsg.access_token = token();\n\n\nif(isEmpty(db_data)) {\n    payload = {\n        table       : \"users\",\n        access_token:  msg.access_token,\n        phone       :  parseInt(user_data.phone),\n        virtual_phone: parseInt(user_data.phone),\n        security_level: 0,\n        code:         msg.verification_code,\n        type: {\n            \"public\": \"public\"\n        },\n        device_id: \"\",\n        push_accepted: 0\n    };\n}\nelse {\n    payload ={\n      _id               : db_data[0]._id,\n      _rev              : db_data[0]._rev,\n      table             : \"users\",\n      long_url          : db_data[0].long_url || \"\",\n      access_token      : msg.access_token,\n      security_level    : db_data[0].security_level ,\n      phone             : db_data[0].phone || parseInt(user_data.phone) ,\n      virtual_phone     : db_data[0].virtual_phone || parseInt(user_data.phone),\n      email             : db_data[0].email || \"\",\n      converstation_id  : db_data[0].converstation_id || \"\",\n      firstname         : db_data[0].firstname || \"\",\n      lastname          : db_data[0].lastname || \"\",\n      code              : msg.verification_code,\n      password          : db_data[0].password || \"\",\n      image             : db_data[0].image || \"\",\n      type              : db_data[0].type ,\n      device_id         : db_data[0].device_id,\n      push_accepted     : db_data[0].push_accepted\n    };\n}\n\nmsg.security_level = payload.security_level ;\nmsg.payload = payload;\n\nreturn msg;\n\nfunction rand() {\n    return Math.floor(1000 + Math.random() * 9000);\n}\n\nfunction token() {\n    return new Date().getTime() + \".\" +Math.random().toString(36).substr(2) ;\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 320,
+        "wires": [
+            [
+                "7803a4ba.36e64c",
+                "b75807ef.c8af88",
+                "426e5187.75c3d"
+            ]
+        ]
+    },
+    {
+        "id": "61e00bf5.7542f4",
+        "type": "http in",
+        "z": "505a09c5.621328",
+        "name": "",
+        "url": "/api/login",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "db69296f.28fea8",
+                "b77a7a77.4d7c98"
+            ]
+        ]
+    },
+    {
+        "id": "db69296f.28fea8",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "Move to user_data",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 310,
+        "y": 180,
+        "wires": [
+            [
+                "7186c287.a7506c"
+            ]
+        ]
+    },
+    {
+        "id": "d86876c3.a368d8",
+        "type": "cloudant in",
+        "z": "505a09c5.621328",
+        "name": "get user by phone",
+        "cloudant": "76512216.4472ac",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 668.9999694824219,
+        "y": 178.99999237060547,
+        "wires": [
+            [
+                "de85adbc.6754"
+            ]
+        ]
+    },
+    {
+        "id": "de85adbc.6754",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "Move to db_output",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 180,
+        "wires": [
+            [
+                "d58df840.89ee38"
+            ]
+        ]
+    },
+    {
+        "id": "426e5187.75c3d",
+        "type": "cloudant out",
+        "z": "505a09c5.621328",
+        "name": "save user to db",
+        "cloudant": "76512216.4472ac",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 420,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c3b5731.5c1fc9",
+        "type": "http in",
+        "z": "505a09c5.621328",
+        "name": "",
+        "url": "/api/verify",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 102,
+        "y": 763,
+        "wires": [
+            [
+                "42191b01.3a5b14",
+                "2c072fa6.f5b59"
+            ]
+        ]
+    },
+    {
+        "id": "42191b01.3a5b14",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "Move to request_data",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "request_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 327,
+        "y": 764,
+        "wires": [
+            [
+                "e56e2da1.ba451"
+            ]
+        ]
+    },
+    {
+        "id": "e56e2da1.ba451",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "2. access_token",
+        "func": "if(isEmpty(msg.request_data.access_token)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"`access_token` is required to fullfil request\", data: null};\n}else if(isEmpty(msg.request_data.code)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"`code` is required to fullfil request\", data: null};\n}else if(isEmpty(msg.request_data.device_id)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"`device_id` is required to fullfil request\", data: null};\n}else if(isEmpty(msg.request_data.push_accepted)){\n    msg.api_status = \"API_ERROR\";\n    msg.payload    = {status: 400, error: true, msg: \"`push_accepted` is required to fullfil request\", data: null};\n}else{\n    msg.api_status = \"API_SUCCESS\";\n    msg.access_token = msg.request_data.access_token; \n    msg.payload = {\n        query: \"table: users AND access_token:\"+ msg.request_data.access_token\n    };    \n}\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 527,
+        "y": 764,
+        "wires": [
+            [
+                "12f5e63c.6ad31a"
+            ]
+        ]
+    },
+    {
+        "id": "b75807ef.c8af88",
+        "type": "switch",
+        "z": "505a09c5.621328",
+        "name": "security_level",
+        "property": "security_level",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 420,
+        "y": 400,
+        "wires": [
+            [
+                "c73b58c0.0a4d18"
+            ],
+            [
+                "8c38552f.3e1b78"
+            ]
+        ]
+    },
+    {
+        "id": "8c38552f.3e1b78",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "2. return menu page",
+        "func": "//node.warn(\"comes in this case.....\");\nvar response = {\n    \"page_id\":      2,\n    \"access_token\": msg.access_token\n};\nmsg.payload = response;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 673,
+        "y": 442,
+        "wires": [
+            [
+                "dd88b5c9.2e1168",
+                "3ea3a102.57f93e"
+            ]
+        ]
+    },
+    {
+        "id": "3ea3a102.57f93e",
+        "type": "http response",
+        "z": "505a09c5.621328",
+        "name": "API Result",
+        "x": 933,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f7ec356e.eb9568",
+        "type": "cloudant in",
+        "z": "505a09c5.621328",
+        "name": "get user by token",
+        "cloudant": "76512216.4472ac",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 908.9999694824219,
+        "y": 802.0000305175781,
+        "wires": [
+            [
+                "b426c1f6.f09e8"
+            ]
+        ]
+    },
+    {
+        "id": "b426c1f6.f09e8",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "Move to db_user",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_user",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 209,
+        "y": 844,
+        "wires": [
+            [
+                "4924a8d8.356e18"
+            ]
+        ]
+    },
+    {
+        "id": "4924a8d8.356e18",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "check verify code",
+        "func": "var db_data = msg.db_user, request_data = msg.request_data;\nvar response = {};\n\nfunction check_obj(obj){\n    if(obj === null || obj === undefined){\n        return 0;\n    }else{\n        return Object.keys(obj).length;\n    }\n}\n\nif(check_obj(db_data) > 0) {\n    var db_code = db_data[0].code;\n    //db_code = \"1234\";\n    if(String(db_data[0].virtual_phone).length == 4){\n        if(request_data.code == 1234){\n            response.status = \"success\";\n        }else{\n            response.status = \"fail\";\n            response.msg = \"Invalid Code\";\n        } \n    }else if(String(db_data[0].virtual_phone).length > 7 &&  String(db_data[0].virtual_phone).length <= 12){\n        if(parseInt(request_data.code) == db_code){\n            response.status = \"success\";\n        }else{\n            response.status = \"fail\";\n            response.msg = \"Invalid Code\";\n        } \n    }else{\n        if(request_data.code == db_code){\n            response.status = \"success\";\n        }else{\n            response.status = \"fail\";\n            response.msg = \"Invalid Code\";\n        }    \n    }\n}\nelse{\n    response.status = \"fail\";\n    response.msg = \"Invalid Token\";\n}\n\nmsg.payload = response;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 469,
+        "y": 844,
+        "wires": [
+            [
+                "74d84c05.9f6ee4"
+            ]
+        ]
+    },
+    {
+        "id": "b7b07cb6.8ee87",
+        "type": "http response",
+        "z": "505a09c5.621328",
+        "name": "API Result",
+        "x": 989,
+        "y": 1004,
+        "wires": []
+    },
+    {
+        "id": "74d84c05.9f6ee4",
+        "type": "switch",
+        "z": "505a09c5.621328",
+        "name": "Status",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "success",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "fail",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 249,
+        "y": 924,
+        "wires": [
+            [
+                "45c09b7.5237264"
+            ],
+            [
+                "8e411c33.cb121"
+            ]
+        ]
+    },
+    {
+        "id": "f46a8552.d393f8",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "2. return menu page",
+        "func": "var response = {\n    \"page_id\":  2,\n    \"user_id\":  msg.payload._id,\n    \"status\":   \"valid\"\n};\nmsg.payload = response;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 759,
+        "y": 944,
+        "wires": [
+            [
+                "b7b07cb6.8ee87",
+                "f98b5651.131558"
+            ]
+        ]
+    },
+    {
+        "id": "5740c095.59b7d",
+        "type": "cloudant out",
+        "z": "505a09c5.621328",
+        "name": "update security level",
+        "cloudant": "76512216.4472ac",
+        "database": "master_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 779,
+        "y": 884,
+        "wires": []
+    },
+    {
+        "id": "45c09b7.5237264",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_user[0] ,\n    body    = msg.request_data ;\n\ndb_data.security_level = 1 ;\ndb_data.device_id = body.device_id ;\ndb_data.push_accepted = parseInt(body.push_accepted) || 1 ;\n\nmsg.payload = db_data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 479,
+        "y": 924,
+        "wires": [
+            [
+                "f46a8552.d393f8",
+                "5740c095.59b7d"
+            ]
+        ]
+    },
+    {
+        "id": "8e411c33.cb121",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "1. return login page",
+        "func": "var payload = {\n    \"page_id\":  1,\n    \"status\":   \"invalid\"\n};\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 479,
+        "y": 1004,
+        "wires": [
+            [
+                "b7b07cb6.8ee87",
+                "c4cdcc73.d3fdd"
+            ]
+        ]
+    },
+    {
+        "id": "b77a7a77.4d7c98",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "API Login ",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 293,
+        "y": 133,
+        "wires": []
+    },
+    {
+        "id": "2c072fa6.f5b59",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "Verify screeen",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 326,
+        "y": 703,
+        "wires": []
+    },
+    {
+        "id": "dd88b5c9.2e1168",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "menu page",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 934,
+        "y": 429,
+        "wires": []
+    },
+    {
+        "id": "c73b58c0.0a4d18",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "11. return verify page & ac",
+        "func": "var req_body = msg.user_data ;\nif(msg.user_data.phone){\n  \n    if(String(msg.user_data.phone).length === 4){\n        msg.sendverification = \"no_need_to_send\";\n        msg.api_response = {\n            \"page_id\":      11,\n            \"access_token\": msg.access_token,\n            \"code\" : msg.verification_code\n        };\n    }else{\n        if(String(msg.user_data.phone).length >= 7 && String(msg.user_data.phone).length <= 12){\n            msg.sendverification = \"need_to_send_verification\" ;\n            msg.api_response = {\n                \"page_id\":      11,\n                \"access_token\": msg.access_token,\n                \"code\" : msg.verification_code\n            };    \n        }else{\n            msg.sendverification = \"no_need_to_send\" ;\n            msg.api_response = {\n                \"page_id\":      1,\n                \"access_token\": msg.access_token,\n                \"code\" : msg.verification_code,\n                \"msg\"  : \"Invalid phone number\"\n            };\n        }\n    }\n}else{\n    msg.sendverification = \"no_need_to_send\" ;\n    msg.api_response = {\n                \"page_id\":      1,\n                \"access_token\": msg.access_token,\n                \"code\" : msg.verification_code,\n                \"msg\"  : \"Invalid phone number\"\n            };\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 675.88671875,
+        "y": 343.48828125,
+        "wires": [
+            [
+                "ad522d0c.dc4ab"
+            ]
+        ]
+    },
+    {
+        "id": "ad522d0c.dc4ab",
+        "type": "switch",
+        "z": "505a09c5.621328",
+        "name": "",
+        "property": "sendverification",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "need_to_send_verification",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 937.515625,
+        "y": 361.25,
+        "wires": [
+            [
+                "137fa500.6fb9bb"
+            ],
+            [
+                "b0ff54bd.8a8f28"
+            ]
+        ]
+    },
+    {
+        "id": "137fa500.6fb9bb",
+        "type": "function",
+        "z": "505a09c5.621328",
+        "name": "send sms code",
+        "func": "var user_data = msg.user_data;\nvar code = msg.verification_code || 1234;\nmsg.topic = user_data.phone || 12145644732;\nmsg.payload = \"Your verification code for the DoMeNow app is : \" + code;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1120.515625,
+        "y": 313,
+        "wires": [
+            [
+                "749c447d.38ea4c",
+                "47e61224.2060ec",
+                "3334fe5e.960e52"
+            ]
+        ]
+    },
+    {
+        "id": "47e61224.2060ec",
+        "type": "twilio out",
+        "z": "505a09c5.621328",
+        "service": "_ext_",
+        "twilio": "c4fcd744.cdabe8",
+        "from": "+12317146495",
+        "number": "",
+        "name": "SMS verify Code",
+        "x": 1399.515625,
+        "y": 292,
+        "wires": []
+    },
+    {
+        "id": "749c447d.38ea4c",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "Responded via Twilio",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1410.515625,
+        "y": 336,
+        "wires": []
+    },
+    {
+        "id": "73d92033.6eb02",
+        "type": "http response",
+        "z": "505a09c5.621328",
+        "name": "API Result",
+        "x": 1545.515625,
+        "y": 236.25,
+        "wires": []
+    },
+    {
+        "id": "3334fe5e.960e52",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "change",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1367.3828125,
+        "y": 236.16796875,
+        "wires": [
+            [
+                "73d92033.6eb02"
+            ]
+        ]
+    },
+    {
+        "id": "b0ff54bd.8a8f28",
+        "type": "change",
+        "z": "505a09c5.621328",
+        "name": "change",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1099.640625,
+        "y": 370.1640625,
+        "wires": [
+            [
+                "b7263275.e082d",
+                "453bf294.25fdcc"
+            ]
+        ]
+    },
+    {
+        "id": "b7263275.e082d",
+        "type": "http response",
+        "z": "505a09c5.621328",
+        "name": "Api result",
+        "x": 1371.62499076128,
+        "y": 387.15234177559614,
+        "wires": []
+    },
+    {
+        "id": "453bf294.25fdcc",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "api_response ",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1385,
+        "y": 432,
+        "wires": []
+    },
+    {
+        "id": "c4cdcc73.d3fdd",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "login page return again",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 718.8333435058594,
+        "y": 1095.0000178019206,
+        "wires": []
+    },
+    {
+        "id": "f98b5651.131558",
+        "type": "debug",
+        "z": "505a09c5.621328",
+        "name": "menu page return ",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1046.8334045410156,
+        "y": 929.0000178019206,
+        "wires": []
+    },
+    {
+        "id": "12f5e63c.6ad31a",
+        "type": "switch",
+        "z": "505a09c5.621328",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_SUCCESS",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 699.8333435058594,
+        "y": 733.6667175292969,
+        "wires": [
+            [
+                "f7ec356e.eb9568"
+            ],
+            [
+                "353bd9fe.423a06"
+            ]
+        ]
+    },
+    {
+        "id": "353bd9fe.423a06",
+        "type": "http response",
+        "z": "505a09c5.621328",
+        "name": "",
+        "x": 872.8333435058594,
+        "y": 738.6667175292969,
+        "wires": []
+    },
+    {
+        "id": "93e62ca5.6291e",
+        "type": "comment",
+        "z": "505a09c5.621328",
+        "name": "Following code referes to \"/api/verfiy\" endpoint. which whill check if verfiy code is valid or not if valid then re-direct to Category screen else re-direct back to login screen",
+        "info": "",
+        "x": 567.2421875,
+        "y": 638.59375,
+        "wires": []
+    },
+    {
+        "id": "867a284b.9bfb58",
+        "type": "comment",
+        "z": "505a09c5.621328",
+        "name": "Login `/api/login` flow is following. To check existing number , send verification code, re-direct to verification screen are done by following code.",
+        "info": "",
+        "x": 503.2421875,
+        "y": 76.6015625,
+        "wires": []
+    },
+    {
+        "id": "76512216.4472ac",
+        "type": "cloudant",
+        "z": "",
+        "host": "http://127.0.0.1",
+        "name": "timeout-api-cloudantNoSQLDB"
+    },
+    {
+        "id": "c4fcd744.cdabe8",
+        "type": "twilio-api",
+        "z": "",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "12312259665 ",
+        "name": "DoMeNowApp Twilio Service"
+    }
+]

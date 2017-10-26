@@ -1,0 +1,3193 @@
+[
+    {
+        "id": "662b971b.e02a68",
+        "type": "tab",
+        "label": "User Screen"
+    },
+    {
+        "id": "30b56e49.7dc182",
+        "type": "tab",
+        "label": "Location Screen"
+    },
+    {
+        "id": "7d73ba45.c80ab4",
+        "type": "tab",
+        "label": "Template Screen"
+    },
+    {
+        "id": "d9e3488f.8f93b8",
+        "type": "tab",
+        "label": "Task Screen"
+    },
+    {
+        "id": "57a35ec7.3182f",
+        "type": "tab",
+        "label": "Timeout Screen"
+    },
+    {
+        "id": "a164a1e3.d69",
+        "type": "tab",
+        "label": "Detail Screen"
+    },
+    {
+        "id": "7fce52ea.7e640c",
+        "type": "tab",
+        "label": "Big Record Table"
+    },
+    {
+        "id": "75b71eb6.4ae56",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "",
+        "wholemsg": "false"
+    },
+    {
+        "id": "c4fcd744.cdabe8",
+        "type": "twilio-api",
+        "z": "",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "+15103067839",
+        "name": "Twilio Chatbot1"
+    },
+    {
+        "id": "df85784.deb9a88",
+        "type": "twilio-api",
+        "z": "",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "+15103067839",
+        "name": "Twilio Chatbot1"
+    },
+    {
+        "id": "8256f452.e40578",
+        "type": "twilio-api",
+        "z": "",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "+15103067839",
+        "name": "Twilio Chatbot1"
+    },
+    {
+        "id": "f21375e6.0c0388",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/chat",
+        "wholemsg": "false"
+    },
+    {
+        "id": "b1b06246.0977a",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "Helvetica Neue",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "Helvetica Neue",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "Helvetica Neue"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#000000",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#10cfd8",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                }
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "1bd51bb9.ae7d24",
+        "type": "ui_tab",
+        "z": "",
+        "name": "User Form Tab",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "c9b5c240.9166e",
+        "type": "ui_group",
+        "z": "662b971b.e02a68",
+        "name": "Form",
+        "tab": "1bd51bb9.ae7d24",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "5fa0db32.5a8624",
+        "type": "ui_group",
+        "z": "30b56e49.7dc182",
+        "name": "Location Form",
+        "tab": "",
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "7b59d779.f66738",
+        "type": "ui_tab",
+        "z": "30b56e49.7dc182",
+        "name": "Location Form",
+        "icon": "dashboard",
+        "order": 2
+    },
+    {
+        "id": "9245592b.d1e4f8",
+        "type": "ui_group",
+        "z": "30b56e49.7dc182",
+        "name": "Location",
+        "tab": "7b59d779.f66738",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "b2135a9e.4c9988",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Template Form",
+        "icon": "dashboard",
+        "order": 3
+    },
+    {
+        "id": "4d3cad8b.f40864",
+        "type": "ui_group",
+        "z": "7d73ba45.c80ab4",
+        "name": "Template",
+        "tab": "b2135a9e.4c9988",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "d611d14d.fe256",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Task Screen",
+        "icon": "dashboard",
+        "order": 4
+    },
+    {
+        "id": "d0242660.cf9398",
+        "type": "ui_group",
+        "z": "d9e3488f.8f93b8",
+        "name": "Task",
+        "tab": "d611d14d.fe256",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "b192884e.b0a068",
+        "type": "ui_group",
+        "z": "",
+        "name": "Task",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "8f59afc3.dc37b",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Timeout Screen",
+        "icon": "dashboard",
+        "order": 5
+    },
+    {
+        "id": "e90a8654.6407c8",
+        "type": "ui_group",
+        "z": "57a35ec7.3182f",
+        "name": "Timeout",
+        "tab": "8f59afc3.dc37b",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "f004ae97.62a33",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Detail Screen",
+        "icon": "dashboard",
+        "order": 6
+    },
+    {
+        "id": "e8b5a7d3.af2da8",
+        "type": "ui_group",
+        "z": "a164a1e3.d69",
+        "name": "Detail",
+        "tab": "f004ae97.62a33",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "9a9b7181.f3ccf",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Big record table",
+        "icon": "dashboard",
+        "order": 7
+    },
+    {
+        "id": "605089c4.c715b8",
+        "type": "ui_group",
+        "z": "7fce52ea.7e640c",
+        "name": "Big record table",
+        "tab": "9a9b7181.f3ccf",
+        "order": 1,
+        "disp": false,
+        "width": "9"
+    },
+    {
+        "id": "fb3b3fd8.2739",
+        "type": "ui_form",
+        "z": "662b971b.e02a68",
+        "name": "User Form",
+        "label": "",
+        "group": "c9b5c240.9166e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "First Name",
+                "value": "f_name",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Last Name",
+                "value": "l_name",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Email",
+                "value": "email",
+                "type": "email",
+                "required": true
+            },
+            {
+                "label": "Phone",
+                "value": "phone",
+                "type": "number",
+                "required": true
+            },
+            {
+                "label": "Password",
+                "value": "password",
+                "type": "password",
+                "required": true
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "f_name": "",
+            "l_name": "",
+            "email": "",
+            "phone": "",
+            "password": ""
+        },
+        "payload": "",
+        "topic": "user_form_data",
+        "x": 95,
+        "y": 71,
+        "wires": [
+            [
+                "5cd0ae1f.4dd47"
+            ]
+        ]
+    },
+    {
+        "id": "5cd0ae1f.4dd47",
+        "type": "change",
+        "z": "662b971b.e02a68",
+        "name": "Move to User_data",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "user_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 202,
+        "y": 298,
+        "wires": [
+            [
+                "19bac9c9.70f2f6"
+            ]
+        ]
+    },
+    {
+        "id": "19bac9c9.70f2f6",
+        "type": "function",
+        "z": "662b971b.e02a68",
+        "name": "Merge",
+        "func": "\nif(msg.user_data){\n    if(msg.user_data._id){\n        msg.status = \"find_from_db\";\n        msg.payload = {\"_id\": msg.user_data._id};\n    }else{\n        msg.status = \"save_into_db\";\n        msg.payload = {\n            long_url : null,\n            access_token : null,\n            security_level : null,\n            virtual_phone: msg.user_data.phone,\n            email: msg.user_data.email,\n            converstation_id : null,\n            first_name : msg.user_data.f_name,\n            last_name: msg.user_data.l_name,\n            code: null,\n            password: msg.user_data.password,\n        };\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 336,
+        "y": 166,
+        "wires": [
+            [
+                "472d2dc8.9e7c94"
+            ]
+        ]
+    },
+    {
+        "id": "472d2dc8.9e7c94",
+        "type": "switch",
+        "z": "662b971b.e02a68",
+        "name": "Switch",
+        "property": "status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "find_from_db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "save_into_db",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 437,
+        "y": 297,
+        "wires": [
+            [
+                "10385e2f.abcb02"
+            ],
+            [
+                "a05e2317.d1831"
+            ]
+        ]
+    },
+    {
+        "id": "a05e2317.d1831",
+        "type": "cloudant out",
+        "z": "662b971b.e02a68",
+        "name": "Save User to database",
+        "cloudant": "",
+        "database": "users",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 733,
+        "y": 393,
+        "wires": []
+    },
+    {
+        "id": "10385e2f.abcb02",
+        "type": "cloudant in",
+        "z": "662b971b.e02a68",
+        "name": "Get user by Id",
+        "cloudant": "",
+        "database": "users",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 565,
+        "y": 166,
+        "wires": [
+            [
+                "41d2efbd.820e5"
+            ]
+        ]
+    },
+    {
+        "id": "41d2efbd.820e5",
+        "type": "change",
+        "z": "662b971b.e02a68",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 727,
+        "y": 64,
+        "wires": [
+            [
+                "35dc3ff9.b4b05"
+            ]
+        ]
+    },
+    {
+        "id": "35dc3ff9.b4b05",
+        "type": "function",
+        "z": "662b971b.e02a68",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, form_data = msg.user_data, payload = {};\n\nif(check_obj(db_data) > 0){\n    payload = {\n        _id : db_data._id,\n        _rev : db_data._rev,\n        long_url : form_data.long_url || db_data.long_url,\n        access_token : form_data.access_token || db_data.access_token,\n        security_level : form_data.security_level || db_data.security_level,\n        virtual_phone: form_data.phone || db_data.phone,\n        email: form_data.email || db_data.email,\n        converstation_id : form_data.converstation_id || db_data.converstation_id,\n        first_name : form_data.f_name || db_data.first_name,\n        last_name: form_data.l_name || db_data.last_name ,\n        code: form_data.code || db_data.code ,\n        password: form_data.password || db_data.password,\n    };\n}else{\n    payload = {\n        long_url : form_data.long_url ,\n        access_token : form_data.access_token,\n        security_level : form_data.security_level,\n        virtual_phone: form_data.phone,\n        email: form_data.email,\n        converstation_id : form_data.converstation_id,\n        first_name : form_data.f_name,\n        last_name: form_data.l_name,\n        code: form_data.code,\n        password: form_data.password,\n    };\n}\n\nmsg.payload = payload ;\nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    for(var keys in obj){\n        count++;\n    }\n    return count ;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 737,
+        "y": 294,
+        "wires": [
+            [
+                "a05e2317.d1831"
+            ]
+        ]
+    },
+    {
+        "id": "edf0f2a0.91cdb",
+        "type": "ui_form",
+        "z": "30b56e49.7dc182",
+        "name": "Location Form ",
+        "label": "",
+        "group": "9245592b.d1e4f8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Name",
+                "value": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Type",
+                "value": "type",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Latitude",
+                "value": "lat",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Longitutude",
+                "value": "lon",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Distance",
+                "value": "dist",
+                "type": "number",
+                "required": false
+            },
+            {
+                "label": "Web Url",
+                "value": "web",
+                "type": "text",
+                "required": false
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "name": "",
+            "type": "",
+            "lat": "",
+            "lon": "",
+            "dist": "",
+            "web": ""
+        },
+        "payload": "",
+        "topic": "location_from_data",
+        "x": 94,
+        "y": 64,
+        "wires": [
+            [
+                "e50e51f9.a80fb"
+            ]
+        ]
+    },
+    {
+        "id": "e50e51f9.a80fb",
+        "type": "change",
+        "z": "30b56e49.7dc182",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "location_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 192,
+        "y": 218,
+        "wires": [
+            [
+                "9206f563.2f9c48"
+            ]
+        ]
+    },
+    {
+        "id": "9206f563.2f9c48",
+        "type": "function",
+        "z": "30b56e49.7dc182",
+        "name": "Merge",
+        "func": "if(msg.location_data){\n    if(msg.location_data._id){\n        msg.status = \"find_from_db\";\n        msg.payload = {\"_id\": msg.location_data._id};\n    }else{\n        msg.status = \"save_into_db\";\n        msg.payload = {\n            location_name : msg.location_data.name,\n            location_type : msg.location_data.type,\n            location_data : {\n                lat : msg.location_data.lat ? Number(msg.location_data.lat) : 0,\n                lon : msg.location_data.lon ? Number(msg.location_data.lon) : 0,\n                dist: msg.location_data.dist ? Number(msg.location_data.dist) : 0,\n                web: msg.location_data.web\n            }\n        };\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 327,
+        "y": 135,
+        "wires": [
+            [
+                "9007f34d.96a0e"
+            ]
+        ]
+    },
+    {
+        "id": "9007f34d.96a0e",
+        "type": "switch",
+        "z": "30b56e49.7dc182",
+        "name": "Switch",
+        "property": "status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "find_from_db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "save_into_db",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 421,
+        "y": 278,
+        "wires": [
+            [
+                "9bd84e9d.8d399"
+            ],
+            [
+                "12b05c4.51a23a4"
+            ]
+        ]
+    },
+    {
+        "id": "12b05c4.51a23a4",
+        "type": "cloudant out",
+        "z": "30b56e49.7dc182",
+        "name": "Save to Database",
+        "cloudant": "",
+        "database": "location",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 717,
+        "y": 510,
+        "wires": []
+    },
+    {
+        "id": "9bd84e9d.8d399",
+        "type": "cloudant in",
+        "z": "30b56e49.7dc182",
+        "name": "Get Loation by Id",
+        "cloudant": "",
+        "database": "location",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 539,
+        "y": 145,
+        "wires": [
+            [
+                "33360866.80edb8"
+            ]
+        ]
+    },
+    {
+        "id": "33360866.80edb8",
+        "type": "change",
+        "z": "30b56e49.7dc182",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 714,
+        "y": 55,
+        "wires": [
+            [
+                "1f9f7129.cf579f"
+            ]
+        ]
+    },
+    {
+        "id": "1f9f7129.cf579f",
+        "type": "function",
+        "z": "30b56e49.7dc182",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, form_data = msg.location_data, payload = {};\n\nif(check_obj(db_data) > 0){\n    payload = {\n        _id : db_data._id,\n        _rev : db_data._rev,\n        location_name : form_data.name || db_data.location_name,\n        location_type : form_data.type || db_data.location_type,\n        location_data : {\n            lat : form_data.lat || db_data.location_data.lat,\n            lon : form_data.lon || db_data.location_data.lon,\n            dist: form_data.dist || db_data.location_data.dist,\n            web: form_data.web || db_data.location_data.web\n        }\n    };\n}else{\n    payload = {\n        location_name : form_data.name,\n        location_type : form_data.type,\n        location_data : {\n            lat : form_data.lat,\n            lon : form_data.lon,\n            dist: form_data.dist,\n            web: form_data.web\n        }\n    };\n}\n\nmsg.payload = payload ;\nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    for(var keys in obj){\n        count++;\n    }\n    return count ;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 672,
+        "y": 237,
+        "wires": [
+            [
+                "12b05c4.51a23a4"
+            ]
+        ]
+    },
+    {
+        "id": "d72e917a.2ead1",
+        "type": "ui_form",
+        "z": "7d73ba45.c80ab4",
+        "name": "Template Form",
+        "label": "",
+        "group": "4d3cad8b.f40864",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Name",
+                "value": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "HTML",
+                "value": "html",
+                "type": "text",
+                "required": true
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "name": "",
+            "html": ""
+        },
+        "payload": "",
+        "topic": "template_form_data",
+        "x": 95,
+        "y": 150,
+        "wires": [
+            [
+                "7f2f58c9.0f13d8"
+            ]
+        ]
+    },
+    {
+        "id": "7f2f58c9.0f13d8",
+        "type": "change",
+        "z": "7d73ba45.c80ab4",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "template_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 166,
+        "y": 247,
+        "wires": [
+            [
+                "8576d2b2.a4046"
+            ]
+        ]
+    },
+    {
+        "id": "8576d2b2.a4046",
+        "type": "function",
+        "z": "7d73ba45.c80ab4",
+        "name": "Merge",
+        "func": "if(msg.template_data){\n    if(msg.template_data._id){\n        msg.status = \"find_from_db\";\n        msg.payload = {\"_id\": msg.template_data._id};\n    }else{\n        msg.status = \"save_into_db\";\n        msg.payload = {\n            name        : msg.template_data.name || null,\n            html        : msg.template_data.html || null\n        };\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 306,
+        "y": 90,
+        "wires": [
+            [
+                "f477ee9d.10865"
+            ]
+        ]
+    },
+    {
+        "id": "f477ee9d.10865",
+        "type": "switch",
+        "z": "7d73ba45.c80ab4",
+        "name": "Switch",
+        "property": "status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "find_from_db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "save_into_db",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 404,
+        "y": 246,
+        "wires": [
+            [
+                "e8918fe4.7a611"
+            ],
+            [
+                "fc25bd10.3588e"
+            ]
+        ]
+    },
+    {
+        "id": "fc25bd10.3588e",
+        "type": "cloudant out",
+        "z": "7d73ba45.c80ab4",
+        "name": "Save to Database",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 770,
+        "y": 458,
+        "wires": []
+    },
+    {
+        "id": "e8918fe4.7a611",
+        "type": "cloudant in",
+        "z": "7d73ba45.c80ab4",
+        "name": "Get Template by Id",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 508,
+        "y": 148,
+        "wires": [
+            [
+                "3609659.cbe2e9a"
+            ]
+        ]
+    },
+    {
+        "id": "3609659.cbe2e9a",
+        "type": "change",
+        "z": "7d73ba45.c80ab4",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 672,
+        "y": 47,
+        "wires": [
+            [
+                "e140c976.105978"
+            ]
+        ]
+    },
+    {
+        "id": "e140c976.105978",
+        "type": "function",
+        "z": "7d73ba45.c80ab4",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, form_data = msg.template_data, payload = {};\n\nif(check_obj(db_data) > 0){\n    payload = {\n        _id : db_data._id,\n        _rev : db_data._rev,\n        template_id : form_data.template_id || db_data.template_id,\n        name        : form_data.name || db_data.name,\n        html        : form_data.html || db_data.html\n    };\n}else{\n    payload = {\n        template_id : form_data.template_id,\n        name        : form_data.name,\n        html        : form_data.html\n    };\n}\n\nmsg.payload = payload ;\nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    for(var keys in obj){\n        count++;\n    }\n    return count ;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 663,
+        "y": 243,
+        "wires": [
+            [
+                "fc25bd10.3588e"
+            ]
+        ]
+    },
+    {
+        "id": "d4f93fcb.feae9",
+        "type": "ui_form",
+        "z": "d9e3488f.8f93b8",
+        "name": "Task Screen",
+        "label": "",
+        "group": "d0242660.cf9398",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Name",
+                "value": "name",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "User Id",
+                "value": "user_id",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Header Template Id",
+                "value": "header_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Detail Template Id",
+                "value": "details_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Footer Template Id",
+                "value": "footer_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Timeout Id",
+                "value": "timeout_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Location Id",
+                "value": "location_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Child Deafult Task Id",
+                "value": "child_default_task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Child default task name",
+                "value": "child_default_task_name",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Date created",
+                "value": "date_created",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Type",
+                "value": "type",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Status",
+                "value": "status",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Category",
+                "value": "category",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Additional_data_fn",
+                "value": "additional_data_fn",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Optional data",
+                "value": "optional_data",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Required data",
+                "value": "required_data",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Offline expiration time",
+                "value": "offline_expiration_time",
+                "type": "number",
+                "required": false
+            },
+            {
+                "label": "Display If empty",
+                "value": "display_if_empty",
+                "type": "text",
+                "required": false
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "name": "",
+            "user_id": "",
+            "header_template_id": "",
+            "details_template_id": "",
+            "footer_template_id": "",
+            "timeout_id": "",
+            "location_id": "",
+            "child_default_task_id": "",
+            "child_default_task_name": "",
+            "date_created": "",
+            "type": "",
+            "status": "",
+            "category": "",
+            "additional_data_fn": "",
+            "optional_data": "",
+            "required_data": "",
+            "offline_expiration_time": "",
+            "display_if_empty": ""
+        },
+        "payload": "",
+        "topic": "",
+        "x": 98,
+        "y": 60,
+        "wires": [
+            [
+                "33fb9251.e043ae"
+            ]
+        ]
+    },
+    {
+        "id": "33fb9251.e043ae",
+        "type": "change",
+        "z": "d9e3488f.8f93b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "task_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 152,
+        "y": 129,
+        "wires": [
+            [
+                "ec78be59.3849f"
+            ]
+        ]
+    },
+    {
+        "id": "69ddc3eb.30f08c",
+        "type": "function",
+        "z": "d9e3488f.8f93b8",
+        "name": "Merge",
+        "func": "if(msg.task_data){\n    if(msg.task_data._id){\n        msg.type_status = \"find_from_db\";\n        msg.payload = {\"_id\": msg.task_data._id};\n    }else{\n        msg.type_status = \"save_into_db\";\n        msg.payload = {\n            task_name: msg.task_data.name || null, \n            user_id: msg.task_data.user_id || null,\n            header_template_id: msg.task_data.header_template_id || null,\n            details_template_id: msg.task_data.details_template_id || null,\n            footer_template_id: msg.task_data.footer_template_id || null,\n            timeout_id: msg.task_data.timeout_id || null,\n            location_id: msg.task_data.location_id ? create_location_obj(msg.task_data.location_id, msg.location_arr) : null,\n            child_default_task_id: msg.task_data.child_defaults_task_id || null,\n            child_default_task_name : msg.task_data.child_default_task_name || null,\n            date_created: msg.task_data.date_created || new Date().toJSON(),\n            type: msg.task_data.type || null,\n            status: msg.task_data.status || null,\n            category: msg.task_data.category || null,\n            additional_data_fn: msg.task_data.additional_data_fn || null,\n            optional_data: msg.task_data.optional_data || {},\n            required_data: msg.task_data.required_data || {},\n            offline_expiration_time: msg.task_data.offline_expiration_time || 0,\n            display_if_empty: msg.task_data.display_if_empty || true \n        };\n    }\n}\n\nreturn msg;\n\n\nfunction create_location_obj(loc_str, loc_arr){\n    var locations       = [] ;\n        location_ids    = loc_str ? sanitizeString(loc_str) : null;    \n    \n        for(var i=0; i< loc_arr.length; i++){\n            if(location_ids !== null){\n                if(location_ids.indexOf(loc_arr[i]._id) > -1 ) {\n                    locations.push(loc_arr[i]);\n                }    \n            }\n        }\n    \n    return locations ;\n}\n\nfunction sanitizeString(str){\n    if(str || str !== undefined){\n        var arr = str.split(',');\n        for(var i=0; i< arr.length; i++){\n            arr[i] = arr[i].trim();\n        }\n        return arr ;\n    }else{\n        return false ;\n    }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 247,
+        "wires": [
+            [
+                "fac660c4.d29f1"
+            ]
+        ]
+    },
+    {
+        "id": "fac660c4.d29f1",
+        "type": "switch",
+        "z": "d9e3488f.8f93b8",
+        "name": "Switch",
+        "property": "type_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "find_from_db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "save_into_db",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 466,
+        "y": 250,
+        "wires": [
+            [
+                "3393ecb0.bb4964"
+            ],
+            [
+                "f9c68f40.b350d"
+            ]
+        ]
+    },
+    {
+        "id": "3393ecb0.bb4964",
+        "type": "cloudant in",
+        "z": "d9e3488f.8f93b8",
+        "name": "Get task by Id",
+        "cloudant": "",
+        "database": "task",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 534,
+        "y": 46,
+        "wires": [
+            [
+                "2d83c0c6.bca0a"
+            ]
+        ]
+    },
+    {
+        "id": "f9c68f40.b350d",
+        "type": "cloudant out",
+        "z": "d9e3488f.8f93b8",
+        "name": "Save to Database",
+        "cloudant": "",
+        "database": "task_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 689,
+        "y": 467,
+        "wires": []
+    },
+    {
+        "id": "2d83c0c6.bca0a",
+        "type": "change",
+        "z": "d9e3488f.8f93b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 706,
+        "y": 152,
+        "wires": [
+            [
+                "fc370234.6a6cc"
+            ]
+        ]
+    },
+    {
+        "id": "fc370234.6a6cc",
+        "type": "function",
+        "z": "d9e3488f.8f93b8",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, form_data = msg.task_data, payload = {};\n\nif(check_obj(db_data) > 0){\n    payload = {\n        _id : db_data._id,\n        _rev : db_data._rev,\n        user_id: form_data.user_id || db_data.user_id,\n        task_id: form_data.task_id || db_data.task_id,\n        header_template_id: form_data.header_template_id || db_data.header_template_id,\n        details_template_id: form_data.details_template_id || db_data.details_template_id,\n        footer_template_id: form_data.footer_template_id || db_data.footer_template_id,\n        timeout_id: form_data.timeout_id || db_data.timeout_id,\n        location_id: form_data.location_id ? create_location_obj(form_data.location_id, msg.location_arr) : db_data.location_id,\n        child_defaults_task_id: form_data.child_defaults_task_id || db_data.child_defaults_task_id,\n        date_created: form_data.date_created || db_data.date_created,\n        type: form_data.type || db_data.type,\n        status: form_data.status || db_data.status,\n        category: form_data.category || db_data.category,\n        additional_data_fn: form_data.additional_data_fn || db_data.additional_data_fn,\n        optional_data: form_data.optional_data || db_data.optional_data,        \n        required_data: form_data.required_data || db_data.required_data,\n        offline_expiration_time: form_data.offline_expiration_time || db_data.offline_expiration_time,     \n        display_if_empty: form_data.display_if_empty || db_data.display_if_empty\n    };\n}else{\n    payload = {\n        user_id: form_data.user_id,\n        task_id: form_data.task_id,\n        header_template_id: form_data.header_template_id,\n        details_template_id: form_data.details_template_id,\n        footer_template_id: form_data.footer_template_id,\n        timeout_id: form_data.timeout_id,\n        location_id: create_location_obj(form_data.location_id, msg.location_arr),\n        child_defaults_task_id: form_data.child_defaults_task_id,\n        date_created: form_data.date_created,\n        type: form_data.type,\n        status: form_data.status,\n        category: form_data.category,\n        additional_data_fn: form_data.additional_data_fn,\n        optional_data: form_data.optional_data,\n        required_data: form_data.required_data,\n        offline_expiration_time: form_data.offline_expiration_time,\n        display_if_empty: form_data.display_if_empty\n    };\n}\n\nmsg.payload = payload ;\nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    for(var keys in obj){\n        count++;\n    }\n    return count ;\n}\n\nfunction create_location_obj(loc_str, loc_arr){\n    var locations       = [] ;\n        location_ids    = loc_str ? sanitizeString(loc_str) : null;    \n    \n        for(var i=0; i< loc_arr.length; i++){\n            if(location_ids !== null){\n                if(location_ids.indexOf(loc_arr[i]._id) > -1 ) {\n                    locations.push(loc_arr[i]);\n                }    \n            }\n        }\n    \n    return locations ;\n}\n\nfunction sanitizeString(str){\n    if(str || str !== undefined){\n        var arr = str.split(',');\n        for(var i=0; i< arr.length; i++){\n            arr[i] = arr[i].trim();\n        }\n        return arr ;\n    }else{\n        return false ;\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 702,
+        "y": 278,
+        "wires": [
+            [
+                "f9c68f40.b350d"
+            ]
+        ]
+    },
+    {
+        "id": "8246f8b3.60a1a8",
+        "type": "ui_form",
+        "z": "57a35ec7.3182f",
+        "name": "Timeout Screen",
+        "label": "",
+        "group": "e90a8654.6407c8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Name",
+                "value": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Delivery Count",
+                "value": "delivery_count",
+                "type": "number",
+                "required": false
+            },
+            {
+                "label": "Delivery Status",
+                "value": "delivery_status",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Delivery Due",
+                "value": "delivery_due",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Delivery User Id",
+                "value": "delivery_user_ids",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Delivery Via",
+                "value": "delivery_via",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Delivery Task Id",
+                "value": "delivery_task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Message Id",
+                "value": "message_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Form Id",
+                "value": "form_id",
+                "type": "text",
+                "required": false
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "name": "",
+            "delivery_count": "",
+            "delivery_status": "",
+            "delivery_due": "",
+            "delivery_user_ids": "",
+            "delivery_via": "",
+            "delivery_task_id": "",
+            "message_id": "",
+            "form_id": ""
+        },
+        "payload": "",
+        "topic": "timeout_data",
+        "x": 101,
+        "y": 107,
+        "wires": [
+            [
+                "aa7e5fdb.c0f59"
+            ]
+        ]
+    },
+    {
+        "id": "aa7e5fdb.c0f59",
+        "type": "change",
+        "z": "57a35ec7.3182f",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "timeout_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 195,
+        "y": 185,
+        "wires": [
+            [
+                "be144762.cf97b8"
+            ]
+        ]
+    },
+    {
+        "id": "be144762.cf97b8",
+        "type": "function",
+        "z": "57a35ec7.3182f",
+        "name": "Merge",
+        "func": "if(msg.timeout_data){\n    if(msg.timeout_data._id){\n        msg.status = \"find_from_db\";\n        msg.payload = {\"_id\": msg.timeout_data._id};\n    }else{\n        msg.status = \"save_into_db\";\n        msg.payload = {\n            name: msg.timeout_data.name || null,\n            timeout_list: create_delivery_obj(msg) \n        };\n    }\n}\n\nreturn msg;\n\nfunction create_delivery_obj(msg){\n    var obj = {};\n    var user_id = msg.timeout_data.delivery_user_ids ? msg.timeout_data.delivery_user_ids.split(',') : null;\n    \n    for(var i=0; i < msg.timeout_data.delivery_count; i++){\n        obj[i] = {\n            delivery_count: i , \n            delivery_status: msg.timeout_data.delivery_status || \"false\", \n            delivery_due: msg.timeout_data.delivery_due || new Date().toJSON(),\n            delivery_user_ids: user_id[i] ? user_id[i] : user_id[0] ? user_id[0] : user_id,\n            delivery_via: msg.timeout_data.delivery_via || null,\n            delivery_task_id: msg.timeout_data.delivery_task_id || null,\n            message_id: msg.timeout_data.message_id || null,\n            form_id: msg.timeout_data.form_id || null  \n        };\n    }\n    \n    return obj ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 327,
+        "y": 87,
+        "wires": [
+            [
+                "29b6e122.4b2bce"
+            ]
+        ]
+    },
+    {
+        "id": "29b6e122.4b2bce",
+        "type": "switch",
+        "z": "57a35ec7.3182f",
+        "name": "Switch",
+        "property": "status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "find_from_db",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "save_into_db",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 372,
+        "y": 244,
+        "wires": [
+            [
+                "e4d4e90f.c5d258"
+            ],
+            [
+                "a1ed3625.da5a58",
+                "d572bac9.90a018"
+            ]
+        ]
+    },
+    {
+        "id": "e4d4e90f.c5d258",
+        "type": "cloudant in",
+        "z": "57a35ec7.3182f",
+        "name": "Get Timeout by Id",
+        "cloudant": "",
+        "database": "timeout",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 534,
+        "y": 56,
+        "wires": [
+            [
+                "b91b17f7.643568"
+            ]
+        ]
+    },
+    {
+        "id": "b91b17f7.643568",
+        "type": "change",
+        "z": "57a35ec7.3182f",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "db_output",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 658,
+        "y": 133,
+        "wires": [
+            [
+                "a7cfdad4.e6cec8"
+            ]
+        ]
+    },
+    {
+        "id": "a7cfdad4.e6cec8",
+        "type": "function",
+        "z": "57a35ec7.3182f",
+        "name": "Merge data for update",
+        "func": "var db_data = msg.db_output, form_data = msg.timeout_data, payload = {};\n\nif(check_obj(db_data) > 0){\n    payload = {\n        _id : db_data._id,\n        _rev : db_data._rev,\n        name: form_data.name || db_data.name,\n        timeout_list: create_delivery_obj(msg) \n    };\n}else{\n    payload = {\n        name: form_data.name ,\n        timeout_list: create_delivery_obj(msg) \n    };\n    \n}\n\nmsg.payload = payload ;\nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    for(var keys in obj){\n        count++;\n    }\n    return count ;\n}\n\n\nfunction create_delivery_obj(msg){\n    var obj = {};\n    var user_id = msg.timeout_data.delivery_user_ids.split(',') ;\n    \n    for(var i=0; i < msg.timeout_data.delivery_count; i++){\n        obj[i] = {\n            delivery_count: i , \n            delivery_status: msg.timeout_data.delivery_status, \n            delivery_due: msg.timeout_data.delivery_due,\n            delivery_user_ids: user_id[i] ? user_id[i] : msg.timeout_data.delivery_user_ids,\n            delivery_via: msg.timeout_data.delivery_via,\n            delivery_task_id: msg.timeout_data.delivery_task_id,\n            message_id: msg.timeout_data.message_id,\n            form_id: msg.timeout_data.form_id  \n        };\n    }\n    \n    return obj ;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 643,
+        "y": 234,
+        "wires": [
+            [
+                "d572bac9.90a018"
+            ]
+        ]
+    },
+    {
+        "id": "d572bac9.90a018",
+        "type": "cloudant out",
+        "z": "57a35ec7.3182f",
+        "name": "Save to Database",
+        "cloudant": "",
+        "database": "timeout",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 763,
+        "y": 392,
+        "wires": []
+    },
+    {
+        "id": "8dc4d9aa.6f1bd8",
+        "type": "ui_form",
+        "z": "a164a1e3.d69",
+        "name": "Detail Screen",
+        "label": "",
+        "group": "e8b5a7d3.af2da8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Task Id",
+                "value": "task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Child Task Id",
+                "value": "child_task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "User Id",
+                "value": "user_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Page Id",
+                "value": "page_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Synchronized",
+                "value": "synchronized",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Processed",
+                "value": "processed",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Status",
+                "value": "status",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Read",
+                "value": "read",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Display If Empty",
+                "value": "display_if_empty",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Due Date",
+                "value": "due_date",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Offline Expiration Seconds",
+                "value": "offline_expiration_seconds",
+                "type": "number",
+                "required": false
+            },
+            {
+                "label": "Priority",
+                "value": "priority",
+                "type": "number",
+                "required": false
+            },
+            {
+                "label": "Message",
+                "value": "message",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Template Id",
+                "value": "template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Timeout Id",
+                "value": "timeout_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Location  Ids (add multiple ids seprated by comma)",
+                "value": "location_id",
+                "type": "text",
+                "required": false
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "task_id": "",
+            "child_task_id": "",
+            "user_id": "",
+            "page_id": "",
+            "synchronized": "",
+            "processed": "",
+            "status": "",
+            "read": "",
+            "display_if_empty": "",
+            "due_date": "",
+            "offline_expiration_seconds": "",
+            "priority": "",
+            "message": "",
+            "template_id": "",
+            "timeout_id": "",
+            "location_id": ""
+        },
+        "payload": "",
+        "topic": "details_data",
+        "x": 92,
+        "y": 50,
+        "wires": [
+            [
+                "d2244926.36ea98"
+            ]
+        ]
+    },
+    {
+        "id": "d2244926.36ea98",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "Splitter",
+        "func": "var payload = {};\n\nif(msg.payload){\n    \n    if(msg.payload._id){\n        msg.event_type = \"update_record_db\";\n        msg.form_data = {\n            detail_id: msg.payload.detail_id,\n            task_id: msg.payload.task_id,\n            child_task_id: msg.payload.child_task_id,\n            user_id: msg.payload.user_id,\n            page_id: msg.payload.page_id,\n            synchronized: msg.payload.synchronized,\n            processed: msg.payload.processed,\n            status: msg.payload.status,\n            read: msg.payload.read,\n            display_if_empty: msg.payload.display_if_empty,\n            due_date: msg.payload.due_date,\n            offline_expiration_seconds: msg.payload.offline_expiration_seconds,\n            priority: msg.payload.priority,\n            message: msg.payload.message,\n        };\n        payload = {\n            _id : msg.payload._id \n        };\n    }else{\n        payload = {\n            detail_id: msg.payload.detail_id,\n            task_id: msg.payload.task_id,\n            child_task_id: msg.payload.child_task_id,\n            user_id: msg.payload.user_id,\n            page_id: msg.payload.page_id,\n            synchronized: msg.payload.synchronized,\n            processed: msg.payload.processed,\n            status: msg.payload.status,\n            read: msg.payload.read,\n            display_if_empty: msg.payload.display_if_empty,\n            due_date: msg.payload.due_date,\n            offline_expiration_seconds: msg.payload.offline_expiration_seconds,\n            priority: msg.payload.priority,\n            message: msg.payload.message,\n        };\n    }\n\n\n    if(msg.payload.user_id){\n    \tmsg.payload_user_id =  {_id : msg.payload.user_id };\n    }\n    \n    if(msg.payload.template_id){\n    \tmsg.payload_template_id =  {_id: msg.payload.template_id};\n    }\n    \n    if(msg.payload.timeout_id){\n    \tmsg.payload_timeout_id =  {_id: msg.payload.timeout_id};\n    }\n    \n    if(msg.payload.location_id){\n    \tmsg.payload_location_id =  msg.payload.location_id;\n    }\n}\n\nmsg.payload = payload ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 139,
+        "y": 156,
+        "wires": [
+            [
+                "ea650efc.159a3"
+            ]
+        ]
+    },
+    {
+        "id": "de6c3f71.58e29",
+        "type": "change",
+        "z": "a164a1e3.d69",
+        "name": "msg.detail_data",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "detail_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 442,
+        "y": 172,
+        "wires": [
+            [
+                "1175339a.ee85ec"
+            ]
+        ]
+    },
+    {
+        "id": "d95bbacc.b798d8",
+        "type": "cloudant in",
+        "z": "a164a1e3.d69",
+        "name": "Users",
+        "cloudant": "",
+        "database": "users",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 539,
+        "y": 327,
+        "wires": [
+            [
+                "34f33d78.c46b52"
+            ]
+        ]
+    },
+    {
+        "id": "2bbd7671.dae3aa",
+        "type": "cloudant in",
+        "z": "a164a1e3.d69",
+        "name": "Template",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 556,
+        "y": 394,
+        "wires": [
+            [
+                "f9b13825.4e29c8"
+            ]
+        ]
+    },
+    {
+        "id": "884eda73.21f2a8",
+        "type": "cloudant in",
+        "z": "a164a1e3.d69",
+        "name": "Timeout",
+        "cloudant": "",
+        "database": "timeout",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 583,
+        "y": 466,
+        "wires": [
+            [
+                "453a28f9.dbe308"
+            ]
+        ]
+    },
+    {
+        "id": "89eb874e.849e78",
+        "type": "cloudant in",
+        "z": "a164a1e3.d69",
+        "name": "Location",
+        "cloudant": "",
+        "database": "location",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 384,
+        "y": 514,
+        "wires": [
+            [
+                "21b85110.acff7e"
+            ]
+        ]
+    },
+    {
+        "id": "a3d45d79.bdf0c",
+        "type": "cloudant in",
+        "z": "a164a1e3.d69",
+        "name": "Update",
+        "cloudant": "",
+        "database": "details",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 420,
+        "y": 97,
+        "wires": [
+            [
+                "c483d6a5.f78598"
+            ]
+        ]
+    },
+    {
+        "id": "6de5773f.ed5508",
+        "type": "change",
+        "z": "a164a1e3.d69",
+        "name": "User",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload_user_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 391,
+        "y": 325,
+        "wires": [
+            [
+                "d95bbacc.b798d8"
+            ]
+        ]
+    },
+    {
+        "id": "7988c5c.a6c213c",
+        "type": "change",
+        "z": "a164a1e3.d69",
+        "name": "Template",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload_template_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 393,
+        "y": 392,
+        "wires": [
+            [
+                "2bbd7671.dae3aa"
+            ]
+        ]
+    },
+    {
+        "id": "9c7fa3e0.5e32e",
+        "type": "change",
+        "z": "a164a1e3.d69",
+        "name": "Timeout",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload_timeout_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 385,
+        "y": 464,
+        "wires": [
+            [
+                "884eda73.21f2a8"
+            ]
+        ]
+    },
+    {
+        "id": "8ca1a712.78c698",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "Merge",
+        "func": "var payload         = {detail_id: null,task_id: null,child_task_id: null,user_id: null,page_id: null,synchronized: null,\n        processed: null,status: null,read: null,display_if_empty: null,\n        due_date: null,offline_expiration_seconds: null,priority: null,\n        user_incoming : {},watson_incoming: {},message: null,template: {detail: {}},\n        timeout: {},user_calculated: {timeout: {},user: {},template: {}},location: {},defaults: {parent : null,all_children : null} } ;\n \nvar user_obj        = global.get('user_obj'),\n    template_obj    = global.get('template_obj'),\n    timeout_obj     = global.get('timeout_obj'),\n    location_obj    = global.get('location_obj'),\n    watson_obj      = global.get('watson_obj'),\n    detail_obj      = msg.detail_data ;\n\n\tpayload = {\n\t\ttask_id: detail_obj.task_id,\n\t\tchild_task_id: detail_obj.child_task_id,\n\t\tuser_id: detail_obj.user_id,\n\t\tpage_id: detail_obj.page_id || false ,\n\t\tsynchronized: detail_obj.synchronized || false,\n\t\tprocessed: detail_obj.processed || true,\n\t\tstatus: detail_obj.status || true,\n\t\tread: detail_obj.read || false,\n\t\tdisplay_if_empty: detail_obj.display_if_empty || true,\n\t\tdate_created : new Date().toJSON() , \n\t\tdue_date: detail_obj.due_date || new Date().toJSON(),\n\t\toffline_expiration_seconds: detail_obj.offline_expiration_seconds || 0,\n\t\tpriority: detail_obj.priority || 1,\n\t\tuser_incoming : user_obj || {},\n\t\twatson_incoming: watson_obj || {},\n\t\tmessage: detail_obj.message || null,\n\t\ttemplate: {\n\t\t\tdetail: template_obj || {}\n\t\t},\n\t\ttimeout: create_timeout_obj(timeout_obj, user_obj, template_obj),\n\t\tuser_calculated: {\n\t\t\ttimeout: create_timeout_obj(timeout_obj, user_obj, template_obj),\n\t\t\ttemplate: template_obj || {}\n\t\t},\n\t\tlocation: location_obj,\n\t\tdefaults: {\n\t\t\tparent          : null,\n\t\t\tall_children    : null\n\t\t}\n\t};\n\nmsg.payload = payload ;   \nreturn msg;\n\n\nfunction create_timeout_obj(timeout_obj, user_obj, template_obj){\n\tvar timeout_list = timeout_obj.timeout_list ; \n\tfor(var key in timeout_list){\n\t\tif(key){\n\t\t\ttimeout_list[key].users = create_user_obj(user_obj);\n\t\t\ttimeout_list[key].template = {\n        \t    message : template_obj,\n        \t    from    : template_obj\n        \t};\n\t\t}\n\t}\n\treturn timeout_obj ;\n}\n\nfunction create_user_obj(user_obj){\n\tvar obj = {};\n\tif(user_obj){\n\t    obj[user_obj._id] = user_obj ;\n\t    return obj ;\n\t}else{\n\t    return obj ;\n\t}\n\t\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 840,
+        "y": 157,
+        "wires": [
+            [
+                "734e559b.c5b63c",
+                "68308415.478efc",
+                "4bf154d5.8ba0fc"
+            ]
+        ]
+    },
+    {
+        "id": "ea650efc.159a3",
+        "type": "switch",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "property": "event_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "update_record_db",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 173,
+        "y": 270,
+        "wires": [
+            [
+                "a3d45d79.bdf0c",
+                "6de5773f.ed5508",
+                "7988c5c.a6c213c",
+                "9c7fa3e0.5e32e",
+                "89eb874e.849e78",
+                "b7df372d.911348"
+            ],
+            [
+                "6de5773f.ed5508",
+                "7988c5c.a6c213c",
+                "9c7fa3e0.5e32e",
+                "de6c3f71.58e29",
+                "89eb874e.849e78",
+                "b7df372d.911348"
+            ]
+        ]
+    },
+    {
+        "id": "34f33d78.c46b52",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "user",
+        "func": "global.set('user_obj', \"\");\nglobal.set('user_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 739,
+        "y": 324,
+        "wires": [
+            [
+                "1796c3c1.417b9c"
+            ]
+        ]
+    },
+    {
+        "id": "f9b13825.4e29c8",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "template",
+        "func": "global.set('template_obj', \"\");\nglobal.set('template_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 737,
+        "y": 392,
+        "wires": [
+            [
+                "5a2fbb26.9e8d04"
+            ]
+        ]
+    },
+    {
+        "id": "453a28f9.dbe308",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "timeout",
+        "func": "global.set('timeout_obj', \"\");\nglobal.set('timeout_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 757,
+        "y": 452,
+        "wires": [
+            [
+                "aaa2998.0107868"
+            ]
+        ]
+    },
+    {
+        "id": "21b85110.acff7e",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "location",
+        "func": "var locationArr     = msg.payload ;\n    locations       = [] ;\n    location_ids    = msg.payload_location_id ? sanitizeString(msg.payload_location_id) : null;    \n\n    for(var i=0; i< locationArr.length; i++){\n        if(location_ids !== null){\n            if(location_ids.indexOf(locationArr[i]._id) > -1 ) {\n                locations.push(locationArr[i]);\n            }\n        }\n    }\n\nglobal.set('location_obj', \"\");\nglobal.set('location_obj', create_location_obj(locations));\nreturn msg;\n\nfunction sanitizeString(str){\n    if(str || str !== undefined){\n        var arr = str.split(',');\n        for(var i=0; i< arr.length; i++){\n            arr[i] = arr[i].trim();\n        }\n        return arr ;\n    }else{\n        return false ;\n    }\n}\n\nfunction create_location_obj(locations){\n    var obj = {} ;\n    \n    for(var i=0; i< location.length; i++){\n        if(location[i]._id){\n            obj[location[i]._id] = location[i] ;\n        }\n    }\n    \n    return obj ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 767,
+        "y": 530,
+        "wires": [
+            [
+                "8b215049.3db0e"
+            ]
+        ]
+    },
+    {
+        "id": "734e559b.c5b63c",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "Merge Log",
+        "active": true,
+        "console": "true",
+        "complete": "payload",
+        "x": 1119,
+        "y": 252,
+        "wires": []
+    },
+    {
+        "id": "2a9f0d4c.d721a2",
+        "type": "cloudant out",
+        "z": "a164a1e3.d69",
+        "name": "Save Details into db",
+        "cloudant": "",
+        "database": "details",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1143,
+        "y": 66,
+        "wires": []
+    },
+    {
+        "id": "1175339a.ee85ec",
+        "type": "delay",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 659,
+        "y": 169,
+        "wires": [
+            [
+                "8ca1a712.78c698"
+            ]
+        ]
+    },
+    {
+        "id": "a870d7d6.07ae98",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "Update merge",
+        "func": "var payload         = {detail_id: null,task_id: null,child_task_id: null,user_id: null,page_id: null,synchronized: null,\n        processed: null,status: null,read: null,display_if_empty: null,\n        due_date: null,offline_expiration_seconds: null,priority: null,\n        user_incoming : {},watson_incoming: {},message: null,template: {detail: {}},\n        timeout: {},user_calculated: {timeout: {},user: {},template: {}},location: {},defaults: {parent : null,all_children : null} } ;\n \nvar user_obj        = global.get('user_obj'),\n    template_obj    = global.get('template_obj'),\n    timeout_obj     = global.get('timeout_obj'),\n    location_obj    = global.get('location_obj'),\n    watson_obj      = global.get('watson_obj'),\n    detail_obj      = msg.form_data ,\n    update_obj      = msg.payload;\n\n    if(update_obj){\n       \n        payload = {\n            _id                         : update_obj._id,\n            _rev                        : update_obj._rev,\n    \t\tdetail_id                   : detail_obj.detail_id                  || update_obj.detail_id,\n    \t\ttask_id                     : detail_obj.task_id                    || update_obj.task_id,\n    \t\tchild_task_id               : detail_obj.child_task_id              || update_obj.child_task_id,\n    \t\tuser_id                     : detail_obj.user_id                    || update_obj.user_id,\n    \t\tpage_id                     : detail_obj.page_id                    || update_obj.page_id,\n    \t\tsynchronized                : detail_obj.synchronized               || update_obj.synchronized,\n    \t\tprocessed                   : detail_obj.processed                  || update_obj.processed,\n    \t\tstatus                      : detail_obj.status                     || update_obj.status,\n\t        read                        : detail_obj.read                       || update_obj.read,\n    \t\tdisplay_if_empty            : detail_obj.display_if_empty           || update_obj.display_if_empty,    \n\t\t    due_date                    : detail_obj.due_date                   || update_obj.due_date,                \n    \t\toffline_expiration_seconds  : detail_obj.offline_expiration_seconds || update_obj.offline_expiration_seconds,      \n    \t\tpriority                    : detail_obj.priority                   || update_obj.priority,    \n    \t\tuser_incoming               : user_obj || {},                              \n    \t\twatson_incoming             : watson_obj || {},\n    \t\tmessage                     : detail_obj.message                    || update_obj.message,    \n    \t\ttemplate                    : {\n    \t\t\t                            detail: template_obj || {}                 \n\t\t                                  },\n    \t\ttimeout                     : create_timeout_obj(timeout_obj, user_obj, template_obj),\n\t\t    user_calculated             :{\n    \t\t\t                            timeout: create_timeout_obj(timeout_obj, user_obj, template_obj),                \n                                \t\t\ttemplate: template_obj || {}             \n\t\t                                },\n    \t\tlocation                    : location_obj || {},                          \n    \t\tdefaults                    : {\n                                \t\t\tparent          : null,\n                                \t\t\tall_children    : null\n    \t\t                            }\n    \t};\n    }else{\n        payload = {\n    \t\tdetail_id: detail_obj.detail_id,\n    \t\ttask_id: detail_obj.task_id,\n    \t\tchild_task_id: detail_obj.child_task_id,\n    \t\tuser_id: detail_obj.user_id,\n    \t\tpage_id: detail_obj.page_id,\n    \t\tsynchronized: detail_obj.synchronized,\n    \t\tprocessed: detail_obj.processed,\n    \t\tstatus: detail_obj.status,\n    \t\tread: detail_obj.read,\n    \t\tdisplay_if_empty: detail_obj.display_if_empty,\n    \t\tdue_date: detail_obj.due_date,\n    \t\toffline_expiration_seconds: detail_obj.offline_expiration_seconds,\n    \t\tpriority: detail_obj.priority,\n    \t\tuser_incoming : user_obj || {},\n    \t\twatson_incoming: watson_obj || {},\n    \t\tmessage: detail_obj.message,\n    \t\ttemplate: {\n    \t\t\tdetail: template_obj || {}\n    \t\t},\n    \t\ttimeout: create_timeout_obj(timeout_obj, user_obj, template_obj),\n    \t\tuser_calculated: {\n    \t\t\ttimeout: create_timeout_obj(timeout_obj, user_obj, template_obj),\n    \t\t\ttemplate: template_obj || {}\n    \t\t},\n    \t\tlocation: location_obj || {},\n    \t\tdefaults: {\n    \t\t\tparent          : null,\n    \t\t\tall_children    : null\n    \t\t}\n    \t};\n    }\nmsg.payload = payload ;    \nreturn msg;\n\nfunction check_obj(obj){\n    var count = 0;\n    if(typeof obj == 'object'){\n        for(var keys in obj){\n            count++ ;\n        }\n    }\n    return count ;\n}\n\n\nfunction create_timeout_obj(timeout_obj, user_obj){\n\tvar timeout_list = timeout_obj.timeout_list ; \n\tfor(var key in timeout_list){\n\t\tif(key){\n\t\t\ttimeout_list[key].users = create_user_obj(user_obj);\n\t\t\ttimeout_list[key].template = {\n\t\t\t    message: template_obj,\n\t\t\t    from   : template_obj\n\t\t\t};\n\t\t}\n\t}\n\treturn timeout_obj ;\n}\n\nfunction create_user_obj(user_obj){\n\tvar obj = {};\n\tif(user_obj){\n\t    obj[user_obj._id] = user_obj ;\n\t    return obj ;\n\t}else{\n\t    return obj ;\n\t}\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 865,
+        "y": 62,
+        "wires": [
+            [
+                "2a9f0d4c.d721a2",
+                "f44ab8da.c70c28",
+                "10f93335.5607ed"
+            ]
+        ]
+    },
+    {
+        "id": "f44ab8da.c70c28",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1113,
+        "y": 108,
+        "wires": []
+    },
+    {
+        "id": "4bf154d5.8ba0fc",
+        "type": "cloudant out",
+        "z": "a164a1e3.d69",
+        "name": "Save Details into db",
+        "cloudant": "",
+        "database": "details",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1150,
+        "y": 214,
+        "wires": []
+    },
+    {
+        "id": "68308415.478efc",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "reset",
+        "func": "global.set('user_obj', \"\");\nglobal.set('template_obj', \"\");\nglobal.set('timeout_obj', \"\");\nglobal.set('location_obj', \"\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1098,
+        "y": 167,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c483d6a5.f78598",
+        "type": "delay",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 645,
+        "y": 84,
+        "wires": [
+            [
+                "a870d7d6.07ae98"
+            ]
+        ]
+    },
+    {
+        "id": "10f93335.5607ed",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "reset",
+        "func": "global.set('user_obj', \"\");\nglobal.set('template_obj', \"\");\nglobal.set('timeout_obj', \"\");\nglobal.set('location_obj', \"\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1094,
+        "y": 29,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "88eefbac.c3c3b8",
+        "type": "ui_form",
+        "z": "7fce52ea.7e640c",
+        "name": "Big record table",
+        "label": "",
+        "group": "605089c4.c715b8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Id",
+                "value": "_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "User Id",
+                "value": "user_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Task Id",
+                "value": "task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Header Template ",
+                "value": "header_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Detail Template",
+                "value": "detail_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Footer Template",
+                "value": "footer_template_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Timeout Id",
+                "value": "timeout_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Loction Ids (add multiple id seprated by comma.)",
+                "value": "location_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Child default task Id",
+                "value": "child_default_task_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Details Id",
+                "value": "details_id",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Date",
+                "value": "date_created",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Type",
+                "value": "type",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Category",
+                "value": "category",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Status",
+                "value": "status",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Additional Fn",
+                "value": "additional_data_fn",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Optional data",
+                "value": "optional_data",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Required data",
+                "value": "required_data",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Offline Exp. seconds",
+                "value": "offline_expiration_seconds",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Display if empty ?",
+                "value": "display_if_empty",
+                "type": "text",
+                "required": false
+            }
+        ],
+        "formValue": {
+            "_id": "",
+            "user_id": "",
+            "task_id": "",
+            "header_template_id": "",
+            "detail_template_id": "",
+            "footer_template_id": "",
+            "timeout_id": "",
+            "location_id": "",
+            "child_default_task_id": "",
+            "details_id": "",
+            "date_created": "",
+            "type": "",
+            "category": "",
+            "status": "",
+            "additional_data_fn": "",
+            "optional_data": "",
+            "required_data": "",
+            "offline_expiration_seconds": "",
+            "display_if_empty": ""
+        },
+        "payload": "",
+        "topic": "big_record_table",
+        "x": 109,
+        "y": 28,
+        "wires": [
+            [
+                "cb2592b.307a17"
+            ]
+        ]
+    },
+    {
+        "id": "cb2592b.307a17",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "Splitter",
+        "func": "var payload = {};\n\n\nif(msg.payload){\n    if(msg.payload._id){\n        //need to move to update the record\n        msg.event_name  = \"update_big_record_table\";\n        msg.form_data   = {\n        \tdate_created: msg.payload.date_created,\n        \ttype: msg.payload.type,\n        \tcategory: msg.payload.category,\n        \tstatus: msg.payload.status,\n        \tadditional_data_fn: msg.payload.additional_data_fn,\n        \toptional_data: msg.payload.optional_data,\n        \trequired_data: msg.payload.required_data,\n        \toffline_expiration_seconds: msg.payload.offline_expiration_seconds,\n        \tdisplay_if_empty: msg.payload.display_if_empty\n        };\n        payload     =  {_id : msg.payload._id } ;    \n        \n    }else{\n        //need to create new record into db\n        payload = {\n        \tdate_created: msg.payload.date_created,\n        \ttype: msg.payload.type,\n        \tcategory: msg.payload.category,\n        \tstatus: msg.payload.status,\n        \tadditional_data_fn: msg.payload.additional_data_fn,\n        \toptional_data: msg.payload.optional_data,\n        \trequired_data: msg.payload.required_data,\n        \toffline_expiration_seconds: msg.payload.offline_expiration_seconds,\n        \tdisplay_if_empty: msg.payload.display_if_empty\n        };\n    }\n    \n    if(msg.payload.user_id){\n        //prepare object to get user data from db\n        msg.user_id = msg.payload.user_id ;\n    }\n    \n    if(msg.payload.header_template_id){\n        //prepare object to get header template from db\n        msg.header_template_id = msg.payload.header_template_id ;\n    }\n    \n    if(msg.payload.detail_template_id){\n        //prepare object to get detail template from db\n        msg.detail_template_id = msg.payload.detail_template_id ;\n    }\n    \n    if(msg.payload.footer_template_id){\n        //prepare object to get footer template from db\n        msg.footer_template_id = msg.payload.footer_template_id ;\n    }\n    \n    if(msg.payload.timeout_id){\n        //prepare object to get timeout document from db\n        msg.timeout_id = msg.payload.timeout_id ;\n    }\n    \n    if(msg.payload.location_id){\n        //prepare object to get location document from db\n        msg.location_id = msg.payload.location_id;\n    }\n    \n    if(msg.payload.task_id){\n        //get default child task \n        msg.task_id = msg.payload.task_id;\n    }\n    \n    if(msg.payload.details_id){\n        msg.details_id = msg.payload.details_id ;\n    }\n}\n\nmsg.payload = payload ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 97,
+        "y": 178,
+        "wires": [
+            [
+                "bc256b7c.e65608"
+            ]
+        ]
+    },
+    {
+        "id": "bc256b7c.e65608",
+        "type": "switch",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "property": "event_name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "update_big_record_table",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 87,
+        "y": 341,
+        "wires": [
+            [
+                "e71eab6.2ca9e58",
+                "cb7c72a1.db0bd",
+                "79151c46.ce1bd4",
+                "a9be8b5.497d078",
+                "45d138a2.7eeca8",
+                "d91aad76.58a65",
+                "21f3364e.e9d38a",
+                "d5e76f83.80c47",
+                "d178d5f2.fb9f48"
+            ],
+            [
+                "a8eac0e6.6f61a",
+                "79151c46.ce1bd4",
+                "cb7c72a1.db0bd",
+                "a9be8b5.497d078",
+                "45d138a2.7eeca8",
+                "d91aad76.58a65",
+                "21f3364e.e9d38a",
+                "d5e76f83.80c47",
+                "d178d5f2.fb9f48"
+            ]
+        ]
+    },
+    {
+        "id": "79151c46.ce1bd4",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "header_template_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 428,
+        "y": 284,
+        "wires": [
+            [
+                "99e776cf.ebcfb8"
+            ]
+        ]
+    },
+    {
+        "id": "a9be8b5.497d078",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "detail_template_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 417,
+        "y": 327,
+        "wires": [
+            [
+                "cf1311e3.feae8"
+            ]
+        ]
+    },
+    {
+        "id": "45d138a2.7eeca8",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "footer_template_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 427,
+        "y": 371,
+        "wires": [
+            [
+                "19510a2f.cdafb6"
+            ]
+        ]
+    },
+    {
+        "id": "d91aad76.58a65",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "timeout_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 398,
+        "y": 415,
+        "wires": [
+            [
+                "149adb70.2a5485"
+            ]
+        ]
+    },
+    {
+        "id": "d5e76f83.80c47",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "task_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 385,
+        "y": 505,
+        "wires": [
+            [
+                "1cd1ea69.602526"
+            ]
+        ]
+    },
+    {
+        "id": "a8eac0e6.6f61a",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "Create Big Record Table",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "big_record_table_data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 154,
+        "wires": [
+            [
+                "5ffb58c6.4bdf68"
+            ]
+        ]
+    },
+    {
+        "id": "99e776cf.ebcfb8",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "template",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 659,
+        "y": 268,
+        "wires": [
+            [
+                "24d2826f.5c885e"
+            ]
+        ]
+    },
+    {
+        "id": "cf1311e3.feae8",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "template",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 660,
+        "y": 315,
+        "wires": [
+            [
+                "8956534d.b4c67"
+            ]
+        ]
+    },
+    {
+        "id": "19510a2f.cdafb6",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "template",
+        "cloudant": "",
+        "database": "templates",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 661,
+        "y": 366,
+        "wires": [
+            [
+                "e6f691ce.90e1b"
+            ]
+        ]
+    },
+    {
+        "id": "149adb70.2a5485",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "timeout",
+        "cloudant": "",
+        "database": "timeout",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 662,
+        "y": 412,
+        "wires": [
+            [
+                "516d12bf.cb24dc"
+            ]
+        ]
+    },
+    {
+        "id": "21f3364e.e9d38a",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "locations",
+        "cloudant": "",
+        "database": "location",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 360,
+        "y": 455,
+        "wires": [
+            [
+                "511e3d31.58fd44"
+            ]
+        ]
+    },
+    {
+        "id": "1cd1ea69.602526",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "task",
+        "cloudant": "",
+        "database": "task_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 657,
+        "y": 506,
+        "wires": [
+            [
+                "340fb835.9d6128"
+            ]
+        ]
+    },
+    {
+        "id": "d178d5f2.fb9f48",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "details_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 399,
+        "y": 556,
+        "wires": [
+            [
+                "ececc751.97db78"
+            ]
+        ]
+    },
+    {
+        "id": "ececc751.97db78",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "cloudant": "",
+        "database": "details",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 657,
+        "y": 554,
+        "wires": [
+            [
+                "41e53d60.884ce4"
+            ]
+        ]
+    },
+    {
+        "id": "24d2826f.5c885e",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "header_template",
+        "func": "global.set('header_obj', null);\nglobal.set('header_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 864,
+        "y": 267,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8956534d.b4c67",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "detail_template",
+        "func": "global.set('detail_obj', null);\nglobal.set('detail_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 856,
+        "y": 316,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e6f691ce.90e1b",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "footer_template",
+        "func": "global.set('footer_obj', null);\nglobal.set('footer_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 857,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "516d12bf.cb24dc",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "timeout_obj",
+        "func": "global.set('timeout_obj', null);\nglobal.set('timeout_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 849,
+        "y": 405,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "511e3d31.58fd44",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "location ",
+        "func": "var locationArr     = msg.payload ;\n    locations       = [] ;\n    location_ids    = msg.location_id ? sanitizeString(msg.location_id) : null;    \n\n    for(var i=0; i< locationArr.length; i++){\n        if(location_ids !== null){\n            if(location_ids.indexOf(locationArr[i]._id) > -1 ) {\n                locations.push(locationArr[i]);\n            }\n        }\n    }\n\nglobal.set('location_obj', null);\nglobal.set('location_obj', create_location_obj(locations));\nreturn msg;\n\nfunction sanitizeString(str){\n    if(str || str !== undefined){\n        var arr = str.split(',');\n        for(var i=0; i< arr.length; i++){\n            arr[i] = arr[i].trim();\n        }\n        return arr ;\n    }else{\n        return false ;\n    }\n}\n\nfunction create_location_obj(locations){\n    var obj = {} ;\n    \n    for(var i=0; i< location.length; i++){\n        if(location[i]._id){\n            obj[location[i]._id] = location[i] ;\n        }\n    }\n    \n    return obj ;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 841,
+        "y": 452,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "340fb835.9d6128",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "task",
+        "func": "global.set('task_obj', null);\nglobal.set('task_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 831,
+        "y": 507,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41e53d60.884ce4",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "details",
+        "func": "global.set('details_obj', null);\nglobal.set('details_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 829,
+        "y": 569,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94cc6a2b.1a0f78",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "Create Merge",
+        "func": "var payload = {},\n    big_record_data = msg.big_record_table_data ,\n    user_data       = global.get('user_data_obj'),\n    header_temp     = global.get('header_obj'),\n    detail_temp     = global.get('detail_obj'),\n    footer_temp     = global.get('footer_obj'),\n    timeout_obj     = global.get('timeout_obj'),\n    location_obj    = global.get('location_obj'),\n    task_obj        = global.get('task_obj'),\n    details_obj     = global.get('details_obj');\n    \n    payload = {\n    \tuser_id: user_data || {},\n    \ttask_id: task_obj || {},\n    \theader_template_id: header_temp || {},\n    \tdetail_template_id: detail_temp || {},\n    \tfooter_template_id: footer_temp || {},\n    \ttimeout_id: timeout_obj || {},\n    \tlocation_id: location_obj || [],\n    \tchild_default_task_id: task_obj || {},\n    \tdate_created: big_record_data.date_created || new Date().toJSON(),\n    \ttype: big_record_data.type || null,\n    \tcategory: big_record_data.category || null,\n    \tstatus: big_record_data.status || \"active\",\n    \tadditional_data_fn: big_record_data.additional_data_fn || null,\n    \toptional_data: big_record_data.optional_data || {},\n    \trequired_data: big_record_data.required_data || {},\n    \toffline_expiration_seconds: big_record_data.offline_expiration_seconds || 0,\n    \tdisplay_if_empty: big_record_data.display_if_empty || true,\n    \ttemplate : {\n    \t    header: header_temp || {},\n    \t    detail: detail_temp || {},\n    \t    footer: footer_temp || {}\n    \t},\n    \tdetails : details_obj || {}\n    };\n\nmsg.payload = payload ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 862,
+        "y": 131,
+        "wires": [
+            [
+                "936e66c5.bf4a78",
+                "9f31ce5d.05277"
+            ]
+        ]
+    },
+    {
+        "id": "5ffb58c6.4bdf68",
+        "type": "delay",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 646,
+        "y": 142,
+        "wires": [
+            [
+                "94cc6a2b.1a0f78"
+            ]
+        ]
+    },
+    {
+        "id": "cb7c72a1.db0bd",
+        "type": "change",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "user_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 386,
+        "y": 242,
+        "wires": [
+            [
+                "3b60b68e.51610a"
+            ]
+        ]
+    },
+    {
+        "id": "3b60b68e.51610a",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "cloudant": "",
+        "database": "users",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 649,
+        "y": 226,
+        "wires": [
+            [
+                "992273e0.7a675"
+            ]
+        ]
+    },
+    {
+        "id": "992273e0.7a675",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "user_data",
+        "func": "global.set('user_data_obj', null);\nglobal.set('user_data_obj', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 836,
+        "y": 219,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "936e66c5.bf4a78",
+        "type": "debug",
+        "z": "7fce52ea.7e640c",
+        "name": "Created Obj Db log",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1130,
+        "y": 204,
+        "wires": []
+    },
+    {
+        "id": "9f31ce5d.05277",
+        "type": "cloudant out",
+        "z": "7fce52ea.7e640c",
+        "name": "Save into db",
+        "cloudant": "",
+        "database": "big_record_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1110,
+        "y": 149,
+        "wires": []
+    },
+    {
+        "id": "e71eab6.2ca9e58",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "Get Big_Record_Table",
+        "cloudant": "",
+        "database": "big_record_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 411,
+        "y": 73,
+        "wires": [
+            [
+                "c83a4f6.d3774b"
+            ]
+        ]
+    },
+    {
+        "id": "c83a4f6.d3774b",
+        "type": "delay",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "8",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 639,
+        "y": 74,
+        "wires": [
+            [
+                "fc9301e5.f3ce3"
+            ]
+        ]
+    },
+    {
+        "id": "fc9301e5.f3ce3",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "Update Merge",
+        "func": "var payload = {},\n    big_record_data = msg.payload ,\n    form_data       = msg.form_data ,\n    user_data       = global.get('user_data_obj'),\n    header_temp     = global.get('header_obj'),\n    detail_temp     = global.get('detail_obj'),\n    footer_temp     = global.get('footer_obj'),\n    timeout_obj     = global.get('timeout_obj'),\n    location_obj    = global.get('location_obj'),\n    task_obj        = global.get('task_obj'),\n    details_obj     = global.get('details_obj');\n    \nif(big_record_data && header_temp && detail_temp && footer_temp && timeout_obj && location_obj && task_obj && details_obj){\n    payload = {\n        _id    : big_record_data._id,\n        //_rev   : big_record_data._rev,\n    \tuser_id: user_data || big_record_data.user_id,\n    \ttask_id: task_obj || big_record_data.task_id,\n    \theader_template_id: header_temp || big_record_data.header_template_id,\n    \tdetail_template_id: detail_temp || big_record_data.detail_template_id,\n    \tfooter_template_id: footer_temp || big_record_data.footer_template_id,\n    \ttimeout_id: timeout_obj || big_record_data.timeout_id,\n    \tlocation_id: location_obj || big_record_data.location_id ,\n    \tchild_default_task_id: task_obj || big_record_data.child_default_task_id,\n    \tdate_created: form_data.date_created || big_record_data.date_created,\n    \ttype: form_data.type || big_record_data.type,\n    \tcategory: form_data.category || big_record_data.category,\n    \tstatus: form_data.status || big_record_data.status,\n    \tadditional_data_fn: form_data.additional_data_fn || big_record_data.additional_data_fn,\n    \toptional_data: form_data.optional_data || big_record_data.optional_data,\n    \trequired_data: form_data.required_data || big_record_data.required_data,\n    \toffline_expiration_seconds: form_data.offline_expiration_seconds || big_record_data.offline_expiration_seconds,\n    \tdisplay_if_empty: form_data.display_if_empty || big_record_data.display_if_empty,\n    \ttemplate : {\n    \t    header: header_temp || big_record_data.header_template_id,\n    \t    detail: detail_temp || big_record_data.detail_template_id,\n    \t    footer: footer_temp || big_record_data.footer_template_id\n    \t},\n    \tdetails : details_obj || big_record_data.details \n    };\n}else {\n    node.warn(\"condition doesn't match yet so publish default payload object\");\n}\n\nmsg.payload = payload ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 863,
+        "y": 66,
+        "wires": [
+            [
+                "e0447bf6.c940f8",
+                "e7539391.a092a"
+            ]
+        ]
+    },
+    {
+        "id": "e0447bf6.c940f8",
+        "type": "debug",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1106,
+        "y": 90,
+        "wires": []
+    },
+    {
+        "id": "e7539391.a092a",
+        "type": "cloudant out",
+        "z": "7fce52ea.7e640c",
+        "name": "Update db",
+        "cloudant": "",
+        "database": "big_record_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1112,
+        "y": 41,
+        "wires": []
+    },
+    {
+        "id": "a1ed3625.da5a58",
+        "type": "debug",
+        "z": "57a35ec7.3182f",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 592,
+        "y": 490,
+        "wires": []
+    },
+    {
+        "id": "8b215049.3db0e",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 924,
+        "y": 530,
+        "wires": []
+    },
+    {
+        "id": "aaa2998.0107868",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 940,
+        "y": 455,
+        "wires": []
+    },
+    {
+        "id": "5a2fbb26.9e8d04",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 918,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "1796c3c1.417b9c",
+        "type": "debug",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 957,
+        "y": 328,
+        "wires": []
+    },
+    {
+        "id": "ec78be59.3849f",
+        "type": "cloudant in",
+        "z": "d9e3488f.8f93b8",
+        "name": "Locations",
+        "cloudant": "",
+        "database": "location",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 144,
+        "y": 211,
+        "wires": [
+            [
+                "1d35a4de.414d5b"
+            ]
+        ]
+    },
+    {
+        "id": "1d35a4de.414d5b",
+        "type": "change",
+        "z": "d9e3488f.8f93b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "location_arr",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 172,
+        "y": 320,
+        "wires": [
+            [
+                "69ddc3eb.30f08c"
+            ]
+        ]
+    },
+    {
+        "id": "b7df372d.911348",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "build_watson_data",
+        "func": "msg = {\n  payload : \"The Lean\" ,\n  params : {\n    workspace_id : \"42015e53-bdb9-4a23-87b5-f382d5e12dbb\",\n    username     : \"4db58c57-6d89-4382-9d34-c4044b5fce11\",\n    password     : \"eG0ctZRJO42s\"\n  }\n};\nmsg.user = msg.payload_user_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 585,
+        "wires": [
+            [
+                "e3942d2a.7c15d"
+            ]
+        ]
+    },
+    {
+        "id": "e3942d2a.7c15d",
+        "type": "watson-conversation-v1",
+        "z": "a164a1e3.d69",
+        "name": "",
+        "workspaceid": "",
+        "multiuser": true,
+        "context": true,
+        "x": 628,
+        "y": 599,
+        "wires": [
+            [
+                "8b798794.66a778"
+            ]
+        ]
+    },
+    {
+        "id": "8b798794.66a778",
+        "type": "function",
+        "z": "a164a1e3.d69",
+        "name": "Watson",
+        "func": "global.set('watson_obj', \"\");\nglobal.set('watson_obj', msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 819,
+        "y": 604,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a01c061.a0ff1",
+        "type": "inject",
+        "z": "7fce52ea.7e640c",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 161,
+        "y": 673,
+        "wires": [
+            [
+                "80c4b53.7aae548"
+            ]
+        ]
+    },
+    {
+        "id": "80c4b53.7aae548",
+        "type": "function",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "func": "msg.payload = \"9ab194929004c59f02999b9d454b04d9\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 316,
+        "y": 721,
+        "wires": [
+            [
+                "d6e2e07f.938cb"
+            ]
+        ]
+    },
+    {
+        "id": "d6e2e07f.938cb",
+        "type": "cloudant in",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "cloudant": "",
+        "database": "task_table",
+        "service": "PkTwilioConv-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 483,
+        "y": 721,
+        "wires": [
+            [
+                "ae886706.184308"
+            ]
+        ]
+    },
+    {
+        "id": "ae886706.184308",
+        "type": "debug",
+        "z": "7fce52ea.7e640c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 665,
+        "y": 732,
+        "wires": []
+    }
+]

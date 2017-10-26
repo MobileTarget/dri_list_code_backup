@@ -1,0 +1,105 @@
+[
+    {
+        "id": "e079261f.947b38",
+        "type": "subflow",
+        "name": "Push Notificaiton Via WSS",
+        "info": "",
+        "in": [
+            {
+                "x": 51.000003814697266,
+                "y": 169.00000095367432,
+                "wires": [
+                    {
+                        "id": "f7e391d8.19041"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "f7e391d8.19041",
+        "type": "function",
+        "z": "e079261f.947b38",
+        "name": "Chatbot push",
+        "func": "var user = msg.userObj ,\n    data = msg.payload ,\n    body = msg.req_body ;\n\n//Distribution credentails...    \nvar appGuid = \"f9fb70f7-e91f-4e62-b713-a609fb81be59\",\n    appSecrect = \"f8af03f8-ebc1-4e90-b6c7-c0cd0afc3e69\" ;\n\n//Delevlopment credentails...    \n// var appGuid = \"4419942e-8f02-4527-8794-c24b42c584b5\",\n//     appSecrect = \"c769179f-e1ec-4598-b642-8f5dfd802e4c\" ;\n    \nif(isEmpty(user)){\n    node.warn(\"When user is empty no need to send push notificaiton\");\n    msg.isSendPush = false;\n}else{\n    if( isEmpty(user.device_id) || user.device_id == \"Web View\" ){\n        node.warn(\"`device_id` is empty no need to send push notification\");\n        msg.isSendPush = false;\n    }else{\n        msg.isSendPush = true;\n        msg.url = \"https://socket-server.mybluemix.net/send_push_notification\";\n        msg.method = \"POST\";\n        \n        msg.payload = {\n            \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/\" + appGuid +\"/messages\",\n            \"appSecrect\": appSecrect,\n            \"payload\": {\n        \t\t\"message\": {\n        \t\t\t\"alert\": isEmpty(body) ? data : body.msg  \n        \t\t}, \n        \t\t\"target\": {\n        \t\t\t\"deviceIds\": [user.device_id]\n        \t\t},\n        \t\t\"settings\": {\n        \t\t\t\"apns\": {\n        \t\t\t\t\"payload\": {\n        \t\t\t\t\t\"isPageRefresh\" : true,\n        \t\t\t\t\t\"page_id\"  : 18,\n        \t\t\t\t\t\"user_page_id\": 18\n        \t\t\t\t}\n        \t\t\t},\n        \t\t\t\"gcm\": {\n        \t\t\t\t\"payload\": {\n        \t\t\t\t\t\"isPageRefresh\" : true,\n        \t\t\t\t\t\"user_page_id\"  : 18,\n        \t\t\t\t\t\"page_id\": 18,\n        \t\t\t\t}\n        \t\t\t}\n        \t\t}\n        \t}\n        };\n    }\n}\n\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 189,
+        "y": 168,
+        "wires": [
+            [
+                "64d2537f.fe62ec"
+            ]
+        ]
+    },
+    {
+        "id": "64d2537f.fe62ec",
+        "type": "switch",
+        "z": "e079261f.947b38",
+        "name": "",
+        "property": "isSendPush",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 377.0039176940918,
+        "y": 168.41390419006348,
+        "wires": [
+            [
+                "26ac4c8c.4db164"
+            ],
+            [
+                "ecf428ae.209d08"
+            ]
+        ]
+    },
+    {
+        "id": "26ac4c8c.4db164",
+        "type": "http request",
+        "z": "e079261f.947b38",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 544.0119819641113,
+        "y": 164.94141006469727,
+        "wires": [
+            [
+                "14cf1d8b.3a8d42"
+            ]
+        ]
+    },
+    {
+        "id": "ecf428ae.209d08",
+        "type": "debug",
+        "z": "e079261f.947b38",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 546.0119819641113,
+        "y": 218.42953205108643,
+        "wires": []
+    },
+    {
+        "id": "14cf1d8b.3a8d42",
+        "type": "debug",
+        "z": "e079261f.947b38",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 749.2463684082031,
+        "y": 174.44531631469727,
+        "wires": []
+    }
+]
