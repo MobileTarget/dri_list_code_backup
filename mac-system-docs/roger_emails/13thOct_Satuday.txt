@@ -1,0 +1,34 @@
+We need less space between messages if possible.
+
+I still personally get text messages from system instead or in addition to push notifications - would like to stop this.
+
+The system knows my first name— why does the phone list 12145644732 … it should show “Roger” there…i.e. on firstname update that records should be updated
+
+Time between enter phone and code is VERY long
+
+—
+
+User (231) 642-1353 sent text into system
+I did NOT get any push notifications even if app open or even if closed 
+I entered “hi” back to him from stumped.  “Hi” did NOT add itself to screen
+
+—
+
+On a browser I went to stumped 12145644732, said “hi111”
+the app was on phone list - this did trigger push notification to on app (the app was open — this is good)
+however hi111 did NOT get added to bottom of screen
+
+—
+
+On a browser I went to stumped 12145644732, said “hiagain”
+the app was on stumped 12145644732 —as I typed “roger is typing” did appear
+I click sent from browser—hhagain did NOT get added to bottom of screen
+This did trigger push notification to on app - It should NOT have since I was on that same page that was being refreshed
+It should have triggered a page refresh — it did NOT
+
+—
+
+I texted “test1234”
+I did get push notification — I clicked on it…it did NOT take me to the right page
+The browser version of app DID auto refresh (it was on the messages page)
+The app version was on phone list …when I clicked on 12145644732 it did NOT update

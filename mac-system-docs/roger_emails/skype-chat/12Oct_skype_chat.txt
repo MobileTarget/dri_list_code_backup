@@ -1,0 +1,32 @@
+1 move “next” button on phone page slightly up—right now ios keyboard covers it
+
+2 I sent text “hi1” sent me response text twice,  did not send me push
+
+3 even though I was in category page, the system auto refreshed and took me to my chats page
+
+4 I was on my chats, I texted from phone weather…page refreshed very quickly — then “loading” icon appeared, took a while, screen flashed, back to same screen that had originally refreshed fine
+
+5 on my chats I typed reservations:
+  screen auto refreshed very quickly-good
+  then even though screen was fine it did  “loading” …slow…screen back to my chats again with no change
+  then it flashed again and I was in stumped messages
+
+3 I sent “tuesday” even though I was in category page, the system auto refreshed and took me to my chats page (same issue of 3 above)
+
+
+
+
+
+I texted in
+
+7 I texted 5, I got two push notifications let me check avail & 5 — I opened app….I was in my chats…the conversation did NOT update
+
+I had to do a pull down for an update
+
+"3 I sent “tuesday” even though I was in category page, the system auto refreshed and took me to my chats page (same issue of 3 above)"
+
+point is that the app should never change pages on me
+
+also based on what we have discussed it should NOT have auto refreshed either.
+
+i.e. should only refresh auto if the page I am in changed

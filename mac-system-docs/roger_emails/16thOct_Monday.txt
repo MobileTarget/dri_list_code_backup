@@ -1,0 +1,92 @@
+Previous issues
+1) it still takes a long time between phone and code entry
+
+2) The system knows my first name— why does the phone list 12145644732 … it should show “Roger” there…i.e. on firstname update that records should be updated 
+When user records are updated we should update related tasks
+
+-----------------------------------------------------------
+Bugs (* = bug)
+I texted “reservations”
+app got two push notifications—*why two?
+browser was on my chats - messages — browser did refresh
+app was on “reminderbot” screen—I clicked reminderbot this took me to messages…*content of that screen had NOT refreshed 
+I pulled down on ios to see past push notifications, however, they were not there—*they did not persist, they should persist
+
+with app minimized — texted “monday 3 people” — opened app “my chats” — *conversation had not refreshed 
+
+in browser, stumped, 12145644732 I entered “hi in future”, clicked on time button and edited send time by a minute
+*it did not appear in stumped 12145644732
+*it did not send me text, but did add to “my chats"
+*it did not change color of this future message or turn it into a regular message
+*schedule screen did not have my time zone - or unclear how to enter — needs pull down
+*when color changes it should trigger changes to ws for refresh (i.e. any change in detail)
+*I forced a refresh — on screen ”hi 2nd responder” became “hi 1st responder”
+
+It seems issue might be related to multiple devices — keeping track of what device is in what page and if refreshed on one device maybe keeping track that other devices have not been refreshed
+
+In stumped I entered “hi from operator” did refresh it in my chats, *but not “Monday 3pm” still missing from conversation 
+
+*I texted “hi”, got push notification, I clicked on push notification it did NOT open to the right page
+
+
+
+-------------------------------------------------------------
+Others
+less space between messages - so more messages fit on screen --done
+
+Content of Push notifications should include group, from what user, what did the user say
+“group 1 - 12145644732 - reservations”
+try doing this using a template
+
+add me to second responders group also
+
+Discuss with me BEFORE working on this
+I tried to add myself to second group-the assistants / those screens are not to spec
+
+Assistants is a screen where the user TYPES phone numbers to add users to that screen
+Manage first responders is a screen where the added users are shown…and user checks them on / off
+
+Watson-add / user first_name
+I added the following json to “let me check availability”
+{
+  "context": {
+    "save": {
+      "user_master_general": [
+        "first_name"
+      ],
+      "first_name": "@sys-name"
+    }
+  },
+  "output": {
+    "text": {
+      "values": [
+        "Let me check availability"
+      ],
+      "selection_policy": "sequential"
+    }
+  }
+}
+
+This is what should happen:
+Watson should ask for first_name only the first time (because will be in context later)
+Outgoing context should have
+	first_name AND
+	save: {user_master_general: [“first_name”]}
+When receiving FROM Watson
+	your code should look for save.user_master_general
+	go through that array of fields to look in context that need to be saved
+	save to <user>.data.master.general.first_name: Roger
+	we will save more stuff in the future
+Before sending TO Watson 
+	look at user.data.master.general
+	add all of those key values into context
+	i.e. add first_name: Roger to context variable going to Watson
+	we will add more stuff that was saved in future
+First_name is a special case … maybe we add code to update <user>.first_name also
+
+----------------------------------------------------------------------------------
+Next
+Finish websocket push stuff (i.e. don’t send to groups if…) - page expiration stuff
+Pagination
+Counts
+Node/tree code

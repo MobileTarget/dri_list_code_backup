@@ -1,0 +1,33 @@
+1 move “next” button on phone page slightly up—right now ios keyboard covers it
+
+2 a) I sent text “hi1” sent me response text twice *stop the special text to me*,  
+  b) did NOT send me push - app was open will require that change we talked about sending push when app is open
+
+3 even though I was in category page, the system auto refreshed and took me to my chats page — system should never change pages on me
+ — based on what we have discussed it should NOT have auto refreshed either.
+
+4 I was on my chats, I texted from phone weather…page refreshed very quickly — then “loading” icon appeared, took a while, screen flashed, back to same screen that had originally refreshed fine
+
+5 on my chats I typed reservations:
+  screen auto refreshed very quickly-good
+  then even though screen was fine it did  “loading” …slow…screen back to my chats again with no change
+  then it flashed again and I was in stumped messages
+
+3 I sent “tuesday” even though I was in category page, the system auto refreshed and took me to my chats page (same issue of 3 above)  — system should never change pages on me — based on what we have discussed it should NOT have auto refreshed either.
+
+6 I minimized app, sent 4pm .. did get push notification … clicked on push notification … sent me to my chats— should have sent me to stumped
+
+7 I texted 5, I got *two push notifications* let me check avail & 5 — I opened app….I was in my chats…the conversation did NOT update
+
+8 make “roger is typing” stay on the screen longer…ie 10 seconds after last keystroke—right now it disappears right away
+
+—
+
+ios push when app open (i.e. #2b above)
+
+pagination 
+
+183D084A-CCA0-4730-997C-EB8640384361
+
+
+5D782AA3-E628-4EC1-A720-60C078F53964--- 6plus 

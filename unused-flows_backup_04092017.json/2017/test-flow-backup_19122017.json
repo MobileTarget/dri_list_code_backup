@@ -1,0 +1,620 @@
+[
+    {
+        "id": "15a80fee.a1bde",
+        "type": "tab",
+        "label": "Test Flows"
+    },
+    {
+        "id": "9066159b.679cd8",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 140.83334350585938,
+        "y": 136.00001525878906,
+        "wires": [
+            [
+                "717f8a45.0ba6f4"
+            ]
+        ]
+    },
+    {
+        "id": "717f8a45.0ba6f4",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "msg.url = \"https://socket-server.mybluemix.net/send_push_notification\";\nmsg.method = \"POST\";\n\nmsg.payload = {\n    \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/f9fb70f7-e91f-4e62-b713-a609fb81be59/messages\",\n    \"appSecrect\": \"f8af03f8-ebc1-4e90-b6c7-c0cd0afc3e69\",\n    \"payload\": {\n\t\t\"message\": {\n\t\t\t\"alert\": \"This message is send from node-red server. Thanks!\"\n\t\t}, \n\t\t\"target\": {\n\t\t\t\"deviceIds\": [\"1099CA5A-EAFC-499A-953D-10D8850CB34B\"] \n\t\t},\n\t\t\"settings\": {\n\t\t\t\"apns\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"       : 18 \n\t\t\t\t}\n\t\t\t},\n\t\t\t\"gcm\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"       : 18 \n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.8333339691162,
+        "y": 136.6666808128357,
+        "wires": [
+            [
+                "7851422f.aedb5c"
+            ]
+        ]
+    },
+    {
+        "id": "7851422f.aedb5c",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 464.83331298828125,
+        "y": 136.6667022705078,
+        "wires": [
+            [
+                "600b60a7.58845"
+            ]
+        ]
+    },
+    {
+        "id": "600b60a7.58845",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 661.8333129882812,
+        "y": 135.33335876464844,
+        "wires": []
+    },
+    {
+        "id": "8f3f6be4.d66f88",
+        "type": "comment",
+        "z": "15a80fee.a1bde",
+        "name": "Test Flow to check the pagination concept",
+        "info": "",
+        "x": 221.50003051757812,
+        "y": 195.33335971832275,
+        "wires": []
+    },
+    {
+        "id": "6a27bb07.a86084",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "var payload = msg.payload ;\n\nvar url     = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/test_db/_design/filterBy/_search/filterBy\",\n    limit   = payload.limit || 20,\n    query   = payload.query,\n    sort    = payload.sort || \"_id<string>\",\n    bookmark= payload.bookmark ;\n    \nif(isEmpty(bookmark)){\n    msg.url = url + '?q=' + query + '&limit=' + limit + '&include_docs=true&sort=\"' + sort + '\"';    \n}else{\n    msg.url = url + '?q=' + query + '&limit=' + limit + '&include_docs=true&sort=\"' + sort + '\"&bookmark=' + bookmark ;\n}\n\nmsg.method = \"GET\";\nnode.warn(msg);\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.50001525878906,
+        "y": 270.66668701171875,
+        "wires": [
+            [
+                "be3eb9ed.ac81e8"
+            ]
+        ]
+    },
+    {
+        "id": "be3eb9ed.ac81e8",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 455.50001525878906,
+        "y": 269,
+        "wires": [
+            [
+                "64d79c66.e08b44",
+                "4445665a.e5b0f8"
+            ]
+        ]
+    },
+    {
+        "id": "64d79c66.e08b44",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 637.5000152587891,
+        "y": 270,
+        "wires": []
+    },
+    {
+        "id": "68f86268.6b325c",
+        "type": "http in",
+        "z": "15a80fee.a1bde",
+        "name": "pagination",
+        "url": "/test_db_pagination",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 128.5000228881836,
+        "y": 266.66669845581055,
+        "wires": [
+            [
+                "6a27bb07.a86084"
+            ]
+        ]
+    },
+    {
+        "id": "4445665a.e5b0f8",
+        "type": "http response",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "x": 619.5000152587891,
+        "y": 323,
+        "wires": []
+    },
+    {
+        "id": "9e1d2696.d36948",
+        "type": "http in",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "url": "/get_data",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 146.50001525878906,
+        "y": 441.6666717529297,
+        "wires": [
+            [
+                "de604c6.386afb"
+            ]
+        ]
+    },
+    {
+        "id": "d77b1124.c46d9",
+        "type": "cloudant in",
+        "z": "15a80fee.a1bde",
+        "name": "master_table",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 533.5001373291016,
+        "y": 443.6666679382324,
+        "wires": [
+            [
+                "78b74a34.4841f4"
+            ]
+        ]
+    },
+    {
+        "id": "de604c6.386afb",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "var payload = msg.payload;\n\nmsg.payload = {\n    query: \"table:\" + payload.params,\n    sort: \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 353.50003814697266,
+        "y": 447.0000867843628,
+        "wires": [
+            [
+                "d77b1124.c46d9"
+            ]
+        ]
+    },
+    {
+        "id": "78b74a34.4841f4",
+        "type": "http response",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "x": 687.5000152587891,
+        "y": 442.0000457763672,
+        "wires": []
+    },
+    {
+        "id": "1ecb143e.fef8fc",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "start",
+        "topic": "statr",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 125.50006866455078,
+        "y": 644.0001182556152,
+        "wires": [
+            [
+                "9a5e8184.99268"
+            ]
+        ]
+    },
+    {
+        "id": "8b75413c.eb459",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.task_obj = {\n    _id: \"1_0\"\n};\n\nvar page_id = 1 ;\n\nmsg.payload = {\n    \"selector\": {\n    \t\"createdAt\": {\n       \t\t\"$gt\" : 0\n       \t},\n        \"task_id\": {\n            \"$in\": [msg.task_obj._id]\n        },\n    \t\"page_id\": page_id,\n    \t\"table\": \"details\"\n\t},\n\t\"sort\": [{\"createdAt\": \"asc\" }],\n    \"limit\": 20,\n};\n\nmsg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_find\";\nmsg.method = \"POST\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 271.50008392333984,
+        "y": 595.6668243408203,
+        "wires": [
+            [
+                "a1d2818c.0336b",
+                "f776761a.a7b9f8"
+            ]
+        ]
+    },
+    {
+        "id": "a1d2818c.0336b",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 472.5000877380371,
+        "y": 601.6667814254761,
+        "wires": [
+            [
+                "a7ada8d5.1f6b88"
+            ]
+        ]
+    },
+    {
+        "id": "a7ada8d5.1f6b88",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 663.5000648498535,
+        "y": 600.0001287460327,
+        "wires": []
+    },
+    {
+        "id": "f776761a.a7b9f8",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 450.5000877380371,
+        "y": 646.333532333374,
+        "wires": []
+    },
+    {
+        "id": "9a5e8184.99268",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.payload = {\n    \"selector\": {\n    \t\"createdAt\": {\n       \t\t\"$gt\" : 0\n       \t},\n       \t\"$or\": [\n       \t    {\n       \t        \"task_id\": {\n                    \"$in\": [\"26\"]\n                }\n            },\n            {\n                \"page_id\": 26,\n            }\n       \t],\n    \t\"table\": \"details\"\n\t},\n\t\"sort\": [{\"createdAt\": \"desc\" }],\n    \"limit\": 20,\n};\n\n\n\nmsg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_find\";\nmsg.method = \"POST\";\nmsg.statusCode = 200 ;\nnode.warn(new Date());\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.5000190734863,
+        "y": 739.0000877380371,
+        "wires": [
+            [
+                "fec17cef.a2295"
+            ]
+        ]
+    },
+    {
+        "id": "fec17cef.a2295",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 447.5,
+        "y": 745.0000457763672,
+        "wires": [
+            [
+                "15e0430e.47928d"
+            ]
+        ]
+    },
+    {
+        "id": "15e0430e.47928d",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 674.5,
+        "y": 757.6666717529297,
+        "wires": []
+    },
+    {
+        "id": "7eda8474.bcab2c",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110.50000762939453,
+        "y": 871.000039100647,
+        "wires": [
+            [
+                "5ad15ae8.d02604"
+            ]
+        ]
+    },
+    {
+        "id": "f7480b5e.f16958",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "http://www.mastersoftwaretechnologies.com:9028/send_push_notification",
+        "tls": "",
+        "x": 460.50011444091797,
+        "y": 870.0000419616699,
+        "wires": [
+            [
+                "a4424f11.37695"
+            ]
+        ]
+    },
+    {
+        "id": "a4424f11.37695",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 703.5001220703125,
+        "y": 900.3333759307861,
+        "wires": []
+    },
+    {
+        "id": "5ad15ae8.d02604",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.isSendPush = true;\nmsg.url = \"http://www.mastersoftwaretechnologies.com:9028/send_push_notification\";\nmsg.method = \"POST\";\nmsg.payload = {\n  \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/4419942e-8f02-4527-8794-c24b42c584b5/messages\",\n  \"appSecrect\": \"c769179f-e1ec-4598-b642-8f5dfd802e4c\",\n  \"payload\": {\n    \"message\": {\n      \"alert\": \"adsfsdf\"\n    },\n    \"target\": {\n      \"deviceIds\": [\n        \"Web View\",\n        \"Web View\",\n        \"1EDFA6E4-D285-404F-A988-69B9D15BDDAB\",\n        \"DA4AF7CF-D38B-46FA-9302-1D586D968EDE\",\n        \"9296B464-3CDC-44A2-BA97-C0AEAF54AAA5\",\n        \"Web View\",\n        \"9CAE51F1-9958-42BB-BD85-EDE1505ED75E\",\n        \"89a5847f-3d15-301c-924f-c0b0cf0ac493\",\n        \"Web View\"\n      ]\n    },\n    \"settings\": {\n      \"apns\": {\n        \"payload\": {\n          \"isPageRefresh\": true,\n          \"page_id\": 18,\n          \"user_page_id\": 18\n        }\n      },\n      \"gcm\": {\n        \"payload\": {\n          \"isPageRefresh\": true,\n          \"user_page_id\": 18,\n          \"page_id\": 18\n        }\n      }\n    }\n  }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 284.5000801086426,
+        "y": 869.6667079925537,
+        "wires": [
+            [
+                "f7480b5e.f16958"
+            ]
+        ]
+    },
+    {
+        "id": "85e29811.530b18",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 100.5,
+        "y": 553.3333282470703,
+        "wires": [
+            [
+                "8b75413c.eb459"
+            ]
+        ]
+    },
+    {
+        "id": "64af6803.d2b0f8",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 91.50000762939453,
+        "y": 1022.6667308807373,
+        "wires": [
+            [
+                "f7e0cb1a.450f68"
+            ]
+        ]
+    },
+    {
+        "id": "f7e0cb1a.450f68",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "// msg.url         = \"https://play-timeout.mybluemix.net/chatbot\";\nmsg.payload     = {\n  text :   \"Hello\" ,\n  context : {\n    \"firstname\": \"testUser\",\n    \"lastname\" : \"demo\",\n    \"phone\": \"12145664732\"\n  }\n};\nnode.warn(new Date().getTime());\n// msg.url     = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_data_for_chatbot\";\n// msg.method  = \"GET\";\n// msg.headers = {\n//     \"Content-Type\": \"application/json\"\n// };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 232.50009536743164,
+        "y": 1054.000389099121,
+        "wires": [
+            [
+                "c913da27.95f358"
+            ]
+        ]
+    },
+    {
+        "id": "c913da27.95f358",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://play-timeout.mybluemix.net/chatbot",
+        "tls": "",
+        "x": 411.5,
+        "y": 1025.6666870117188,
+        "wires": [
+            [
+                "b7fbd98a.bdf938"
+            ]
+        ]
+    },
+    {
+        "id": "df4a7971.fc3ba8",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 790.5002059936523,
+        "y": 1053.3333988189697,
+        "wires": []
+    },
+    {
+        "id": "1f12b92d.55f807",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 414.00001525878906,
+        "y": 1090.0000638961792,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b7fbd98a.bdf938",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "node.warn(new Date().getTime());\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 634.5000381469727,
+        "y": 1053.0000667572021,
+        "wires": [
+            [
+                "df4a7971.fc3ba8"
+            ]
+        ]
+    },
+    {
+        "id": "38d1d3d.741572c",
+        "type": "http in",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "url": "/temp_database",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 121.50006103515625,
+        "y": 1170.666693687439,
+        "wires": [
+            [
+                "b3920e7f.8acaa"
+            ]
+        ]
+    },
+    {
+        "id": "b3920e7f.8acaa",
+        "type": "cloudant in",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "cloudant": "",
+        "database": "temp_database",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 374.5,
+        "y": 1222.3333129882812,
+        "wires": [
+            [
+                "52cc3860.d39488"
+            ]
+        ]
+    },
+    {
+        "id": "52cc3860.d39488",
+        "type": "http response",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "x": 580.5,
+        "y": 1237.3333129882812,
+        "wires": []
+    },
+    {
+        "id": "eecdec9c.dc4c6",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 134.5,
+        "y": 1420.3333129882812,
+        "wires": [
+            [
+                "96e3eee4.304a7"
+            ]
+        ]
+    },
+    {
+        "id": "96e3eee4.304a7",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/updated_get_pages",
+        "tls": "",
+        "x": 315.50001525878906,
+        "y": 1421.0000438690186,
+        "wires": [
+            [
+                "a3baabe.8784d58"
+            ]
+        ]
+    },
+    {
+        "id": "a3baabe.8784d58",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "var payload             = msg.payload ,\n    body                = {},\n    access_token        = \"1513144917511.akgqji17iny0lajkgbpwopqfr\",\n    page_id             = 2,\n    all_pages           = false;\n    \nbody.phone = 12145644732;    \n\nnode.warn(\"cloudant View response >>>\");\nnode.warn(msg.payload);\n\nmsg.all_pages_request = false; //if user request for all pages then this flag should set to be true;\nif( page_id !== 1 || page_id !== 11 ){ //no need to calculate counts for login and verification page;\n    var db_record           = populate_records(payload.rows);\n    \n    node.warn(\"db_records >>\");\n    node.warn(db_record);\n    \n    var user_obj            = populate_user(access_token, db_record.users);\n    var task_obj            = populate_taskobj(page_id, db_record.tasks);\n    \n    node.warn(\"task_obj >>>>>>\");\n    node.warn(task_obj);\n    \n    msg.isCount = true ;\n    msg.db_get_page     = payload ;\n    msg.method          = \"GET\";\n    msg.url             = 'https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/page_counts?key=[\"'+ task_obj._id +'\",'+ user_obj._id +'\"]&reduce=true';\n}else{\n    msg.isCount         = false ;\n    msg.db_get_page     = payload ;\n}        \n    \nmsg.db_get_page = payload;\ndelete msg.headers;\nreturn msg;\n\n\nfunction populate_records(list){\n    node.warn(\"list under populate_records method >>\");\n    node.warn(list);\n    \n    var users = [], task_table = [];\n    for(var i=0; i<list.length; i++){\n        if(list[i].value.table == \"task_table\"){\n            task_table.push(list[i].value);\n        }\n\n        if(list[i].value.table == \"users\"){\n            users.push(list[i].value);\n        }\n    }\n    \n    return {users: users, tasks: task_table} ;\n}\n\nfunction populate_user(access_token, users){\n    var obj = {} ,\n        phone = body.phone ;\n        \n    for(var i in users){\n        if(users[i] && users[i].virtual_phone){\n            if(\n                (access_token === users[i].access_token) ||\n                (phone == users[i].virtual_phone.toString())\n                ){\n                obj = users[i];\n            }    \n        }\n    }\n    return obj;\n}\n\nfunction populate_taskobj(id, arr){\n    if(isEmpty(id)) return {};\n    \n    if(isEmpty(arr)){\n        return {};\n    }else{\n        for(var i=0; i<arr.length; i++){\n            if(arr[i]){\n                if(arr[i].page_id == id){\n                    return arr[i];\n                }    \n            }\n        }\n    }\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 498.5,
+        "y": 1429.9999694824219,
+        "wires": [
+            [
+                "4eba94dd.1a8c7c"
+            ]
+        ]
+    },
+    {
+        "id": "4eba94dd.1a8c7c",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 666.5000381469727,
+        "y": 1430.3333768844604,
+        "wires": []
+    }
+]

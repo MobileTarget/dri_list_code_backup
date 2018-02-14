@@ -1,0 +1,398 @@
+[
+    {
+        "id": "15a80fee.a1bde",
+        "type": "tab",
+        "label": "Test Flows"
+    },
+    {
+        "id": "9066159b.679cd8",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 140.83334350585938,
+        "y": 136.00001525878906,
+        "wires": [
+            [
+                "717f8a45.0ba6f4"
+            ]
+        ]
+    },
+    {
+        "id": "717f8a45.0ba6f4",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "msg.url = \"https://socket-server.mybluemix.net/send_push_notification\";\nmsg.method = \"POST\";\n\nmsg.payload = {\n    \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/f9fb70f7-e91f-4e62-b713-a609fb81be59/messages\",\n    \"appSecrect\": \"f8af03f8-ebc1-4e90-b6c7-c0cd0afc3e69\",\n    \"payload\": {\n\t\t\"message\": {\n\t\t\t\"alert\": \"This message is send from node-red server. Thanks!\"\n\t\t}, \n\t\t\"target\": {\n\t\t\t\"deviceIds\": [\"1099CA5A-EAFC-499A-953D-10D8850CB34B\"] \n\t\t},\n\t\t\"settings\": {\n\t\t\t\"apns\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"       : 18 \n\t\t\t\t}\n\t\t\t},\n\t\t\t\"gcm\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"       : 18 \n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.8333339691162,
+        "y": 136.6666808128357,
+        "wires": [
+            [
+                "7851422f.aedb5c"
+            ]
+        ]
+    },
+    {
+        "id": "7851422f.aedb5c",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 464.83331298828125,
+        "y": 136.6667022705078,
+        "wires": [
+            [
+                "600b60a7.58845"
+            ]
+        ]
+    },
+    {
+        "id": "600b60a7.58845",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 661.8333129882812,
+        "y": 135.33335876464844,
+        "wires": []
+    },
+    {
+        "id": "8f3f6be4.d66f88",
+        "type": "comment",
+        "z": "15a80fee.a1bde",
+        "name": "Test Flow to check the pagination concept",
+        "info": "",
+        "x": 221.50003051757812,
+        "y": 195.33335971832275,
+        "wires": []
+    },
+    {
+        "id": "6a27bb07.a86084",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "var payload = msg.payload ;\n\nvar url     = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/test_db/_design/filterBy/_search/filterBy\",\n    limit   = payload.limit || 20,\n    query   = payload.query,\n    sort    = payload.sort || \"_id<string>\",\n    bookmark= payload.bookmark ;\n    \nif(isEmpty(bookmark)){\n    msg.url = url + '?q=' + query + '&limit=' + limit + '&include_docs=true&sort=\"' + sort + '\"';    \n}else{\n    msg.url = url + '?q=' + query + '&limit=' + limit + '&include_docs=true&sort=\"' + sort + '\"&bookmark=' + bookmark ;\n}\n\nmsg.method = \"GET\";\nnode.warn(msg);\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.50001525878906,
+        "y": 270.66668701171875,
+        "wires": [
+            [
+                "be3eb9ed.ac81e8"
+            ]
+        ]
+    },
+    {
+        "id": "be3eb9ed.ac81e8",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 455.50001525878906,
+        "y": 269,
+        "wires": [
+            [
+                "64d79c66.e08b44",
+                "4445665a.e5b0f8"
+            ]
+        ]
+    },
+    {
+        "id": "64d79c66.e08b44",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 637.5000152587891,
+        "y": 270,
+        "wires": []
+    },
+    {
+        "id": "68f86268.6b325c",
+        "type": "http in",
+        "z": "15a80fee.a1bde",
+        "name": "pagination",
+        "url": "/test_db_pagination",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 128.5000228881836,
+        "y": 266.66669845581055,
+        "wires": [
+            [
+                "6a27bb07.a86084"
+            ]
+        ]
+    },
+    {
+        "id": "4445665a.e5b0f8",
+        "type": "http response",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "x": 619.5000152587891,
+        "y": 323,
+        "wires": []
+    },
+    {
+        "id": "9e1d2696.d36948",
+        "type": "http in",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "url": "/get_data",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 146.50001525878906,
+        "y": 441.6666717529297,
+        "wires": [
+            [
+                "de604c6.386afb"
+            ]
+        ]
+    },
+    {
+        "id": "d77b1124.c46d9",
+        "type": "cloudant in",
+        "z": "15a80fee.a1bde",
+        "name": "master_table",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 533.5001373291016,
+        "y": 443.6666679382324,
+        "wires": [
+            [
+                "78b74a34.4841f4"
+            ]
+        ]
+    },
+    {
+        "id": "de604c6.386afb",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "payload",
+        "func": "var payload = msg.payload;\n\nmsg.payload = {\n    query: \"table:\" + payload.params,\n    sort: \"_id<string>\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 353.50003814697266,
+        "y": 447.0000867843628,
+        "wires": [
+            [
+                "d77b1124.c46d9"
+            ]
+        ]
+    },
+    {
+        "id": "78b74a34.4841f4",
+        "type": "http response",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "x": 687.5000152587891,
+        "y": 442.0000457763672,
+        "wires": []
+    },
+    {
+        "id": "1ecb143e.fef8fc",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "start",
+        "topic": "statr",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 125.50006866455078,
+        "y": 644.0001182556152,
+        "wires": [
+            [
+                "9a5e8184.99268"
+            ]
+        ]
+    },
+    {
+        "id": "8b75413c.eb459",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.task_obj = {\n    _id: \"1_0\"\n};\n\nvar page_id = 1 ;\n\nmsg.payload = {\n    \"selector\": {\n    \t\"createdAt\": {\n       \t\t\"$gt\" : 0\n       \t},\n        \"task_id\": {\n            \"$in\": [msg.task_obj._id]\n        },\n    \t\"page_id\": page_id,\n    \t\"table\": \"details\"\n\t},\n\t\"sort\": [{\"createdAt\": \"asc\" }],\n    \"limit\": 20,\n};\n\nmsg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_find\";\nmsg.method = \"POST\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 294.5000648498535,
+        "y": 602.6667852401733,
+        "wires": [
+            [
+                "a1d2818c.0336b",
+                "f776761a.a7b9f8"
+            ]
+        ]
+    },
+    {
+        "id": "a1d2818c.0336b",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 472.5000877380371,
+        "y": 601.6667814254761,
+        "wires": [
+            [
+                "a7ada8d5.1f6b88"
+            ]
+        ]
+    },
+    {
+        "id": "a7ada8d5.1f6b88",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 663.5000648498535,
+        "y": 600.0001287460327,
+        "wires": []
+    },
+    {
+        "id": "f776761a.a7b9f8",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 450.5000877380371,
+        "y": 646.333532333374,
+        "wires": []
+    },
+    {
+        "id": "9a5e8184.99268",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.payload = {\n    \"selector\": {\n    \t\"createdAt\": {\n       \t\t\"$gt\" : 0\n       \t},\n       \t\"$or\": [\n       \t    {\n       \t        \"task_id\": {\n                    \"$in\": [\"26\"]\n                }\n            },\n            {\n                \"page_id\": 26,\n            }\n       \t],\n    \t\"table\": \"details\"\n\t},\n\t\"sort\": [{\"createdAt\": \"desc\" }],\n    \"limit\": 20,\n};\n\n\n\nmsg.url = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_find\";\nmsg.method = \"POST\";\nmsg.statusCode = 200 ;\nnode.warn(new Date());\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.5000190734863,
+        "y": 739.0000877380371,
+        "wires": [
+            [
+                "fec17cef.a2295"
+            ]
+        ]
+    },
+    {
+        "id": "fec17cef.a2295",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 447.5,
+        "y": 745.0000457763672,
+        "wires": [
+            [
+                "15e0430e.47928d"
+            ]
+        ]
+    },
+    {
+        "id": "15e0430e.47928d",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 674.5,
+        "y": 757.6666717529297,
+        "wires": []
+    },
+    {
+        "id": "7eda8474.bcab2c",
+        "type": "inject",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110.50000762939453,
+        "y": 871.000039100647,
+        "wires": [
+            [
+                "5ad15ae8.d02604"
+            ]
+        ]
+    },
+    {
+        "id": "f7480b5e.f16958",
+        "type": "http request",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "http://www.mastersoftwaretechnologies.com:9028/send_push_notification",
+        "tls": "",
+        "x": 460.50011444091797,
+        "y": 870.0000419616699,
+        "wires": [
+            [
+                "a4424f11.37695"
+            ]
+        ]
+    },
+    {
+        "id": "a4424f11.37695",
+        "type": "debug",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 703.5001220703125,
+        "y": 900.3333759307861,
+        "wires": []
+    },
+    {
+        "id": "5ad15ae8.d02604",
+        "type": "function",
+        "z": "15a80fee.a1bde",
+        "name": "",
+        "func": "msg.isSendPush = true;\nmsg.url = \"http://www.mastersoftwaretechnologies.com:9028/send_push_notification\";\nmsg.method = \"POST\";\nmsg.payload = {\n  \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/4419942e-8f02-4527-8794-c24b42c584b5/messages\",\n  \"appSecrect\": \"c769179f-e1ec-4598-b642-8f5dfd802e4c\",\n  \"payload\": {\n    \"message\": {\n      \"alert\": \"adsfsdf\"\n    },\n    \"target\": {\n      \"deviceIds\": [\n        \"Web View\",\n        \"Web View\",\n        \"1EDFA6E4-D285-404F-A988-69B9D15BDDAB\",\n        \"DA4AF7CF-D38B-46FA-9302-1D586D968EDE\",\n        \"9296B464-3CDC-44A2-BA97-C0AEAF54AAA5\",\n        \"Web View\",\n        \"9CAE51F1-9958-42BB-BD85-EDE1505ED75E\",\n        \"89a5847f-3d15-301c-924f-c0b0cf0ac493\",\n        \"Web View\"\n      ]\n    },\n    \"settings\": {\n      \"apns\": {\n        \"payload\": {\n          \"isPageRefresh\": true,\n          \"page_id\": 18,\n          \"user_page_id\": 18\n        }\n      },\n      \"gcm\": {\n        \"payload\": {\n          \"isPageRefresh\": true,\n          \"user_page_id\": 18,\n          \"page_id\": 18\n        }\n      }\n    }\n  }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 284.5000801086426,
+        "y": 869.6667079925537,
+        "wires": [
+            [
+                "f7480b5e.f16958"
+            ]
+        ]
+    }
+]

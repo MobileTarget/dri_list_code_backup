@@ -1,0 +1,66 @@
+For some reason IBM suspended our account — according to my contact at IBM this should be resolved soon — he was very apologetic — apparently we had “developerworks premium” and that has expired
+
+I am working with them and this should be resolved soon
+
+For now work on items that can be worked on without Bluemix
+
+—
+
+TESTING
+So you can test directly, these are the flows that should work:
+
+When End user to ReminderBot
+An end user:
+test 1: sends from text /// working 
+test 2: sends from my chats // working 
+
+Now check:
+operators (for each test 1 and each test 2), check:
+app minimized // done
+app open to a page that should not be affected 
+app open to a page that should be affected (i.e. stumped messages, list of phones)
+
+Also check if browser and app are open at the same time:
+browser (for each test 1 and each test 2), check:
+browser open to a page that should not be affected as operator
+browser open to a page that should be affected as operator (i.e. stumped messages, list of phones)
+browser open to a page that should be affected as end user (i.e. my chats)
+
+What are we checking for each case above?
+We need to check if screens refresh automatically 
+We need to check if screens refresh when we go to a page
+We need to check push notifications - do they send…do they open to right page
+Does 2nd push notification is sent?
+Do push notification messages make sense?
+We need to check if “roger is typing” appears
+
+When ReminderBot operator responds to End user
+operators send message to end user from stumped messages
+
+end user: 
+received text?
+
+app:
+if not on my chats
+If in my chats
+
+browser:
+if not on my chats
+If in my chats
+
+We need to check if screens refresh automatically 
+We need to check if screens refresh when we go to a page
+No push notifications sent if operator to  // done
+We need to check if “roger is typing” appears // done
+
+
+—
+Next
+First name to appear (i.e. on edit of user record change…)
+Finish websocket push stuff (i.e. don’t send to groups if…) - page expiration stuff
+Pagination
+Counts
+Node/tree code
+
+
+
