@@ -1,0 +1,53 @@
+{
+  "_id": "_design/filterBy",
+  "_rev": "1-bf399f10f887a7de78039b092800fc5f",
+  "views": {
+    "get_page": {
+      "map": "function (doc) {\n  if(doc.table == \"task_table\"){\n    emit(doc.page_id + \": task_table\", {_id: doc._id});\n    if(doc.header_template_id) emit(doc._id + \": header_template\", {_id: doc.header_template_id});  \n    if(doc.detail_template_id) emit(doc._id + \": detail_template\", {_id: doc.detail_template_id});  \n    if(doc.footer_template_id) emit(doc._id + \": footer_template\", {_id: doc.footer_template_id});  \n  }\n  if(doc.table == \"details\") if(doc.page_id) emit([doc.page_id + \": page_id\", doc.createdAt], {_id: doc._id}); \n  if(doc.table == \"users\") emit(doc._id + \"user\", {_id: doc._id});\n  if(doc.table == \"user_task\") emit(doc._id + \"user_task\", {_id: doc._id});\n}"
+    },
+    "page_counts": {
+      "map": "function(doc) {\n  if (doc.table==\"user_page\") {\n    emit([doc.page_id, doc.user_id], {page_id: doc.page_id, ancestors: doc.ancestors, count_status: doc.count_status, count: doc.count, count_if: doc.count_if});\n    if (doc.ancestors.length > 0){\n      for(var i in doc.ancestors){\n        emit([doc.ancestors[i], doc.user_id], {page_id: doc.page_id, ancestors: doc.ancestors, count_status: doc.count_status, count: doc.count, count_if: doc.count_if});\n      }\n    }\n  }\n\n}",
+      "reduce": "function (key, values, rereduce){\n  if (rereduce) {\n\t  var result_object = {}, out_array = {}, reduce_pages = {};\n    for(var each in values){\n      if(values[each].length){\n          var local_record = values[each][0];\n          reduce_pages[local_record.page_id] = local_record;\n          result_object[local_record.page_id] = {\"active\":0,\"unread\":0}; // not sure if needed, but to make a unlinked copy to from original\n      }\n    }\n    \n    for(var pages in reduce_pages){\t\t\t\t\t\t\t\t\t\t// go through each page in values\n\t\t\tif(reduce_pages[pages]){\n\t\t\t\tvar local_obj = reduce_pages[pages];\n\t\t\t\tvar page_id = local_obj.page_id;\n\t\t\t\tvar ancestors = local_obj.ancestors;\n\n\t\t\t\tfor (var itr in ancestors) {\t\t\t\t\t\t\t\t// go through each ancestor in the current page being calculated \n\t\t\t\t\tvar this_ancestor = ancestors[itr];\n\t\t\t\t\tif(reduce_pages[this_ancestor]){\t\t\t\t\t\t\n\t\t\t\t\t\tvar single_obj = reduce_pages[this_ancestor];\t\t// get the record associated with this ancestor\n\t\t\t\t\t\tvar single_obj_page_id = single_obj.page_id;\n\n\t\t\t\t\t\tif( this_ancestor != page_id && reduce_pages[this_ancestor] ){ \n\t\t\t\t\t\t\t// now update each of the result objects for each ancestor\n\t\t\t\t\t\t\tif (single_obj.count_if.active) {\n\t\t\t\t\t\t\t\tresult_object[single_obj_page_id].active = result_object[single_obj_page_id].active + single_obj.count.active;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (single_obj.count_if.unread) {\n\t\t\t\t\t\t\t\tresult_object[single_obj_page_id].unread = result_object[single_obj_page_id].unread + single_obj.count.unread;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\t\t\t\t\t\t\n\t\t}\n    \n    if (Object.keys(result_object).length > 0) {\n    \tfor (var j in result_object) {\n    \t\tif (Object.keys(result_object[j]).length) {\n    \t\t\tout_array[j] = result_object[j];\n    \t\t}\n    \t}\n    }\n    return out_array;\n\t}else{\n\t  return values;\n\t}\n}\n"
+    },
+    "update_get_user_tasks": {
+      "map": "function (doc) {\n  if((doc.table == \"users\") || (doc.table == \"user_task\")) emit([doc._id], {_id: doc._id});\n}"
+    },
+    "get_task_related_data": {
+      "map": "function (doc) {\n  if(doc.table == \"template\") emit([doc._id], {_id: doc._id});\n  if(doc.table == \"task_table\") emit([doc._id], {_id: doc._id});\n  if(doc.table == \"timeout\") emit([doc._id], {_id: doc._id});\n  if(doc.table == \"location\") emit([doc._id], {_id: doc._id});\n  if(doc.table == \"users\") emit([doc._id], {_id: doc._id});\n}"
+    },
+    "updated_get_pages": {
+      "map": "function (doc) {\n  if(doc.table == \"task_table\"){\n    emit(doc.page_id + \": task_table\", doc);\n  }\n  if(doc.table == \"template\") { \n    emit(doc._id, doc);\n  } \n  //if(doc.table == \"details\" ) if(doc.page_id) emit([doc.page_id + \": page_id\", doc.createdAt], doc); \n  if(doc.table == \"users\" || doc.table == \"user_task\") emit(doc._id, doc) ;\n}"
+    },
+    "test_view": {
+      "map": "function (doc) {\n  if(doc.table == \"task_table\"){\n    emit(doc.page_id + \": task_table\", {_id: doc._id});\n    if(doc.header_template_id) emit(doc._id + \": header_template\", {_id: doc.header_template_id});  \n    if(doc.detail_template_id) emit(doc._id + \": detail_template\", {_id: doc.detail_template_id});  \n    if(doc.footer_template_id) emit(doc._id + \": footer_template\", {_id: doc.footer_template_id});  \n  }\n}"
+    },
+    "get_short_details": {
+      "map": "function (doc) {\n  if( (doc.table == \"details\") || (doc.table == \"task_table\") || (doc.table == \"users\")){\n    emit([doc._id], doc);\n  }\n}"
+    },
+    "get_selected_user_task": {
+      "map": "function (doc) {\n  if(doc.table == \"user_page\"){\n    emit([doc.user_id], doc);\n  }\n}"
+    },
+    "delete_view_data": {
+      "map": "function (doc) {\n  if( (doc.table == \"details\") || (doc.table == \"users\") || (doc.table == \"user_task\")){\n    emit(doc._id, doc);\n  }\n}"
+    },
+    "get_data_for_chatbot": {
+      "map": "function (doc){\n\tif(\t(doc.table == \"users\") ||(doc.table == \"group_table\") || (doc.table == \"timeout\") || (doc.table == \"task_table\") ){\n\t\temit(doc._id, doc);\n\t}\n}"
+    },
+    "add_detail_data": {
+      "map": "function (doc) {\n  if(doc.table == \"template\") {\n    emit({_id: doc._id}, doc);\n  }\n  if(doc.table == \"task_table\") {\n    emit({_id: doc._id}, doc);\n  }\n  if(doc.table == \"timeout\") {\n    emit({ _id: doc._id}, doc);\n  }\n  if(doc.table == \"location\") {\n    emit({_id: doc._id}, doc);\n  }\n  if(doc.table == \"users\") {\n    emit({_id: doc._id}, doc);\n  }\n  if(doc.table == \"details\") {\n    emit({_id: doc._id }, doc);\n  }\n}"
+    },
+    "get_groups_users": {
+      "map": "function (doc) {\n  if( (doc.table == \"users\") || (doc.table == \"group_table\")){\n    emit(doc._id, doc);\n  }\n}"
+    },
+    "set2TimeoutView": {
+      "map": "function (doc) {\n  if(doc.table == \"details\"){\n    if(doc.timeout && doc.processed === 0){\n      emit(doc._id, doc);\n    }  \n  }else{\n    if(doc.table == \"users\"){\n      emit(doc._id, doc);\n    }\n  }\n  \n}"
+    }
+  },
+  "language": "javascript",
+  "indexes": {
+    "filterBy": {
+      "analyzer": "standard",
+      "index": "function (doc) {\n  if(doc.table){\n    index(\"table\", doc.table, {\"store\": true, \"index\": true});  \n  }\n  \n  if(doc.page_id){\n    index(\"page_id\", doc.page_id, {\"store\": true, \"index\": true, \"type\": \"number\"});  \n  }\n\n  if(doc.access_token){\n    index(\"access_token\", doc.access_token, {\"store\": true, \"index\": true, \"type\": \"string\"});\n  }\n  \n  if(doc.user_id){\n    index(\"user_id\", doc.user_id, {\"store\": true, \"index\": true, \"type\": \"string\"});\n  }\n  \n  if(doc.to_page_id){\n    index(\"to_page_id\", doc.to_page_id, {\"store\": true, \"type\": \"number\"});\n  }\n  \n  if(doc.virtual_phone){\n    index(\"virtual_phone\", doc.virtual_phone, {\"store\": true, \"index\": true, \"type\": \"number\"});\n  }\n  \n  if(doc.parent_id){\n    index(\"parent_id\", doc.parent_id, {\"store\": true});\n  }\n  \n  if(doc.task_name){\n    index(\"task_name\", doc.task_name, {\"store\": true, \"index\": true, \"type\": \"string\"});\n  }\n\n}"
+    }
+  }
+}

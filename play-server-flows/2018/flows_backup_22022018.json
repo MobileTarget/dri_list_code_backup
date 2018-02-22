@@ -1,0 +1,114 @@
+[
+    {
+        "id": "c5677402.353468",
+        "type": "tab",
+        "label": "ChatBot"
+    },
+    {
+        "id": "4a5a4072.de4df",
+        "type": "watson-conversation-v1",
+        "z": "c5677402.353468",
+        "name": "Chatbot",
+        "workspaceid": "7c21fad4-54ab-42e3-af42-3eecdc236c0e",
+        "multiuser": false,
+        "context": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://gateway.watsonplatform.net/conversation/api",
+        "x": 526.5,
+        "y": 201,
+        "wires": [
+            [
+                "4daca45c.20a02c"
+            ]
+        ]
+    },
+    {
+        "id": "ed963395.e49d08",
+        "type": "http in",
+        "z": "c5677402.353468",
+        "name": "",
+        "url": "/chatbot",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 180.5,
+        "y": 204,
+        "wires": [
+            [
+                "2bd01ed3.91d8d2"
+            ]
+        ]
+    },
+    {
+        "id": "2bd01ed3.91d8d2",
+        "type": "function",
+        "z": "c5677402.353468",
+        "name": "payload",
+        "func": "var payload = msg.payload;\nmsg.params = {};\nmsg.payload = payload.text || \"Reservations\";\nmsg.params.alternate_intents = true ;\nmsg.params.context = payload.context;\nmsg.req_body = payload ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 366.5,
+        "y": 203,
+        "wires": [
+            [
+                "4a5a4072.de4df"
+            ]
+        ]
+    },
+    {
+        "id": "4daca45c.20a02c",
+        "type": "function",
+        "z": "c5677402.353468",
+        "name": "res",
+        "func": "var payload = msg.payload;\nif(isEmpty(payload.output)){\n    msg.statusCode = 400;\n    msg.payload    = {status:400, error: true, msg: \"Unable to getoutput from Chatbot.\", data: \"Watson Stumped\", req_body: msg.req_body, context: null};\n}else{\n    if(isEmpty(payload.output.text)){\n        msg.statusCode = 400;\n        msg.payload    = {status:400, error: true, msg: \"No response from chatbot.\", data: \"Watson Stumped\", req_body: msg.req_body, context: null};\n    }else{\n        msg.statusCode = 200;\n        msg.payload    = {status:200, error: false, msg: \"Chabot respond successfully.\", data: compute_output(payload.output.text), req_body: msg.req_body, context: payload.context};\n    }\n}\nmsg.statusCode = 200 ;\nreturn msg;\n\nfunction compute_output(arr){\n    var str = \"\";\n    for(var i=0; i< arr.length; i++){\n        str += arr[i];\n    }\n    \n    if(isEmpty(str)) str = \"Watson Stumped\";\n    return str;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 671.5,
+        "y": 201,
+        "wires": [
+            [
+                "9985dc62.402008",
+                "43d2f959.353208"
+            ]
+        ]
+    },
+    {
+        "id": "9985dc62.402008",
+        "type": "http response",
+        "z": "c5677402.353468",
+        "name": "",
+        "x": 848.5,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b5d5561.fc7d828",
+        "type": "inject",
+        "z": "c5677402.353468",
+        "name": "",
+        "topic": "start",
+        "payload": "{\"text\": \"is it rainy today?\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 176.5,
+        "y": 249,
+        "wires": [
+            [
+                "2bd01ed3.91d8d2"
+            ]
+        ]
+    },
+    {
+        "id": "43d2f959.353208",
+        "type": "debug",
+        "z": "c5677402.353468",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 866,
+        "y": 255,
+        "wires": []
+    }
+]

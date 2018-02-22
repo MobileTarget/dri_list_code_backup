@@ -1,0 +1,23 @@
+{
+  "_id": "_design/28e8db44a5a086275fa7268eacd0300b12ff89ad",
+  "_rev": "1-7034fbb681e7457e93f745adc49428c3",
+  "language": "query",
+  "indexes": {
+    "paginationQueryIndex": {
+      "index": {
+        "default_analyzer": "keyword",
+        "default_field": {},
+        "selector": {},
+        "fields": "all_fields",
+        "index_array_lengths": true
+      },
+      "analyzer": {
+        "name": "perfield",
+        "default": "keyword",
+        "fields": {
+          "$default": "standard"
+        }
+      }
+    }
+  }
+}

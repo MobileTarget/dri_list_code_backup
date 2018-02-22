@@ -1,0 +1,1802 @@
+[
+    {
+        "id": "e079261f.947b38",
+        "type": "subflow",
+        "name": "Push Notificaiton Via WSS",
+        "info": "",
+        "in": [
+            {
+                "x": 51.000003814697266,
+                "y": 169.00000095367432,
+                "wires": [
+                    {
+                        "id": "f7e391d8.19041"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 709.0001621246338,
+                "y": 178.0000410079956,
+                "wires": [
+                    {
+                        "id": "3ddbe37f.88f1ac",
+                        "port": 0
+                    },
+                    {
+                        "id": "64d2537f.fe62ec",
+                        "port": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "f7e391d8.19041",
+        "type": "function",
+        "z": "e079261f.947b38",
+        "name": "Chatbot push",
+        "func": "var user = msg.userObj ,\n    data = msg.payload ,\n    body = msg.req_body ;\n\n//Distribution credentails...    \nvar appGuid = \"f9fb70f7-e91f-4e62-b713-a609fb81be59\",\n    appSecrect = \"f8af03f8-ebc1-4e90-b6c7-c0cd0afc3e69\" ;\n\n//Delevlopment credentails...    \n// var appGuid = \"4419942e-8f02-4527-8794-c24b42c584b5\",\n//     appSecrect = \"c769179f-e1ec-4598-b642-8f5dfd802e4c\" ;\n    \nif(isEmpty(user)){\n    node.warn(\"When user is empty no need to send push notificaiton\");\n    msg.isSendPush = false;\n}else{\n    var device_ids = populate_device_ids(user);\n    if( isEmpty(device_ids) ){\n        node.warn(\"`device_id` is empty no need to send push notification\");\n        msg.isSendPush = false;\n    }else{\n        msg.isSendPush = true;\n        //msg.url = \"http://drilist-socket-server.mybluemix.net/send_push_notification\";\n        msg.url = \"http://mastersoftwaretechnologies.com:9028/send_push_notification\";\n        //msg.url     = \"http://mastersoftwaretechnologies.com:6011/send_push_notification\";\n        msg.method = \"POST\";\n        \n        msg.payload = {\n            \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/\" + appGuid +\"/messages\",\n            \"appSecrect\": appSecrect,\n            \"payload\": {\n        \t\t\"message\": {\n        \t\t\t\"alert\": isEmpty(body.msg) ? data : body.msg  \n        \t\t}, \n        \t\t\"target\": {\n        \t\t\t\"deviceIds\": device_ids\n        \t\t},\n        \t\t\"settings\": {\n        \t\t\t\"apns\": {\n        \t\t\t\t\"payload\": {\n        \t\t\t\t\t\"isPageRefresh\" : true,\n        \t\t\t\t\t\"page_id\"  : 18,\n        \t\t\t\t\t\"user_page_id\": 18\n        \t\t\t\t}\n        \t\t\t},\n        \t\t\t\"gcm\": {\n        \t\t\t\t\"payload\": {\n        \t\t\t\t\t\"isPageRefresh\" : true,\n        \t\t\t\t\t\"user_page_id\"  : 18,\n        \t\t\t\t\t\"page_id\": 18,\n        \t\t\t\t}\n        \t\t\t}\n        \t\t}\n        \t}\n        };\n    }\n}\n\ndelete msg.headers;\nreturn msg;\n\nfunction populate_device_ids(userObj){\n    var device_tokens = userObj.device_token ;\n    if(isEmpty(device_tokens)){\n        return [];\n    }else{\n        var ids = [];\n        for(var itr in device_tokens){\n            ids.push(device_tokens[itr].device_id);\n        }\n        \n        return ids;\n    }\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 187.00001525878906,
+        "y": 168.00000953674316,
+        "wires": [
+            [
+                "64d2537f.fe62ec"
+            ]
+        ]
+    },
+    {
+        "id": "64d2537f.fe62ec",
+        "type": "switch",
+        "z": "e079261f.947b38",
+        "name": "",
+        "property": "isSendPush",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 377.0039176940918,
+        "y": 168.41390419006348,
+        "wires": [
+            [
+                "3ddbe37f.88f1ac"
+            ],
+            [
+                "ecf428ae.209d08"
+            ]
+        ]
+    },
+    {
+        "id": "ecf428ae.209d08",
+        "type": "debug",
+        "z": "e079261f.947b38",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 534.0121154785156,
+        "y": 219.42953824996948,
+        "wires": []
+    },
+    {
+        "id": "3ddbe37f.88f1ac",
+        "type": "http request",
+        "z": "e079261f.947b38",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 536.5001525878906,
+        "y": 105.00003910064697,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23a4aa90.edeb06",
+        "type": "subflow",
+        "name": "Step2 Timeout processing",
+        "info": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "da3733ea.3b4d7"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "f32d33b6.d8313",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "Step 2 timeout processing",
+        "func": "var payload         = msg.payload ,\n    db_records      = populate_records(payload.rows);\n    msg.company_page_id = null;\n    \n\nmsg.isDetailProcessed = false;\nmsg.from_user = {} ;\n    if(isEmpty(db_records)){\n        msg.payload = \"Unable to populate records via using cloudant db.\";\n    }else{\n        var details = db_records.details,\n            users   = db_records.users;\n            \n        var processed_details = process_details_with_timeout(details);\n        if(!isEmpty(processed_details)){\n            msg.isDetailProcessed = true;\n            msg.payload = {\n                docs: processed_details\n            } ;\n        }else{\n            msg.payload = \"There is not details to processed.\";\n        }\n    }\nreturn msg;\n\nfunction process_details_with_timeout(details){\n    var updated_details = [];\n    if(isEmpty(details)) return updated_details;\n    \n    for(var itr in details){\n        if( !isEmpty(details[itr].timeout) && (details[itr].processed === 0) ){\n            var newDetailObj = JSON.parse(JSON.stringify(details[itr]));\n            \n            //check If added detail delivery_due_date is a past date or not ?\n            if(checkPastDeliveryDue(details[itr].due_date)){\n\n                if(\"company_bot_detail\" in details[itr].type){\n                    var company_timeout = JSON.parse(JSON.stringify(newDetailObj.timeout)),\n                        temp_obj        = JSON.parse(JSON.stringify(company_timeout));\n                    \n                    for(var loop in company_timeout){\n                        var ctimeoutObj     = company_timeout[loop];\n                        var cgroupUsers     = populate_group_users(ctimeoutObj.delivery_user_types);\n                        \n                        temp_obj[loop].delivery_user_ids        = populate_delivery_ids(cgroupUsers);\n                        temp_obj[loop].delivery_user_special    = cgroupUsers ;\n                        temp_obj[loop].message_id               = details[itr]._id;\n                        temp_obj[loop].from_user_id             = details[itr].user_incoming.note;\n                    }\n                    newDetailObj.processed      = 1; //2 refres to complete\n                    newDetailObj.status         = 2; //2 refres to complete\n                    newDetailObj.category       = \"message\";\n                    newDetailObj.user_calculate = temp_obj;\n                    newDetailObj.timeout        = {};\n                    updated_details.push(newDetailObj);\n                    \n                }else{\n                \n                    var timeoutObj   = details[itr].timeout,\n                        groupUsers   = populate_group_users(timeoutObj.delivery_user_types);\n\n                    newDetailObj.processed                      = 1; //2 refres to complete\n                    newDetailObj.status                         = 2; //2 refres to complete\n                    newDetailObj.category                       = \"message\";\n                    newDetailObj.timeout.delivery_user_ids      = populate_delivery_ids(groupUsers) ;\n                    newDetailObj.timeout.delivery_user_special  = groupUsers;\n                    newDetailObj.timeout.message_id             = details[itr]._id;\n                    newDetailObj.timeout.from_user_id           = details[itr].user_incoming.note;\n    \n                    newDetailObj.user_calculate = newDetailObj.timeout;\n                    newDetailObj.timeout        = {};\n                    \n                    msg.company_page_id = details[itr].page_id ;\n                    updated_details.push(newDetailObj);\n                }\n            }\n            \n            if(checkFutureDeliveryDue(details[itr].due_date)){\n                if(newDetailObj.status === 0) {\n                    newDetailObj.status = 1;\n                    updated_details.push(newDetailObj);\n                }\n            }\n            \n            msg.from_user = newDetailObj.from_user_id ; //just set the from_user object which is used in push notificatino fn node to get user number\n        }\n    }\n    \n    return updated_details;\n}\n\nfunction populate_group_users(list){\n    var obj = {};\n    if(isEmpty(list)) return obj;\n    \n    for(var itr in list){\n        if(itr !== \"public\"){\n            obj = populate_user(itr);\n        }\n    }\n    return obj;\n}\n\nfunction populate_delivery_ids(groupUsers){\n    var obj ={};\n    \n    if(isEmpty(groupUsers)) return obj;\n    \n    for(var itr in groupUsers){\n        obj[itr] = itr;\n    }\n    return obj;\n}\n\nfunction populate_user(group_id){\n    var obj = {};\n    if(isEmpty(users)) return obj;\n    if(isEmpty(group_id)) return obj;\n    \n    for(var counter in users){\n        if(!isEmpty(users[counter].data)){\n            if(!isEmpty(users[counter].data.groups)){\n                if(group_id in users[counter].data.groups){\n                    obj[users[counter]._id] = {    \n                        user_id   : users[counter]._id,\n                        firstname : users[counter].firstname ? users[counter].firstname : \"\",\n                        lastname  : users[counter].lastname ? users[counter].lastname : \"\",\n                        email     : users[counter].email ? users[counter].email : \"\",\n                        device_id : users[counter].device_id ? users[counter].device_id : \"\",\n                        device_token: users[counter].device_token,\n                        phone     : users[counter].virtual_phone  \n                    };\n                }\n            }\n        }\n    }\n    return obj;\n}\n\nfunction checkPastDeliveryDue(due_date){\n    var current_date = new Date().getTime();\n    //return true;\n    //return (due_date > new Date()) ; //120000 is default which is 120 sec or 2 minutes \n    return current_date > due_date ; //confirms the past_due records not the future one records\n}\n\nfunction checkFutureDeliveryDue(due_date){\n    var current_data = new Date().getTime();\n    return (due_date > current_data);\n}\n\nfunction populate_records(list){\n    var details = [], users = [];\n    if(isEmpty(list)) return {};\n    \n    for(var itr in list){\n        if(list[itr].value.table == \"details\"){\n            details.push(list[itr].value);\n        }\n        \n        if(list[itr].value.table == \"users\"){\n            users.push(list[itr].value);\n        }\n    }\n    \n    return {details: details, users: users};\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 258,
+        "y": 281.000111579895,
+        "wires": [
+            [
+                "beac40b9.9cfc9",
+                "cfd33387.c5a91"
+            ]
+        ]
+    },
+    {
+        "id": "cfd33387.c5a91",
+        "type": "switch",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "property": "isDetailProcessed",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 512.6665878295898,
+        "y": 263.71370220184326,
+        "wires": [
+            [
+                "d6c9d919.bb84e8",
+                "13e012cf.2da58d"
+            ]
+        ]
+    },
+    {
+        "id": "13e012cf.2da58d",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "notification",
+        "func": "var payload         = msg.payload.docs,\n    responder_group = populate_group(payload);\n\nif(isEmpty(responder_group)){\n    msg.type        = \"NONE\";\n    msg.payload     = \"No need to send any kind of notification\";\n}else{\n    if(!isEmpty(responder_group.push)){\n        node.warn(\"under the 2nd group responder fn >>>>>>>>\");\n        node.warn(responder_group);\n        msg.type    = \"PUSH\";\n        msg.payload = {\n            push: populate_device_ids(responder_group.push.users),\n            msg : responder_group.push.msg\n        };\n    }\n    \n    if(!isEmpty(responder_group.sms)){\n        msg.type   = \"SMS\";\n        msg.payload = {\n            sms : populate_phone_numbers(responder_group.sms.users),\n            msg : responder_group.sms.msg\n        };\n    }\n    \n    if(!isEmpty(responder_group.email)){\n        msg.type    = \"EMAIL\";\n        msg.payload = {\n            email: populate_email_address(responder_group.email.users),\n            msg : responder_group.email.msg\n            \n        };\n    }\n    \n    if(!isEmpty(responder_group.app)){\n        msg.type    = \"APP\";\n        msg.payload = {\n            app: populate_apps(responder_group.app.users),\n            msg : responder_group.app.msg\n        };\n    }\n}\n\nreturn msg;\n\nfunction populate_device_ids(userObj){\n    if(isEmpty(userObj)){\n        return [];\n    }else{\n        var ids = [];\n        for(var itr in userObj){\n            if(!isEmpty(userObj[itr].device_token)){\n                let tokens = userObj[itr].device_token;\n                for(let token in tokens){\n                    if(tokens[token].device_id !== \"Web View\"){\n                        ids.push(tokens[token].device_id);\n                    }\n                }\n            }\n        }\n        \n        return ids;\n    }\n}\n\nfunction populate_phone_numbers(users){\n    var numbers = [];\n    if(isEmpty(users))  return numbers;\n    \n    for(var itr in users){\n        if( !(isEmpty(users[itr].phone)) && (users[itr].phone.toString().length > 5) ){\n            numbers.push(Number(users[itr].phone));\n        }\n    }\n    return numbers;\n}\n\nfunction populate_email_address(users){\n    var email_address = [];\n    if(isEmpty(users))  return email_address;\n    \n    for(var itr in users){\n        if( !(isEmpty(users[itr].email))  ){\n            email_address.push(users[itr].email);\n        }\n    }\n    return email_address;\n}\n\nfunction populate_apps(users){\n    return users;\n}\n\nfunction populate_group(list){\n    var push_notification = {}, sms_notification = {}, email_notification = {}, app_notification ={};\n    if(isEmpty(list)) return obj;\n    \n    for(var itr in list){\n        if(!(\"company_bot_detail\" in list[itr].type)){\n            if(!isEmpty(list[itr].user_calculate)){\n                var user_calculate = list[itr].user_calculate;\n                if(user_calculate.delivery_via == \"sms\"){\n                    sms_notification = {\n                        users: user_calculate.delivery_user_special ,\n                        msg  : list[itr].user_incoming.message\n                    };\n                }\n                \n                if(user_calculate.delivery_via == \"push\"){\n                    push_notification = {\n                        users: user_calculate.delivery_user_special,\n                        msg  : list[itr].user_incoming.message\n                    };\n                }\n                \n                if(user_calculate.delivery_via == \"email\"){\n                    email_notification = {\n                        users: user_calculate.delivery_user_special,\n                        msg  : list[itr].user_incoming.message\n                    };\n                }\n                \n                if(user_calculate.delivery_via == \"app\"){\n                    app_notification = {\n                        users: user_calculate.delivery_user_special,\n                        msg  : list[itr].user_incoming.message\n                    };\n                }\n            }\n        }\n    }\n    return {push: push_notification, sms:sms_notification, email:email_notification, app:app_notification};\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 682.0001754760742,
+        "y": 246.3802843093872,
+        "wires": [
+            [
+                "573a10cf.f8a2"
+            ]
+        ]
+    },
+    {
+        "id": "d6c9d919.bb84e8",
+        "type": "http request",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_bulk_docs",
+        "tls": "",
+        "x": 681.0001754760742,
+        "y": 288.71370124816895,
+        "wires": [
+            [
+                "8e4a8da5.ea69d"
+            ]
+        ]
+    },
+    {
+        "id": "8e4a8da5.ea69d",
+        "type": "debug",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1032.0001525878906,
+        "y": 458.71375846862793,
+        "wires": []
+    },
+    {
+        "id": "573a10cf.f8a2",
+        "type": "switch",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "property": "type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "PUSH",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "SMS",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "EMAIL",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "APP",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 5,
+        "x": 860.0001754760742,
+        "y": 244.3802900314331,
+        "wires": [
+            [
+                "5a2b965b.b7ab28"
+            ],
+            [
+                "305a598.2f410a6"
+            ],
+            [
+                "77fbde0a.ce28"
+            ],
+            [
+                "36e39366.1bb63c"
+            ],
+            [
+                "8e4a8da5.ea69d"
+            ]
+        ]
+    },
+    {
+        "id": "beac40b9.9cfc9",
+        "type": "debug",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 511.33353424072266,
+        "y": 384.3803777694702,
+        "wires": []
+    },
+    {
+        "id": "36e39366.1bb63c",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "APP",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1042.0001525878906,
+        "y": 327.3803815841675,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "77fbde0a.ce28",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "EMAIL",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1039.000129699707,
+        "y": 270.3803253173828,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "305a598.2f410a6",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "SMS",
+        "func": "msg.phone_array_length = msg.payload.sms.length;\nmsg.counter = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1040.000129699707,
+        "y": 193.38032150268555,
+        "wires": [
+            [
+                "ead44e8b.2b155"
+            ]
+        ]
+    },
+    {
+        "id": "5a2b965b.b7ab28",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "PUSH",
+        "func": "var page_id         = msg.company_page_id ,\n    push_data       = msg.payload ,\n    push_obj        = msg.push_obj;\n    \n//msg.url = \"http://drilist-socket-server.mybluemix.net/send_push_notification\";\nmsg.url = \"http://mastersoftwaretechnologies.com:9028/send_push_notification\";\n//msg.url     = \"http://mastersoftwaretechnologies.com:6011/send_push_notification\";\nmsg.method = \"POST\";\n\n//Distribution credentails...    \nvar appGuid = \"f9fb70f7-e91f-4e62-b713-a609fb81be59\",\n    appSecrect = \"f8af03f8-ebc1-4e90-b6c7-c0cd0afc3e69\" ;\n\n//Delevlopment credentails...    \n// var appGuid = \"4419942e-8f02-4527-8794-c24b42c584b5\",\n//     appSecrect = \"c769179f-e1ec-4598-b642-8f5dfd802e4c\" ;\n    \nmsg.payload = {\n    \"push_url\": \"https://imfpush.ng.bluemix.net/imfpush/v1/apps/\" + appGuid +\"/messages\",\n    \"appSecrect\": appSecrect,\n    \"payload\": {\n\t\t\"message\": {\n\t\t\t\"alert\": populatePushMessage(push_obj, msg.from_user, push_data)\n\t\t}, \n\t\t\"target\": {      \n\t\t\t\"deviceIds\": isArray(push_data.push) ? push_data.push : [push_data.push]\n\t\t},\n\t\t\"settings\": {\n\t\t\t\"apns\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"  : page_id || 2 ,\n\t\t\t\t\t\"user_page_id\": 18,\n\t\t\t\t\t\"group\": push_obj.group\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"gcm\": {\n\t\t\t\t\"payload\": {\n\t\t\t\t\t\"isPageRefresh\" : true,\n\t\t\t\t\t\"page_id\"  : page_id || 2 ,\n\t\t\t\t\t\"user_page_id\": 18,\n\t\t\t\t\t\"group\": push_obj.group\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n};\n\ndelete msg.headers;\nreturn msg;\n\nfunction populatePushMessage(push_obj, from_user, push_data){\n    if(isEmpty(push_obj) || isEmpty(from_user)) return push_data.msg;\n    if(push_obj.group == \"Group 1\"){\n        return push_obj.group + \" - \" + push_obj.req_user_number + \"-\" + push_obj.msg ;\n    }else{\n        return push_obj.group + \" - \" + from_user.phone + \"-\" + push_data.msg ;\n    }\n}\n\nfunction isArray(obj){\n    if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        return true;\n    }else{\n        return false;\n    }\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1040.499984741211,
+        "y": 90.00008773803711,
+        "wires": [
+            [
+                "fcbcb925.fd3a98"
+            ]
+        ]
+    },
+    {
+        "id": "fcbcb925.fd3a98",
+        "type": "http request",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 1209.333122253418,
+        "y": 85.33334636688232,
+        "wires": [
+            [
+                "b5ab27d2.94d958"
+            ]
+        ]
+    },
+    {
+        "id": "b5ab27d2.94d958",
+        "type": "debug",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1398.3331451416016,
+        "y": 84,
+        "wires": []
+    },
+    {
+        "id": "d90ed0c4.68037",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "counter",
+        "func": "msg.counter++;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1308.8334732055664,
+        "y": 150.71365451812744,
+        "wires": [
+            [
+                "ead44e8b.2b155"
+            ]
+        ]
+    },
+    {
+        "id": "ead44e8b.2b155",
+        "type": "switch",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "property": "counter",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "phone_array_length",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1228.8334732055664,
+        "y": 229.71365451812744,
+        "wires": [
+            [
+                "beaabaa0.7c8ac8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "beaabaa0.7c8ac8",
+        "type": "function",
+        "z": "23a4aa90.edeb06",
+        "name": "payload",
+        "func": "msg.topic   = msg.payload.sms[msg.counter];\nmsg.payload = \"There is a new message `\"+  msg.payload.msg +\"`under ReminderBot company. Please check it once. Thanks!!!\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1396.8341903686523,
+        "y": 223.71366214752197,
+        "wires": [
+            [
+                "d90ed0c4.68037",
+                "9d502a0.69799d8",
+                "a15a19ad.070768"
+            ]
+        ]
+    },
+    {
+        "id": "9d502a0.69799d8",
+        "type": "debug",
+        "z": "23a4aa90.edeb06",
+        "name": "SMS Logger",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1599.0001678466797,
+        "y": 206.04701709747314,
+        "wires": []
+    },
+    {
+        "id": "a15a19ad.070768",
+        "type": "twilio out",
+        "z": "23a4aa90.edeb06",
+        "service": "_ext_",
+        "twilio": "80db99b9.2656f8",
+        "from": "",
+        "number": "",
+        "name": "Send to Assistants",
+        "x": 1620.1669158935547,
+        "y": 251.71368503570557,
+        "wires": []
+    },
+    {
+        "id": "da3733ea.3b4d7",
+        "type": "http request",
+        "z": "23a4aa90.edeb06",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/set2TimeoutView",
+        "tls": "",
+        "x": 136.0000114440918,
+        "y": 194.0000123977661,
+        "wires": [
+            [
+                "f32d33b6.d8313"
+            ]
+        ]
+    },
+    {
+        "id": "80db99b9.2656f8",
+        "type": "twilio-api",
+        "z": "3d6329c5.e74616",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "12312259665 ",
+        "name": "DriList Sms Service for chatbot"
+    },
+    {
+        "id": "3d6329c5.e74616",
+        "type": "tab",
+        "label": "Chatbot Flow"
+    },
+    {
+        "id": "ad780b1b.e3c6f8",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 293.16675567626953,
+        "y": 482.00005054473877,
+        "wires": []
+    },
+    {
+        "id": "ce8c5ebc.2e07d",
+        "type": "http in",
+        "z": "3d6329c5.e74616",
+        "name": "Recieve Twilio Errors",
+        "url": "/twilio_error",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 129.5,
+        "y": 40,
+        "wires": [
+            [
+                "499c2631.2dde98",
+                "a0f421be.f3901"
+            ]
+        ]
+    },
+    {
+        "id": "499c2631.2dde98",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 326.5,
+        "y": 40.99999237060547,
+        "wires": []
+    },
+    {
+        "id": "12b93aaf.ae4ca5",
+        "type": "cloudant in",
+        "z": "3d6329c5.e74616",
+        "name": "isUserExists",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "search": "_idx_",
+        "design": "filterBy",
+        "index": "filterBy",
+        "x": 454.0000915527344,
+        "y": 577.3333854675293,
+        "wires": [
+            [
+                "7e24d844.c0f3c8"
+            ]
+        ]
+    },
+    {
+        "id": "9873f820.67d978",
+        "type": "inject",
+        "z": "3d6329c5.e74616",
+        "name": "Inject",
+        "topic": "start",
+        "payload": "{\"From\": \"919818898188\", \"Body\": \"Reservation\", \"To\": \"+12312259665\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 86.00008010864258,
+        "y": 545.0001354217529,
+        "wires": [
+            [
+                "b27ddb2a.4eb5a8"
+            ]
+        ]
+    },
+    {
+        "id": "b27ddb2a.4eb5a8",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "msg ",
+        "func": "var content = msg.payload ,\n    obj   = check_valid_phone(content);\n\n\nnode.warn(\"When Twilwio SMS comes to system >>>>\");    \nnode.warn(msg.payload);\n\n\nvar payload = {\n    \"phone\": obj.phone,\n    \"body\" : obj.body\n};\n\nmsg.payload = {\n    query: \"table:users AND virtual_phone: \"+ payload.phone,\n    sort: \"_id<string>\"\n};\nmsg.req_body = obj ;\nmsg.ask_chatbot = false;\nmsg.sms_body = content;\nreturn msg;\n\n\nfunction check_valid_phone(obj){\n    return {\n        phone: Number(obj.From.replace('+', '').trim()) ,\n        body : obj.Body \n    };\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 293.0000991821289,
+        "y": 529.3334321975708,
+        "wires": [
+            [
+                "12b93aaf.ae4ca5"
+            ]
+        ]
+    },
+    {
+        "id": "7e24d844.c0f3c8",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "isUserExists ?",
+        "func": "var user        = msg.payload,\n    phone       = msg.req_body.phone;\n\n//user = {}; //test obj used when we need to add details and task for stumped category if the user is already registred with system.\n\nif(isEmpty(user)){\n    //when user number doesn't exists in database\n    msg.api_status = \"USER_NOT_EXISTS\";\n    msg.payload = {\n        _id         : randomString(32),\n        table       : \"users\",\n        access_token:  token(),\n        firstname   :  parseInt(phone),\n        lastname    :   \"\",\n        phone       :  parseInt(phone),\n        virtual_phone: parseInt(phone),\n        security_level: 0,\n        code:         rand(),\n        type: {\n            \"public\": \"public\"\n        },\n        data: {},\n        device_id: null,\n        push_accepted: 0\n    };\n    msg.userObj     = [msg.payload] ;\n    msg.createUser  = true;\n}else{\n    //when user number exists in database find stored task for that user.\n    msg.api_status = \"USER_EXISTS\";\n    msg.userObj = user ;\n}\n\nmsg.url     = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_data_for_chatbot\";\nmsg.method  = \"GET\";\ndelete msg.headers;\nreturn msg;\n\nfunction rand() {\n    return Math.floor(1000 + Math.random() * 9000);\n}\n\nfunction token() {\n    return new Date().getTime() + \".\" +Math.random().toString(36).substr(2) ;\n}\n\nfunction randomString(length) {\n    var ObjectId = global.get('objectId');\n    return ObjectId();\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 635.0001602172852,
+        "y": 577.3334465026855,
+        "wires": [
+            [
+                "571abf69.934f9"
+            ]
+        ]
+    },
+    {
+        "id": "17618957.5d3447",
+        "type": "switch",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "USER_NOT_EXISTS",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "USER_EXISTS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1197.6668853759766,
+        "y": 579.0002880096436,
+        "wires": [
+            [
+                "5c862abb.63fc04"
+            ],
+            [
+                "7a9c2425.65378c"
+            ]
+        ]
+    },
+    {
+        "id": "6950da92.7dba04",
+        "type": "http in",
+        "z": "3d6329c5.e74616",
+        "name": "Operator Response",
+        "url": "/user_chatbot_response",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 126.83333587646484,
+        "y": 1004.0001878738403,
+        "wires": [
+            [
+                "ebcb0060.d0c45",
+                "f21ad68f.ee8c68"
+            ]
+        ]
+    },
+    {
+        "id": "bf4e799.74f8288",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "When operator respond back to user SMS when Watson stumped or some other case",
+        "info": "",
+        "x": 329.0000305175781,
+        "y": 919.0001974105835,
+        "wires": []
+    },
+    {
+        "id": "afd8e753.1a3748",
+        "type": "http in",
+        "z": "3d6329c5.e74616",
+        "name": "From SMS",
+        "url": "/twilio_sms",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 80.83337020874023,
+        "y": 484.6666774749756,
+        "wires": [
+            [
+                "ad780b1b.e3c6f8",
+                "a85d3a20.db06d8",
+                "b27ddb2a.4eb5a8"
+            ]
+        ]
+    },
+    {
+        "id": "7be02fcb.91051",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "parseChatBotResponse",
+        "func": "var payload     = msg.payload , //should be IBM Watson node response\n    req_body    = msg.req_body,\n    db_records  = msg.db_records,\n    sms_body    = msg.sms_body,\n    portal_user = populate_portal_user(db_records.users);\n\n    //payload.daata = \"\";\n    if(isEmpty(payload.data)){\n        //send dummy response to user and store details to details table\n        msg.topic   = req_body.phone || 12145644732;\n        msg.payload = \"Please wait…\";        \n         msg.adminData = {topic: 12145644732, body: \"Please wait…\"};\n    }else{\n        //send sms to user and store details to details table\n        msg.topic = req_body.phone || 12145644732;\n        msg.payload = payload.data;\n        msg.adminData = {topic: 12145644732, body: payload.data};\n    }\n\nmsg.userObj.data[portal_user._id] = {\n    \"context\": payload.context\n};\n\nmsg.chatbot_response = payload;\nreturn msg;\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n\nfunction populate_portal_user(users){\n    var portal_number = check_valid_phone(sms_body.To),\n        portal_user   = {};\n    for(var itr in users){\n        if(users[itr].virtual_phone == portal_number){\n            portal_user = users[itr]; \n        }\n    }\n    return portal_user;\n}\n\nfunction check_valid_phone(phone){\n   return Number(phone.replace('+', '').trim()) ;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1836.8337173461914,
+        "y": 620.3339347839355,
+        "wires": [
+            [
+                "510e8c09.39cc24",
+                "aed4184f.f6a6d8",
+                "fd4403ec.4c029",
+                "b729030c.08eac"
+            ]
+        ]
+    },
+    {
+        "id": "aed4184f.f6a6d8",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Add Detail",
+        "func": "var chatbot     = msg.chatbot_response,\n    req_body    = msg.req_body,\n    task_obj    = msg.task_obj,\n    new_details = [],\n    userObj     = msg.userObj;\n    \n    \nvar timeout_list  = task_obj.timeout_id.timeout_list ;\n\nfor(var itr in timeout_list){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [task_obj.page_id] , //there is not need to created assistant details\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": task_obj.page_id, // masterbot user_sub category page_id\n        \"from_page_id\": task_obj.from_page_id,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        \"due_date\": timeout_list[itr].delivery_due ? timeout_list[itr].delivery_due + new Date().getTime(): 0,\n        \"operator_type\": itr,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": {\n            \"public\": \"public\"\n        },\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname),\n            \"message\": req_body.body,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": timeout_list[itr],\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 1500\n    };    \n    new_details.push(obj);\n}//loop end braces\n\nvar company_detail  = populate_company_detail() ,\n    watson_res  = populate_watson_response(chatbot, userObj), //show watson response under sms user\n    user_data   = populate_user_data(req_body, userObj); //to show detail under sms user\n    \nnew_details.push(company_detail);\nnew_details.push(watson_res);\nnew_details.push(user_data);\nnew_details.push(userObj); //save Watson context \n\nmsg.payload = {\n    docs: new_details\n};\n\nmsg.push_obj= {\n    group: \"Group 1\",\n    req_user_number: userObj.virtual_phone,\n    msg: req_body.body\n};\n\nnode.warn(msg);\ndelete msg.headers;\nreturn msg;\n\nfunction populate_watson_response(chatbot, userObj){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [18, task_obj.page_id], //under user Screen which send text message\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": 18, // masterbot user_sub category page_id\n        \"from_page_id\": 0,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        \"due_date\" : 0,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": {\n            \"public\": \"public\"\n        },\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname) ,\n            \"message\": chatbot.data,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": {},\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 1000\n    };    \n    \n    msg.user_page = obj;\n    return obj;\n}\n\nfunction populate_company_detail(){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [task_obj.page_id] , //there is not need to created assistant details\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": task_obj.page_id, // masterbot user_sub category page_id\n        \"from_page_id\": task_obj.from_page_id,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        \"due_date\": 0 ,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": task_obj.type,\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname),\n            \"message\": req_body.body,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": timeout_list,\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 500\n    };\n    \n    msg.company_detail = obj;\n    return obj;\n}\n\nfunction populate_user_data(req_body, userObj){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [18], //under masterbot user sub_category task_id\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": 18, // masterbot user_sub category page_id\n        \"from_page_id\": 5,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        \"due_date\" : 0 ,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": {\n            \"public\": \"public\"\n        },\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname),\n            \"message\": req_body.body\n        },\n        \"template\": {},\n        \"timeout\": {},\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime()  \n        \n    };   \n    return obj;\n}\n\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2107.5004348754883,
+        "y": 738.3336162567139,
+        "wires": [
+            [
+                "a796323f.8b848",
+                "8727d9db.f96218",
+                "260bd43c.86c21c"
+            ]
+        ]
+    },
+    {
+        "id": "a0f421be.f3901",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 328.8333435058594,
+        "y": 89.33333587646484,
+        "wires": []
+    },
+    {
+        "id": "7a9c2425.65378c",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "chatbot_payload",
+        "func": "var textMsg  = msg.req_body.body,\n    payload  = msg.payload,\n    sms_body = msg.sms_body;\n\nvar db_records      = msg.db_records,\n    stumped_task    = populate_stumped_task(db_records.task_table, \"StumpedTask\"),\n    timeout_obj     = populate_obj(db_records.timeout, stumped_task.timeout_id); //static timeout_obj for ReminderBot company\n\n\nmsg.task_obj    = populate_task(db_records.task_table, msg.req_body.phone);\nmsg.userObj     = isArray(msg.userObj) ? msg.userObj[0] : {} ;\nmsg.timeout_obj = timeout_obj ;\nvar portal_user = populate_portal_user(db_records.users);\nmsg.payload     = {\n  text :   textMsg ,\n  context : getContext(msg.userObj, portal_user)\n};\ndelete msg.headers;\nreturn msg;\n\nfunction populate_obj(list, id){\n    var obj = {};\n    if(isEmpty(list)) return obj;\n    if(isEmpty(id)) return obj;\n    for(var itr in list){\n        if(list[itr]._id == id){\n            obj = list[itr];\n        }\n    }\n    \n    return obj;\n}\n\n\nfunction populate_stumped_task(task_tables, task_name){\n    var task_table = {};\n    if(isEmpty(task_tables)) return task_table;\n    if(isEmpty(task_name)) return task_name ;\n    \n    for(var itr in task_tables){\n        if(task_tables[itr].task_name == task_name){\n            task_table = task_tables[itr];\n        }\n    }\n    \n    return task_table;\n}\n\n\nfunction getContext(user, portal_user){\n    if(isEmpty(user.data) || isEmpty(portal_user)){\n        return {\n            first_name : user.firstname.toString(),\n            last_name  : user.lastname.toString(),\n            phone     : user.virtual_phone.toString(),\n            timeStamp : new Date().getTime()\n        };\n    }else{\n        \n        if(isEmpty(user.data[portal_user._id])){\n            return {\n                first_name : user.firstname.toString(),\n                last_name  : user.lastname.toString(),\n                phone     : user.virtual_phone.toString(),\n                timeStamp : new Date().getTime()\n            };\n        }else{\n            var context = user.data[portal_user._id].context;\n            if(!isEmpty(context)){\n                if(new Date().getTime() > ( Number(context.timeStamp) +  10800000 )){\n                    return {\n                        first_name : user.firstname.toString(),\n                        last_name  : user.lastname.toString(),\n                        phone     : user.virtual_phone.toString(),\n                        timeStamp : new Date().getTime()\n                    };\n                }else{\n                    context.first_name = user.firstname.toString() || context.first_name ;\n                    context.last_name  = user.lastname.toString() || context.last_name ;\n                    context.phone     = user.virtual_phone.toString() || context.phone ;\n                    context.timeStamp = new Date().getTime();\n                    return context ;\n                }\n            }else{\n                return {\n                    first_name : user.firstname.toString(),\n                    last_name  : user.lastname.toString(),\n                    phone     : user.virtual_phone.toString(),\n                    timeStamp : new Date().getTime()\n                };\n            }\n        }\n    }\n}\n\nfunction populate_task(list, task_name){\n    var obj = {};\n    for(var i =0; i<list.length; i++){\n        if(task_name == list[i].task_name){\n            obj = list[i];\n        }\n    }\n    return obj;\n}\n\nfunction populate_detail(list, task_arr){\n    var obj = {}; //company_bot, first_responder, second_responder\n    for(var i =0; i<list.length; i++){\n        if( if_exists_in_arr(task_arr._id, list[i].task_id) ){\n            obj = list[i];\n        }\n    }\n    return obj;\n}\n\nfunction if_exists_in_arr(key, array){\n    return array.indexOf(key) > -1;\n}\n\nfunction isArray(item){\n    if(Object.prototype.toString.call(item) === \"[object Array]\"){\n        return true ;\n    }else{\n        return false;\n    }\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n\nfunction populate_portal_user(users){\n    var portal_number = check_valid_phone(sms_body.To),\n        portal_user   = {};\n    for(var itr in users){\n        if(users[itr].virtual_phone == portal_number){\n            portal_user = users[itr]; \n        }\n    }\n    return portal_user;\n}\n\nfunction check_valid_phone(phone){\n   return Number(phone.replace('+', '').trim()) ;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1368.5001907348633,
+        "y": 615.6669445037842,
+        "wires": [
+            [
+                "bd2ed0ad.d1619"
+            ]
+        ]
+    },
+    {
+        "id": "571abf69.934f9",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 820.6668586730957,
+        "y": 577.3334083557129,
+        "wires": [
+            [
+                "29466184.331c2e"
+            ]
+        ]
+    },
+    {
+        "id": "d4ac771a.bb7bc8",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "parseChatBotResponse",
+        "func": "var payload     = msg.payload ,\n    req_body    = msg.req_body,\n    db_records  = msg.db_records,\n    sms_body    = msg.sms_body,\n    portal_user = populate_portal_user(db_records.users);\n    \n    //payload.data = null ; //for the being all the IBM Watson messages are stumped.\n    if(isEmpty(payload.data)){\n        //send sms to user and store details to details table\n        msg.topic = req_body.phone || 12145644732;\n        msg.payload = \"Please wait…\" ;\n        msg.adminData = {topic: 12145644732, body: payload.data};\n    }else{\n        //send dummy response to user and store details to details table\n        msg.topic = req_body.phone || 12145644732;\n        msg.payload = payload.data;\n        msg.adminData = {topic: 12145644732, body: msg.payload};\n    }\n\nmsg.userObj.data[portal_user._id] = {\n    \"context\": payload.context \n};\n\nmsg.chatbot_response = payload;\nreturn msg;\n\nfunction populate_portal_user(users){\n    var portal_number = check_valid_phone(sms_body.To),\n        portal_user   = {};\n    for(var itr in users){\n        if(users[itr].virtual_phone == portal_number){\n            portal_user = users[itr]; \n        }\n    }\n    return portal_user;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}\n\nfunction check_valid_phone(phone){\n   return Number(phone.replace('+', '').trim()) ;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1993.833396911621,
+        "y": 404.66683864593506,
+        "wires": [
+            [
+                "305ecf02.c5a5b",
+                "64ace391.712f7c",
+                "a06b7d54.2dcd8",
+                "3331b4e2.bcffdc"
+            ]
+        ]
+    },
+    {
+        "id": "4ace20dd.cf936",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_bulk_docs",
+        "tls": "",
+        "x": 2458.3338584899902,
+        "y": 343.33349990844727,
+        "wires": [
+            [
+                "be55a6f1.a5d078"
+            ]
+        ]
+    },
+    {
+        "id": "260bd43c.86c21c",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_bulk_docs",
+        "tls": "",
+        "x": 2324.5007934570312,
+        "y": 723.6670293807983,
+        "wires": [
+            [
+                "e54bb866.075438"
+            ]
+        ]
+    },
+    {
+        "id": "a06b7d54.2dcd8",
+        "type": "twilio out",
+        "z": "3d6329c5.e74616",
+        "service": "_ext_",
+        "twilio": "80db99b9.2656f8",
+        "from": "",
+        "number": "",
+        "name": "Chabot SMS ",
+        "x": 2248.8333282470703,
+        "y": 281.6668071746826,
+        "wires": []
+    },
+    {
+        "id": "8c1798c4.d32cd8",
+        "type": "inject",
+        "z": "3d6329c5.e74616",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 2636.667942047119,
+        "y": 330.00044536590576,
+        "wires": [
+            [
+                "e02c3039.c183c"
+            ]
+        ]
+    },
+    {
+        "id": "be55a6f1.a5d078",
+        "type": "delay",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 2630.333568572998,
+        "y": 395.666823387146,
+        "wires": [
+            [
+                "e02c3039.c183c",
+                "dc55a1a0.b836"
+            ]
+        ]
+    },
+    {
+        "id": "c11a38fd.082048",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "Process Timeout at each 5 min",
+        "info": "",
+        "x": 136.1666717529297,
+        "y": 190.3333282470703,
+        "wires": []
+    },
+    {
+        "id": "ea19ba20.50fd88",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "Respond when SMS Comes to Company virtual_number.",
+        "info": "",
+        "x": 227.0000228881836,
+        "y": 390.0000982284546,
+        "wires": []
+    },
+    {
+        "id": "e54bb866.075438",
+        "type": "delay",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 2544.5007247924805,
+        "y": 723.0004644393921,
+        "wires": [
+            [
+                "cc6929dd.fed148"
+            ]
+        ]
+    },
+    {
+        "id": "d43fd40e.f6f688",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "populate_records",
+        "func": "var db_records  = msg.payload,\n    body        = msg.req_body,\n    name        = isEmpty(body.responder_user) ? \"Call Back\" : body.responder_user.firstname + \" \" + body.responder_user.lastname;\n\nif(isEmpty(db_records)){\n    msg.api_status = \"API_ERROR\";\n    msg.statusCode = 400 ;\n    msg.payload    = {status: 400, msg: \"Unable to populate cloudant view to get data\", data: null};\n}else{\n    var task_obj    = populate_tasks(db_records.rows, body.task_name);\n    if(isEmpty(task_obj)){\n        msg.api_status = \"API_ERROR\";\n        msg.statusCode = 400 ;\n        msg.payload    = {status: 400, msg: \"Unable to get the task_ids with task_name\", data: null};\n    }else{\n        msg.api_status  = \"API_SUCCESS\";\n        msg.userObj     = populate_userObj(db_records.rows, body.task_name);\n        msg.payload     = {\n            \"table\": \"details\",\n            \"task_id\": [task_obj._id],\n            \"child_task_id\": null,\n            \"user_id\": msg.userObj._id ,\n            \"from_user_id\": {\n                \"user_id\": body.responder_user.user_id, \n                \"first_name\": body.responder_user.firstname,\n                \"lastname\" : body.responder_user.lastname,\n                \"phone\": body.responder_user.phone\n            },\n            \"page_id\": task_obj.page_id,\n            \"from_page_id\": task_obj.from_page_id,\n            \"to_page_id\": 0,\n            \"synchronized\": 0,\n            \"processed\": 2,\n            \"status\": 2,\n            \"read\": 0,\n            \"display_if_empty\": \"true\",\n            \"date_created\": new Date().toJSON(),\n            \"offline_expiration_seconds\": 0,\n            \"priority\": 1,\n            \"type\": {\n                \"public\" : \"public\"\n            },\n            \"image\": \"\",\n            \"from_user\": {},\n            \"user_incoming\": {\n                \"note\"   : body,\n                \"message\": body.msg,\n                \"watson\" : body.msg,\n                \"annotation\": populate_Char(name.split(\" \"))\n            },\n            \"template\": {},\n            \"timeout\": {},\n            \"user_calculate\": {},\n            \"location\": {},\n            \"default\": {},\n            \"count_status\": {\n                \"active\": 1,\n                \"unread\": 0\n              },\n            \"count\": {\n                \"active\": 1,\n                \"unread\": 1\n            },\n            \"count_if\": {\n                \"active\": 1,\n                \"unread\": 0\n            },\n            \"createdAt\": new Date().getTime()\n        };\n        msg.user_response = {   //this object is saved to list on user screen for whom message is .\n            \"table\": \"details\",\n            \"task_id\": [\"18_0\"],\n            \"child_task_id\": null,\n            \"user_id\": msg.userObj._id ,\n            \"from_user_id\": {\n                \"user_id\": msg.userObj._id, \n                \"first_name\": msg.userObj.firstname,\n                \"lastname\" : msg.userObj.lastname,\n                \"phone\": msg.userObj.phone\n            },\n            \"page_id\": 18,\n            \"from_page_id\": 0,\n            \"to_page_id\": 0,\n            \"synchronized\": 0,\n            \"processed\": 2,\n            \"status\": 2,\n            \"read\": 0,\n            \"display_if_empty\": \"true\",\n            \"date_created\": new Date().toJSON(),\n            \"offline_expiration_seconds\": 0,\n            \"priority\": 1,\n            \"type\": {\n                \"public\" : \"public\"\n            },\n            \"image\": \"\",\n            \"from_user\": {},\n            \"user_incoming\": {\n                \"note\"   : body,\n                \"message\": body.msg,\n                \"watson\" : body.msg\n            },\n            \"template\": {},\n            \"timeout\": {},\n            \"user_calculate\": {},\n            \"location\": {},\n            \"default\": {},\n            \"count_status\": {\n                \"active\": 1,\n                \"unread\": 0\n              },\n            \"count\": {\n                \"active\": 1,\n                \"unread\": 1\n            },\n            \"count_if\": {\n                \"active\": 1,\n                \"unread\": 0\n            },\n            \"createdAt\": new Date().getTime()\n        };\n        msg.api_response = {status: 200, msg: \"Record updated successfully\", data: msg.payload};\n    }\n}\nvar stumped_task        = populate_tasks(db_records.rows, \"StumpedTask\");\nmsg.task_obj            = task_obj ;\nmsg.timeout_obj         = populate_obj(db_records.rows, stumped_task.timeout_id); //static timeout_obj for ReminderBot company\nnode.warn(msg);\nreturn msg;\n\nfunction populate_Char(arr){\n  var str = \"\";\n  for(var itr in arr){\n    if(arr[itr]){\n      str += arr[itr].substr(0,1);\n    }\n  }\n  return \"..(\" + str + \")\";\n}\n\nfunction populate_obj(list, id){\n    var obj = {};\n    if(isEmpty(list)) return obj;\n    if(isEmpty(id)) return obj;\n\n   for(var itr in list){\n        if(list[itr].value.table == \"timeout\"){\n            if(list[itr].value._id == id){\n                return list[itr].value;\n            }\n        }\n    }\n    return {};\n}\n\nfunction populate_userObj(list, phone_number){\n    if(isEmpty(list)) return {};\n    if(isEmpty(phone_number)) return {};\n    \n    for(var itr in list){\n        if(list[itr].value.table == \"users\"){\n            if(Number(list[itr].value.virtual_phone) == Number(phone_number)){\n                return list[itr].value;\n            }\n        }\n    }\n    return {};\n}\n\n\nfunction populate_tasks(list, task_name){\n    if(isEmpty(list)) return {};\n    if(isEmpty(task_name)) return {};\n    var task_obj = {};\n    for(var itr in list){\n        if(list[itr].value.table == \"task_table\"){\n            if(list[itr].value.task_name.toString() == task_name.toString()){\n                task_obj = list[itr].value;\n            }\n        }\n    }\n    return task_obj;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 728.0000534057617,
+        "y": 961.0000486373901,
+        "wires": [
+            [
+                "f6fe3ff.d685bc",
+                "a3c53db7.6ecef"
+            ]
+        ]
+    },
+    {
+        "id": "c16959b9.3b2f88",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 1081.8332748413086,
+        "y": 951.0001354217529,
+        "wires": []
+    },
+    {
+        "id": "de49c80e.7e9cb8",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_data_for_chatbot",
+        "tls": "",
+        "x": 526.8333587646484,
+        "y": 960.6667156219482,
+        "wires": [
+            [
+                "d43fd40e.f6f688"
+            ]
+        ]
+    },
+    {
+        "id": "ebcb0060.d0c45",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "req payload",
+        "func": "msg.req_body    = msg.payload ;\nmsg.url         = \"https://30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix.cloudant.com/master_table/_design/filterBy/_view/get_data_for_chatbot\";\nmsg.method      = \"GET\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 351.99999237060547,
+        "y": 959.0000495910645,
+        "wires": [
+            [
+                "de49c80e.7e9cb8"
+            ]
+        ]
+    },
+    {
+        "id": "f6fe3ff.d685bc",
+        "type": "switch",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "property": "api_status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "API_ERROR",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "API_SUCCESS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 889.0000991821289,
+        "y": 1058.6667289733887,
+        "wires": [
+            [
+                "c16959b9.3b2f88"
+            ],
+            [
+                "e79a126c.3609c",
+                "fc3971af.37805",
+                "90f7bf9.60ab14",
+                "58e60cbd.16c644",
+                "ff7a5484.4e2198",
+                "fc62543b.0b0e18"
+            ]
+        ]
+    },
+    {
+        "id": "fc62543b.0b0e18",
+        "type": "cloudant out",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1103.833641052246,
+        "y": 1032.0003509521484,
+        "wires": []
+    },
+    {
+        "id": "58e60cbd.16c644",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "SMS Response",
+        "func": "var body    = msg.req_body;\nmsg.topic   = body.task_name;\nmsg.payload = body.msg;\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1119.4999771118164,
+        "y": 1154.3336734771729,
+        "wires": [
+            [
+                "a091fbc.6b17008"
+            ]
+        ]
+    },
+    {
+        "id": "a091fbc.6b17008",
+        "type": "twilio out",
+        "z": "3d6329c5.e74616",
+        "service": "_ext_",
+        "twilio": "80db99b9.2656f8",
+        "from": "",
+        "number": "",
+        "name": "",
+        "x": 1374.5,
+        "y": 1143.0004014968872,
+        "wires": []
+    },
+    {
+        "id": "99bc1237.9be3f",
+        "type": "interval",
+        "z": "3d6329c5.e74616",
+        "name": "interval",
+        "interval": "5",
+        "onstart": true,
+        "msg": "ping",
+        "showstatus": true,
+        "unit": "minutes",
+        "statusformat": "YYYY-MM-D HH:mm:ss",
+        "x": 59,
+        "y": 245.33334350585938,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7de3928.060c96c",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "Chatbot",
+        "method": "POST",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 1758.5001106262207,
+        "y": 544.3334646224976,
+        "wires": [
+            [
+                "d4ac771a.bb7bc8"
+            ]
+        ]
+    },
+    {
+        "id": "8727d9db.f96218",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "Add Details Logger",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 2342.0004501342773,
+        "y": 669.3335285186768,
+        "wires": []
+    },
+    {
+        "id": "ff7a5484.4e2198",
+        "type": "change",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "user_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1146.499984741211,
+        "y": 1092.0003576278687,
+        "wires": [
+            [
+                "69bd49d6.aade48"
+            ]
+        ]
+    },
+    {
+        "id": "69bd49d6.aade48",
+        "type": "cloudant out",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "cloudant": "",
+        "database": "master_table",
+        "service": "dev-platform-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 1351.5000305175781,
+        "y": 1091.6667795181274,
+        "wires": []
+    },
+    {
+        "id": "5c862abb.63fc04",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "User detail payload",
+        "func": "msg.userObj = isArray(msg.userObj) ? msg.userObj[0] : {} ;\n\nvar textMsg = msg.req_body.body,\n    phone   = msg.req_body.phone,\n    userObj = msg.userObj,\n    payload = msg.payload;\n\nif(isEmpty(payload.rows)){\n    node.warn(\"comes when Cloudant db doesn't return response\");\n    msg.statusCode = 400;\n    msg.payload    = {status: 400, msg: \"Unable to populate view to process_timeout\", data: null};\n}else{\n    var db_records      = msg.db_records,\n        stumped_task    = populate_stumped_task(db_records.task_table, \"StumpedTask\"),\n        timeout_obj     = populate_obj(db_records.timeout, stumped_task.timeout_id), //static timeout_obj for ReminderBot company\n        details         = populate_details(db_records.groups, timeout_obj);\n\n    msg.save_msg_detail = save_detail_for_user(textMsg, userObj);\n    msg.details_arr     = details;\n    msg.timeout_obj     = timeout_obj;\n}\n\nnode.warn(msg);\nreturn msg;\n\nfunction populate_stumped_task(task_tables, task_name){\n    var task_table = {};\n    if(isEmpty(task_tables)) return task_table;\n    if(isEmpty(task_name)) return task_name ;\n    \n    for(var itr in task_tables){\n        if(task_tables[itr].task_name == task_name){\n            task_table = task_tables[itr];\n        }\n    }\n    \n    return task_table;\n}\n\nfunction populate_obj(list, id){\n    var obj = {};\n    if(isEmpty(list)) return obj;\n    if(isEmpty(id)) return obj;\n    for(var itr in list){\n        if(list[itr]._id == id){\n            obj = list[itr];\n        }\n    }\n    \n    return obj;\n}\n\nfunction populate_details(list, timeout){\n    var details = [];\n    \n    if(isEmpty(list)) return [];\n\n    //original user detail for company\n    var original_to_page_id = new Date().getTime() + 600;\n    var original_detail     = create_original_detail(original_to_page_id, timeout);\n    details.push(original_detail);\n    \n    return details;\n}\n\nfunction create_original_detail(to_page_id, timeout){\n    var detail_obj = {};\n    \n    detail_obj._id                  = randomString(32);\n    detail_obj.table                = \"details\";\n    detail_obj.page_ids              = [26]; //ReminderBot categorty and Stumped Category screens\n    detail_obj.child_task_id        = \"47126a7129fa090a23a20d53c0025d87\"; //child text task\n    detail_obj.user_id              = userObj._id;\n    detail_obj.from_user_id         = {\n        user_id   : userObj._id,\n        phone     : userObj.virtual_phone,\n        firstname : userObj.firstname,\n        lastname  : userObj.lastname,\n        type      : userObj.type,\n    };\n    detail_obj.page_id                          = 26; //Company stumped category page_id\n    detail_obj.from_page_id                     = 2;\n    detail_obj.to_page_id                       = new Date().getTime();\n    detail_obj.synchronized                     = 0;\n    detail_obj.processed                        = 1;\n    detail_obj.status                           = 1;\n    detail_obj.read                             = 1;\n    detail_obj.display_if_empty                 = \"true\";\n    detail_obj.date_created                     = new Date().toJSON();\n    detail_obj.offline_expiration_seconds       = 0;\n    detail_obj.priority                         = 1;\n    detail_obj.category                         = \"stumped\";\n    detail_obj.type                             = {\n        \"public\" : \"public\",\n        \"company_bot_detail\": \"company_bot_detail\"\n    };\n    detail_obj.image                            = \"\";\n    detail_obj.from_user                        = {};\n    detail_obj.user_incoming                    = {\n        note        : phone,\n        message     : (userObj.firstname + userObj.lastname ) || phone\n    };\n    detail_obj.template                         = {};\n    detail_obj.timeout                          = {};\n    detail_obj.user_calculate                   = {};\n    detail_obj.location                         = {};\n    detail_obj.default                          = {};\n    detail_obj.count_status                     = {\n        active: 1,\n        unread: 0\n    };\n    detail_obj.count                            = {\n        active: 1,\n        unread: 1\n    };\n    detail_obj.count_if                         = {\n        active: 1,\n        unread: 0\n    };\n    detail_obj.createdAt                        = new Date().getTime();\n    detail_obj.myTimeout                        = timeout;\n    \n    msg.company_detail = detail_obj;\n    return detail_obj;\n}\n\nfunction save_detail_for_user(msg, userObj){\n    var detail_obj = {};\n    detail_obj._id                  = randomString(32);\n    detail_obj.table                = \"details\";\n    detail_obj.page_ids             = [18]; //ReminderBot categorty and Stumped Category screens\n    detail_obj.child_task_id        = null; //child text task\n    detail_obj.user_id              = userObj._id;\n    detail_obj.from_user_id         = {\n        user_id   : userObj._id,\n        phone     : userObj.virtual_phone,\n        firstname : userObj.firstname,\n        lastname  : userObj.lastname,\n        type      : userObj.type,\n    };\n    detail_obj.page_id                          = 18; //Company stumped category page_id\n    detail_obj.from_page_id                     = 5;\n    detail_obj.to_page_id                       = new Date().getTime();\n    detail_obj.synchronized                     = 0;\n    detail_obj.processed                        = 1;\n    detail_obj.status                           = 1;\n    detail_obj.read                             = 1;\n    detail_obj.display_if_empty                 = \"true\";\n    detail_obj.date_created                     = new Date().toJSON();\n    detail_obj.offline_expiration_seconds       = 0;\n    detail_obj.priority                         = 1;\n    detail_obj.category                         = \"stumped\";\n    detail_obj.type                             = {\n        \"public\" : \"public\"\n    };\n    detail_obj.image                            = \"\";\n    detail_obj.from_user                        = {};\n    detail_obj.user_incoming                    = {\n        note        : phone,\n        message     : msg\n    };\n    detail_obj.template                         = {};\n    detail_obj.timeout                          = {};\n    detail_obj.user_calculate                   = {};\n    detail_obj.location                         = {};\n    detail_obj.default                          = {};\n    detail_obj.count_status                     = {\n        active: 1,\n        unread: 0\n    };\n    detail_obj.count                            = {\n        active: 1,\n        unread: 1\n    };\n    detail_obj.count_if                         = {\n        active: 1,\n        unread: 0\n    };\n    detail_obj.createdAt                        = new Date().getTime();\n\n    return [detail_obj];\n}\n\nfunction populate_assistants(users, group_id){\n    var list = [];\n    \n    if(isEmpty(users)) return list;\n    if(isEmpty(group_id)) return list;\n    \n    for(var itr in users){\n        if(users[itr].data){\n            if(group_id in users[itr].data.groups){\n                list.push(users[itr]);\n            }\n        }\n    }\n    return list;\n}\n\nfunction randomString(length) {\n    var ObjectId = global.get('objectId');\n    return ObjectId();\n}\n\nfunction isArray(item){\n    if(Object.prototype.toString.call(item) === \"[object Array]\"){\n        return true ;\n    }else{\n        return false;\n    }\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1370.1665115356445,
+        "y": 546.6667852401733,
+        "wires": [
+            [
+                "9f2187e2.4a3308"
+            ]
+        ]
+    },
+    {
+        "id": "9f2187e2.4a3308",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Optional Task",
+        "func": "var details     = JSON.parse(JSON.stringify(msg.details_arr)),\n    userObj     = msg.userObj,\n    new_tasks   = [];\n\nfor(var itr in details){\n    var obj = {\n        \"_id\": randomString(32),\n        \"table\": \"task_table\",\n        \"user_id\": details[itr].user_id,\n        \"task_name\": details[itr].user_incoming.message, \n        \"page_id\": details[itr].to_page_id,\n        \"from_page_id\": details[itr].page_id,\n        \"header_template_id\": \"99_h\",\n        \"detail_template_id\": \"99_d\",\n        \"footer_template_id\": \"99_f\",\n        \"timeout_id\": details[itr].myTimeout,\n        \"location_ids\": {},\n        \"child_default_task_id\": null,\n        \"child_default_task_name\": null,\n        \"date_created\": new Date().toJSON(),\n        \"category\": \"stumped\",\n        \"status\": \"true\",\n        \"additional_data_fn\": null,\n        \"optional_data\": {},\n        \"required_data\": {},\n        \"offline_expiration_time\": 0,\n        \"display_if_empty\": \"true\",\n        \n        \"type\": details[itr].type,\n        \"image\": \"\"\n    };\n    new_tasks.push(obj);\n}\n\nmsg.task_arr = new_tasks;\n\nvar textMsg = msg.req_body.body;\nmsg.method = \"POST\";\nmsg.url    = \"https://play-timeout.mybluemix.net/chatbot\";\nmsg.payload= {\n    text : textMsg,\n    context : {\n        first_name: userObj.firstname || \"Anynomous\",\n        last_name : userObj.lastname  || \"User\",\n        phone     : userObj.phone     || \"\",\n        timeStamp : new Date().getTime()\n    }\n};\nreturn msg;\n\n\nfunction randomString(length) {\n    var ObjectId = global.get('objectId');\n    return ObjectId();\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1577.166603088379,
+        "y": 546.6667623519897,
+        "wires": [
+            [
+                "7de3928.060c96c"
+            ]
+        ]
+    },
+    {
+        "id": "64ace391.712f7c",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Add Detail",
+        "func": "var chatbot     = msg.chatbot_response ,\n    userObj     = msg.userObj ,\n    task_obj    = isEmpty(msg.task_arr) ? {} :  msg.task_arr[0] , \n    new_details = [],\n    req_body    = msg.req_body;\n\nvar timeout_list  = task_obj.timeout_id.timeout_list ;\n\nfor(var itr in timeout_list){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [task_obj.page_id] , //there is not need to created assistant details\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": task_obj.page_id, // masterbot user_sub category page_id\n        \"from_page_id\": task_obj.from_page_id,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 1,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        //\"due_date\" : isEmpty(task_arr[itr].myTimeout) ? 0 : new Date().getTime() + task_arr[itr].myTimeout.delivery_due || 120000, //timeout process would be valid after 2 minutes\n        \"due_date\": timeout_list[itr].delivery_due ? timeout_list[itr].delivery_due + new Date().getTime(): 0,\n        \"operator_type\": itr,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": {\n            \"public\": \"public\"\n        },\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname),\n            \"message\": req_body.body,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": timeout_list[itr],\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 1500\n    };    \n    new_details.push(obj);\n}//loop end braces\n\nvar watson_res      = populate_watson_response(chatbot, userObj),\n    company_detail  = populate_company_detail();\n    \nmsg.save_msg_detail.push(watson_res);\nnew_details.push(company_detail);\n\nif(msg.createUser) new_details.push(userObj); //save Watson context ;    \n\nmsg.new_details = new_details;\nmsg.payload = {\n    docs: flatten([msg.details_arr, msg.task_arr, msg.new_details, msg.save_msg_detail])\n};\n\nmsg.push_obj= {\n    group: \"Group 1\",\n    req_user_number: userObj.virtual_phone,\n    msg: chatbot.data \n};\nnode.warn(msg);\nreturn msg;\n\n\nfunction populate_watson_response(chatbot, userObj){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [18, task_obj.page_id], //under user Screen which send text message\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": 18, // masterbot user_sub category page_id\n        \"from_page_id\": 0,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        \"due_date\" : 0,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": {\n            \"public\": \"public\"\n        },\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname) ,\n            \"message\": chatbot.data,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": {},\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 1000\n    }; \n    return obj;\n}\n\nfunction populate_company_detail(){\n    var obj = {\n        \"table\": \"details\",\n        \"page_ids\": [task_obj.page_id] , //there is not need to created assistant details\n        \"child_task_id\": null,\n        \"user_id\": userObj._id,\n        \"from_user_id\": {\n          user_id: userObj._id,\n          phone: userObj.virtual_phone,\n          firstname: userObj.firstname,\n          lastname : userObj.lastname,\n          type     : userObj.type,\n        },\n        \"page_id\": task_obj.page_id, // masterbot user_sub category page_id\n        \"from_page_id\": task_obj.from_page_id,\n        \"to_page_id\": 0,\n        \"synchronized\": 0,\n        \"processed\": 0,\n        \"status\": 0,\n        \"read\": 0,\n        \"display_if_empty\": \"true\",\n        //\"due_date\" : isEmpty(task_arr[itr].myTimeout) ? 0 : new Date().getTime() + task_arr[itr].myTimeout.delivery_due || 120000, //timeout process would be valid after 2 minutes\n        \"due_date\": 0 ,\n        \"date_created\": new Date().toJSON(),\n        \"offline_expiration_seconds\": 0,\n        \"priority\": 1,\n        \"type\": task_obj.type,\n        \"image\": \"\",\n        \"from_user\": {},\n        \"user_incoming\": {\n            \"note\":  (userObj.firstname + userObj.lastname),\n            \"message\": req_body.body,\n            \"watson\" : (chatbot.data == \"Watson Stumped\" ? null : chatbot.data) , \n        },\n        \"template\": {},\n        \"timeout\": timeout_list,\n        \"user_calculate\": {},\n        \"location\": {},\n        \"default\": {},\n        \"count_status\": {},\n        \"count\": {},\n        \"count_if\": {},\n        \"createdAt\": new Date().getTime() + 500\n    };\n    return obj;\n}\n\nfunction flatten(arr) {\n  const flat = [].concat(...arr);\n  return flat.some(Array.isArray) ? flatten(flat) : flat;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2247.8333282470703,
+        "y": 332.6668109893799,
+        "wires": [
+            [
+                "e931b792.3d5468",
+                "4ace20dd.cf936"
+            ]
+        ]
+    },
+    {
+        "id": "9f94d6f8.610798",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2791.000648498535,
+        "y": 224.0002498626709,
+        "wires": []
+    },
+    {
+        "id": "a796323f.8b848",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Notify WSS ",
+        "func": "var timeoutObj      = msg.timeout_obj,\n    timeout_list    = timeoutObj.timeout_list ,\n    task_obj        = msg.task_obj,\n    bot_data        = msg.chatbot_response,\n    req_body        = msg.req_body,\n    gorup_ids       = populate_group_ids(timeout_list);\n    \n    \n//msg.url     = \"http://drilist-socket-server.mybluemix.net/notify_connected_users\";\nmsg.url     = \"http://mastersoftwaretechnologies.com:9028/notify_connected_users\";\n//msg.url     = \"http://mastersoftwaretechnologies.com:6011/notify_connected_users\";\nmsg.method  = \"POST\";\n\nmsg.payload = {\n    \"app\": {},\n    \"platform\": {\n        \"isPageRefresh\": true, \n        \"group_ids\": gorup_ids,\n        \"page_ids\": [18, task_obj.page_id],\n        \"bot_data\": bot_data,\n        \"user_id\": msg.userObj._id,\n        \"phone\": msg.userObj.virtual_phone,\n        \"stumped_page_id\": task_obj.from_page_id,\n        \"previous_page\": req_body.previous_page\n    },\n    \"other_user\": {}\n};\ndelete msg.headers;\nreturn msg;\n\nfunction populate_group_ids(timeoutList){\n    var group_ids = [];\n    \n    for(var itr in timeoutList){\n        if(!isEmpty(timeoutList[itr].delivery_user_types)){\n            var obj = timeoutList[itr].delivery_user_types;\n            group_ids.push(Object.keys(obj)[0]);\n        }\n    }\n    \n    return group_ids;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2323.5007934570312,
+        "y": 782.6669721603394,
+        "wires": [
+            [
+                "fc68e968.d85de8"
+            ]
+        ]
+    },
+    {
+        "id": "f0168606.2969e8",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2693.6676635742188,
+        "y": 878.6671600341797,
+        "wires": []
+    },
+    {
+        "id": "e931b792.3d5468",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Notify WSS",
+        "func": "var timeoutObj      = msg.timeout_obj,\n    timeout_list    = timeoutObj.timeout_list ,\n    company_detail  = msg.company_detail ,\n    bot_data        = msg.chatbot_response,\n    gorup_ids       = populate_group_ids(timeout_list);\n\n//msg.url     = \"http://drilist-socket-server.mybluemix.net/notify_connected_users\";\nmsg.url     = \"http://mastersoftwaretechnologies.com:9028/notify_connected_users\";\n//msg.url     = \"http://mastersoftwaretechnologies.com:6011/notify_connected_users\";\nmsg.method  = \"POST\";\nmsg.payload = {\n    \"app\": {},\n    \"platform\": {\n        \"isPageRefresh\": true, \n        \"group_ids\": gorup_ids,\n        \"page_ids\":[18 , company_detail.page_id],\n        \"bot_data\": bot_data,\n        \"user_id\": msg.userObj._id,\n        \"phone\": msg.userObj.virtual_phone,\n        \"stumped_page_id\": company_detail.from_page_id,\n        \"previous_page\": 5\n    },\n    \"other_user\": {}\n};\ndelete msg.headers;\nreturn msg;\n\nfunction populate_group_ids(timeoutList){\n    var group_ids = [];\n    \n    for(var itr in timeoutList){\n        if(!isEmpty(timeoutList[itr].delivery_user_types)){\n            var obj = timeoutList[itr].delivery_user_types;\n            group_ids.push(Object.keys(obj)[0]);\n        }\n    }\n    \n    return group_ids;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2458.166862487793,
+        "y": 277.66680240631104,
+        "wires": [
+            [
+                "dbf81702.fb1118"
+            ]
+        ]
+    },
+    {
+        "id": "fc3971af.37805",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "Notify WSS",
+        "func": "var timeoutObj      = msg.timeout_obj,\n    timeout_list    = timeoutObj.timeout_list ,\n    task_obj        = msg.task_obj,\n    body            = msg.req_body,\n    gorup_ids       = populate_group_ids(timeout_list);\n    \n    \n//msg.url     = \"http://drilist-socket-server.mybluemix.net/added_data_from_operator\";\nmsg.url     = \"http://mastersoftwaretechnologies.com:9028/added_data_from_operator\";\n//msg.url     = \"http://mastersoftwaretechnologies.com:6011/notify_connected_users\";\nmsg.method  = \"POST\";\n\nmsg.payload = {\n    \"app\": {},\n    \"platform\": {\n        \"isPageRefresh\": true, \n        \"group_ids\": gorup_ids,\n        \"page_ids\": [18, task_obj.page_id],\n        \"msgBody\": body.msg,\n        \"user_id\": msg.userObj._id,\n        \"stumped_page_id\": task_obj.from_page_id,\n        \"previous_page\": body.previous_page\n    },\n    \"other_user\": {}\n};\n\ndelete msg.headers;\nreturn msg;\n\n\n\n\nfunction populate_group_ids(timeoutList){\n    var group_ids = [];\n    \n    for(var itr in timeoutList){\n        if(!isEmpty(timeoutList[itr].delivery_user_types)){\n            var obj = timeoutList[itr].delivery_user_types;\n            group_ids.push(Object.keys(obj)[0]);\n        }\n    }\n    \n    return group_ids;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1113.6667785644531,
+        "y": 1304.000238418579,
+        "wires": [
+            [
+                "9dbdfbdf.6964e8"
+            ]
+        ]
+    },
+    {
+        "id": "9dbdfbdf.6964e8",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 1297.9999771118164,
+        "y": 1302.6669006347656,
+        "wires": [
+            [
+                "b586a55b.7b4be8"
+            ]
+        ]
+    },
+    {
+        "id": "b586a55b.7b4be8",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1492.833381652832,
+        "y": 1304.0006465911865,
+        "wires": []
+    },
+    {
+        "id": "b729030c.08eac",
+        "type": "twilio out",
+        "z": "3d6329c5.e74616",
+        "service": "_ext_",
+        "twilio": "80db99b9.2656f8",
+        "from": "",
+        "number": "",
+        "name": "Chabot SMS ",
+        "x": 2107.834259033203,
+        "y": 652.0003604888916,
+        "wires": []
+    },
+    {
+        "id": "a85d3a20.db06d8",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 293.99999237060547,
+        "y": 445.3333787918091,
+        "wires": []
+    },
+    {
+        "id": "a3c53db7.6ecef",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 907.0000343322754,
+        "y": 898.3333864212036,
+        "wires": []
+    },
+    {
+        "id": "f21ad68f.ee8c68",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 333.5000190734863,
+        "y": 1029.6668176651,
+        "wires": []
+    },
+    {
+        "id": "7cf8cd91.ee2014",
+        "type": "subflow:23a4aa90.edeb06",
+        "z": "3d6329c5.e74616",
+        "name": "Step2 Timeout processing",
+        "x": 422.5000915527344,
+        "y": 245.33347034454346,
+        "wires": []
+    },
+    {
+        "id": "e02c3039.c183c",
+        "type": "subflow:23a4aa90.edeb06",
+        "z": "3d6329c5.e74616",
+        "name": "Step2 Timeout processing",
+        "x": 2877.1669902801514,
+        "y": 367.0001440048218,
+        "wires": []
+    },
+    {
+        "id": "386ee445.83dbbc",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "When a new users send Sms to system number",
+        "info": "",
+        "x": 1467.3333740234375,
+        "y": 495.0000829696655,
+        "wires": []
+    },
+    {
+        "id": "9f34d7ce.cf9bb8",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "When user number is already exists in system database.",
+        "info": "",
+        "x": 1492.3335266113281,
+        "y": 663.00026512146,
+        "wires": []
+    },
+    {
+        "id": "68d71e55.8bc5b",
+        "type": "http in",
+        "z": "3d6329c5.e74616",
+        "name": "From App",
+        "url": "/ask_chatbot",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 78.1666488647461,
+        "y": 618.6666841506958,
+        "wires": [
+            [
+                "49b8eb7b.4bf114",
+                "b7645502.7566e8"
+            ]
+        ]
+    },
+    {
+        "id": "49b8eb7b.4bf114",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "msg",
+        "func": "var payload = msg.payload;\nmsg.payload = {\n    query: \"table:users AND virtual_phone: \"+ payload.phone,\n    sort: \"_id<string>\"\n};\n\nmsg.req_body = payload ;\nmsg.ask_chatbot = true; \nmsg.sms_body = {\n  \"To\": payload.portal_number  \n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290.1666488647461,
+        "y": 616.3333711624146,
+        "wires": [
+            [
+                "12b93aaf.ae4ca5"
+            ]
+        ]
+    },
+    {
+        "id": "bd7f40a5.b61b7",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "API_RESPONSE",
+        "func": "var chat_response = msg.chatbot_response;\nmsg.statusCode = 200 ;\nmsg.payload = {status:200, error: false, msg: \"Chatbot respond successfully!\", data: chat_response.data};\ndelete msg.headers;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2256.5002632141113,
+        "y": 576.000467300415,
+        "wires": [
+            [
+                "82a4620d.1ea4c"
+            ]
+        ]
+    },
+    {
+        "id": "82a4620d.1ea4c",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 2446.5004959106445,
+        "y": 584.8051061630249,
+        "wires": []
+    },
+    {
+        "id": "f2529caa.63db1",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "API_RESPONSE",
+        "func": "var chat_response = msg.chatbot_response;\n\nmsg.payload = {status:200, error: false, msg: \"Chatbot respond successfully!\", data: chat_response.data};\ndelete msg.headers;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2409.8330688476562,
+        "y": 223.333571434021,
+        "wires": [
+            [
+                "a1832511.43e878"
+            ]
+        ]
+    },
+    {
+        "id": "a1832511.43e878",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 2586.8334884643555,
+        "y": 223.138277053833,
+        "wires": []
+    },
+    {
+        "id": "305ecf02.c5a5b",
+        "type": "switch",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "property": "ask_chatbot",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 2233.6667442321777,
+        "y": 223.3333969116211,
+        "wires": [
+            [
+                "f2529caa.63db1"
+            ]
+        ]
+    },
+    {
+        "id": "510e8c09.39cc24",
+        "type": "switch",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "property": "ask_chatbot",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 2083.3334426879883,
+        "y": 576.0002155303955,
+        "wires": [
+            [
+                "bd7f40a5.b61b7"
+            ]
+        ]
+    },
+    {
+        "id": "5cafd33.80c372c",
+        "type": "comment",
+        "z": "3d6329c5.e74616",
+        "name": "When user send message from Application.",
+        "info": "",
+        "x": 187.66666412353516,
+        "y": 724.3334484100342,
+        "wires": []
+    },
+    {
+        "id": "b7645502.7566e8",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 288.6667060852051,
+        "y": 668.3334455490112,
+        "wires": []
+    },
+    {
+        "id": "3331b4e2.bcffdc",
+        "type": "subflow:e079261f.947b38",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 2302.8335189819336,
+        "y": 403.33349227905273,
+        "wires": [
+            [
+                "eb6f31eb.5aea4"
+            ]
+        ]
+    },
+    {
+        "id": "53f7f110.1436",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "payload",
+        "func": "msg.push_obj= {\n    group: \"Group 2\",\n    req_user_number: null,\n    msg: null \n};\nmsg.isSecondTimeout = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 207.5000114440918,
+        "y": 246.33334732055664,
+        "wires": [
+            [
+                "7cf8cd91.ee2014"
+            ]
+        ]
+    },
+    {
+        "id": "fc68e968.d85de8",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 2509.833671569824,
+        "y": 811.3334980010986,
+        "wires": [
+            [
+                "f0168606.2969e8"
+            ]
+        ]
+    },
+    {
+        "id": "dbf81702.fb1118",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 2621.833564758301,
+        "y": 277.33337020874023,
+        "wires": [
+            [
+                "9f94d6f8.610798"
+            ]
+        ]
+    },
+    {
+        "id": "7a3787e2.151d58",
+        "type": "http response",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 1374.6669731140137,
+        "y": 1380.9999313354492,
+        "wires": []
+    },
+    {
+        "id": "90f7bf9.60ab14",
+        "type": "change",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "api_response",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1152.6669921875,
+        "y": 1380.3333339691162,
+        "wires": [
+            [
+                "7a3787e2.151d58"
+            ]
+        ]
+    },
+    {
+        "id": "e79a126c.3609c",
+        "type": "subflow:e079261f.947b38",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 1165.333251953125,
+        "y": 1233,
+        "wires": [
+            [
+                "77cfd090.a59de"
+            ]
+        ]
+    },
+    {
+        "id": "77cfd090.a59de",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1405.5000839233398,
+        "y": 1231.3332443237305,
+        "wires": []
+    },
+    {
+        "id": "eb6f31eb.5aea4",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2531.500877380371,
+        "y": 519.0001678466797,
+        "wires": []
+    },
+    {
+        "id": "bd2ed0ad.d1619",
+        "type": "http request",
+        "z": "3d6329c5.e74616",
+        "name": "Chatbot",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://play-timeout.mybluemix.net/chatbot",
+        "tls": "",
+        "x": 1578.8335418701172,
+        "y": 613.6667251586914,
+        "wires": [
+            [
+                "7be02fcb.91051"
+            ]
+        ]
+    },
+    {
+        "id": "cc6929dd.fed148",
+        "type": "subflow:23a4aa90.edeb06",
+        "z": "3d6329c5.e74616",
+        "name": "Step2 Timeout processing",
+        "x": 2793.6665267944336,
+        "y": 747.6666650772095,
+        "wires": []
+    },
+    {
+        "id": "c0952d55.b763d",
+        "type": "inject",
+        "z": "3d6329c5.e74616",
+        "name": "start",
+        "topic": "start",
+        "payload": "start",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 2559.6665172576904,
+        "y": 766.6667079925537,
+        "wires": [
+            [
+                "cc6929dd.fed148"
+            ]
+        ]
+    },
+    {
+        "id": "29466184.331c2e",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "isStumpedTaskExists",
+        "func": "var db_records      = populate_record(msg.payload),\n    userObj         = isEmpty(msg.userObj) ? {} : msg.userObj[0],\n    userStumpedTask = {};\n\n\n\nuserStumpedTask = populate_stumped_task(db_records.task_table, userObj.virtual_phone); \n//userStumpedTask = {}; //for testing purpose.\nif(isEmpty(userStumpedTask)){\n    msg.api_status          = \"USER_NOT_EXISTS\";\n}else{\n    msg.api_status          = \"USER_EXISTS\";\n}\n\nmsg.db_records = db_records;\nreturn msg;\n\nfunction populate_record(list){\n    if(isEmpty(list.rows)) return {groups: [], timeout: [], users: [], task_table:[]};\n    \n    var timeout = [], users = [], groups = [], details = [], task_table = [];\n    list = list.rows ;\n    for(var itr in list){ \n\n        if(list[itr].value.table == \"task_table\"){\n            task_table.push(list[itr].value);\n        }\n        \n        if(list[itr].value.table == \"timeout\"){\n            timeout.push(list[itr].value);\n        }\n        \n        if(list[itr].value.table == \"users\"){\n            users.push(list[itr].value);\n        }\n        \n        if(list[itr].value.table == \"group_table\"){\n            groups.push(list[itr].value);\n        }\n    }\n    return {groups: groups, timeout: timeout, users: users, task_table:task_table};\n}\n\nfunction populate_stumped_task(task_tables, task_name){\n    var task_table = {};\n    if(isEmpty(task_tables)) return task_table;\n    if(isEmpty(task_name)) return task_name ;\n    \n    for(var itr in task_tables){\n        if(task_tables[itr].task_name == task_name.toString()){\n            task_table = task_tables[itr];\n        }\n    }\n    \n    return task_table;\n}\n\nfunction isEmpty(obj){\n\n    if(Object.prototype.toString.call(obj) === \"[object Object]\"){\n        if( Object.keys(obj).length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else if(Object.prototype.toString.call(obj) === \"[object Array]\"){\n        if( obj.length ){\n            return false;\n        }else{\n            return true;\n        }\n    }else{\n        if( obj ){\n            return false;\n        }else{\n            return true;\n        }\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1020.3333587646484,
+        "y": 578.6667013168335,
+        "wires": [
+            [
+                "17618957.5d3447"
+            ]
+        ]
+    },
+    {
+        "id": "fd4403ec.4c029",
+        "type": "subflow:e079261f.947b38",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "x": 2159.66650390625,
+        "y": 849,
+        "wires": [
+            [
+                "569262f3.e63d5c"
+            ]
+        ]
+    },
+    {
+        "id": "569262f3.e63d5c",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 2398.3335037231445,
+        "y": 860.6666278839111,
+        "wires": []
+    },
+    {
+        "id": "dc55a1a0.b836",
+        "type": "function",
+        "z": "3d6329c5.e74616",
+        "name": "add into treeSoftware",
+        "func": "var userObj = msg.userObj;\n\n\nmsg.payload = [\n    \t{\n            payload: {\n                user_id: \"f1b5ed9577f69c6b131d94a46b39044f\", //system_id,\n                portal_id: \"fa1785333117ba7c06b9020a6d3c0079\", //system_id, in future this should be dynamic\n                node_name: \"company\", //\"EmployeeGroup\",\n                data_id: userObj._id, //company_id\n                master_parents: [],\n                tree_owner_id: \"f1b5ed9577f69c6b131d94a46b39044f\", //tree_owner_id,\n                node_id: null,\n                target: \"child\",\n                parent_node_name: \"\"\n            },\n            fn_name: \"add_to_node_name_tree\", //fn_name_add\n        }\n//         {\n// \t\t\tpayload: {\n// \t\t\t\tuser_id: system_id, //f1b5ed9577f69c6b131d94a46b39044f\n// \t\t\t\tportal_id: company_id, // fa1785333117ba7c06b9020a6d3c0079\n// \t\t\t\tnode_name: group_name_company, // company\n// \t\t\t\tdata_id: user_id_co, //da9976858d8bda52021754cf1909a327 adding user into company\n// \t\t\t\tmaster_parents: master_parents, // []\n// \t\t\t\ttree_owner_id: tree_owner_id, //f1b5ed9577f69c6b131d94a46b39044f\n// \t\t\t\tnode_id: node_id, // null\n// \t\t\t\ttarget: \"child\",\n// \t\t\t\tparent_node_name:\"\",\n// \t\t\t}, \n// \t\t\tfn_name: fn_name_add //add_to_node_name_tree\n// \t\t},\n];\n\n\nnode.warn(\"going to add user into ReminderbotCompanyGroup......\");\nnode.warn(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2850.795036315918,
+        "y": 414.1215400695801,
+        "wires": [
+            [
+                "2fdbd805.4a39d8"
+            ]
+        ]
+    },
+    {
+        "id": "2fdbd805.4a39d8",
+        "type": "Tree View",
+        "z": "3d6329c5.e74616",
+        "database": "master_table",
+        "username": "30175cba-a69e-4ff0-9a79-788abcf0f585-bluemix",
+        "password": "3c2e6d7f80557d231bc462ffd3457a3b05625332c1dffc92467d6d8941fcba85",
+        "operation": "prod",
+        "x": 3047.7919006347656,
+        "y": 413.4722270965576,
+        "wires": [
+            [
+                "74713dbe.567c94"
+            ]
+        ]
+    },
+    {
+        "id": "74713dbe.567c94",
+        "type": "debug",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 3218.802001953125,
+        "y": 413.60074043273926,
+        "wires": []
+    },
+    {
+        "id": "2b9f458a.78289a",
+        "type": "inject",
+        "z": "3d6329c5.e74616",
+        "name": "",
+        "topic": "start",
+        "payload": "1",
+        "payloadType": "num",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 2632.0836296081543,
+        "y": 455.8924169540405,
+        "wires": [
+            [
+                "dc55a1a0.b836"
+            ]
+        ]
+    },
+    {
+        "id": "80db99b9.2656f8",
+        "type": "twilio-api",
+        "z": "3d6329c5.e74616",
+        "sid": "AC909f1981261f4461abbc7985bd202897",
+        "from": "12312259665 ",
+        "name": "DriList Sms Service for chatbot"
+    }
+]
